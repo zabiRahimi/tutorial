@@ -1,0 +1,44 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "@babel/preset-react": "^7.16.5",
+        "axios": "^0.24",
+        "browser-sync-webpack-plugin": "^2.3.0",
+        "css-loader": "^6.5.1",
+        "html-webpack-plugin": "^5.5.0",
+        "laravel-mix": "^6.0.39",
+        "lodash": "^4.17.21",
+        "mini-css-extract-plugin": "^2.4.5",
+        "postcss": "^8.4.5",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "resolve-url-loader": "^4.0.0",
+        "sass": "^1.45.0",
+        "sass-loader": "^12.4.0",
+        "style-loader": "^3.0.0",
+        "webpack-cli": "^4.9.1"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.0",
+        "@tinymce/tinymce-react": "^3.13.0",
+        "bootstrap": "5.0.2",
+        "browser-sync": "^2.27.7",
+        "jquery": "^3.6.0",
+        "popper.js": "^1.16.1",
+        "postcss-loader": "^6.2.1",
+        "raw-loader": "^4.0.2",
+        "react-router": "^6.2.1",
+        "react-router-dom": "^6.2.1",
+        "tinymce": "^5.10.2",
+        "webpack": "^5.65.0"
+    }
+}
