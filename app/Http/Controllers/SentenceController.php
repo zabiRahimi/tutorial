@@ -17,9 +17,9 @@ class SentenceController extends Controller
             [
                 'word_id' => $request->word_id,
                 'sentence' => $request->sentence,
-                'mean' => $request->sentenceMean,
-                'pronounceEn' => $request->sentencePronounceEn,
-                'pronounceFa' => $request->sentencePronounceFa,
+                'mean' => $request->mean,
+                'pronounceEn' => $request->pronounceEn,
+                'pronounceFa' => $request->pronounceFa,
             ]
         );
         return response()->json(['sentence_id' => $sentence->id], 200);
@@ -36,9 +36,9 @@ class SentenceController extends Controller
                     return $query->where('word_id', $word_id);
                 })
             ],
-            'sentenceMean' => ['nullable', 'string'],
-            'sentencePronounceEn' => ['nullable', 'string'],
-            'sentencePronounceFa' => ['nullable', 'string'],
+            'mean' => ['nullable', 'string'],
+            'pronounceEn' => ['nullable', 'string'],
+            'pronounceFa' => ['nullable', 'string'],
         ]);
     }
 

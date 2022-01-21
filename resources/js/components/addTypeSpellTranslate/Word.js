@@ -1,6 +1,5 @@
 import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import useScrollTo from "../hooks/useScrollTo";
 
 const Word = forwardRef((props, ref) => {
     const { element, setElement, handleElement, bookFun, lessonFun, sentenceFun, handleChangeOverflowUl } = props;
@@ -16,11 +15,9 @@ const Word = forwardRef((props, ref) => {
         wordPronounceFaError = useRef(null)
 
     async function getWords(lesson_id) {
-        await axios.get(`/getWord/${lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        await axios.get(`/getWords/${lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                response.data.words.length != 0 ?
-                    setValWords(response.data.words) :
-                    setValWords('is not');
+                response.data.words.length != 0 ?setValWords(response.data.words) :setValWords('is not');
             })
             .catch(error => {
                 alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')

@@ -18,9 +18,9 @@ class WordController extends Controller
                 'lesson_type_id' => $request->lesson_id,
                 'wordLink'=> $request->wordLink,
                 'word'=> $request->word,
-                'wordMean'=> $request->wordMean,
-                'wordPronounceEn'=> $request->wordPronounceEn,
-                'wordPronounceFa'=> $request->wordPronounceFa,
+                'mean'=> $request->mean,
+                'pronounceEn'=> $request->pronounceEn,
+                'pronounceFa'=> $request->pronounceFa,
             ]
             );
         return response()->json(['word_id'=>$word->id],200);
@@ -40,9 +40,9 @@ class WordController extends Controller
             Rule::unique('words')->where(function ($query) use($lesson_id){
                 return $query->where('lesson_type_id',$lesson_id);
             }) ],
-            'wordMean' => [ 'nullable', 'string'  ],
-            'wordPronounceEn' => [ 'nullable', 'string'  ],
-            'wordPronounceFa' => [ 'nullable', 'string'  ],
+            'mean' => [ 'nullable', 'string'  ],
+            'pronounceEn' => [ 'nullable', 'string'  ],
+            'pronounceFa' => [ 'nullable', 'string'  ],
 
             
         ]);

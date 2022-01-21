@@ -11843,6 +11843,30 @@ xmp {
   direction: rtl;
 }
 
+.sentences {
+  margin: 15px 0 5px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #e7e7e7;
+  display: flex;
+  flex-direction: column;
+}
+.sentences .sentenceMean, .sentences .sentenceFa {
+  text-align: right;
+  margin: 0 0 7px;
+}
+.sentences .sentenceFa {
+  margin: 0 0 4px;
+}
+
+.notSenctences {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 3px;
+}
+
 .App {
   text-align: center;
 }

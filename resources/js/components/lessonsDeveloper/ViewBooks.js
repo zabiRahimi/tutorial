@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 
 const ViewBooks = () => {
@@ -60,7 +60,7 @@ const ViewBooks = () => {
       <div className="menuPage">
         <Link to='/'>home</Link>
         <Link to={`${url}/guideAddLesson`}>راهنمای اضافه کردن درس</Link>
-        <Link to="/addLessonDeveloper">ایجاد درس جدید</Link>
+        <Link to="/addLessonDeveloper">ایجاد و ویرایش درس </Link>
       </div>
       {!valBooks ? 'loging' : setBooks()}
     </div>

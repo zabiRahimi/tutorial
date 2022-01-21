@@ -33,7 +33,7 @@ Route::post('/saveLessonType', [App\Http\Controllers\LessonTypeController::class
 Route::get('/getLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getLessons']);
 
 Route::post('/saveWord', [App\Http\Controllers\WordController::class, 'saveWord']);
-Route::get('/getWord/{lesson_id}', [App\Http\Controllers\WordController::class, 'getWords']);
+Route::get('/getWords/{lesson_id}', [App\Http\Controllers\WordController::class, 'getWords']);
 
 Route::post('/saveSentence', [App\Http\Controllers\SentenceController::class, 'saveSentence']);
 Route::get('/getSentences/{word_id}', [App\Http\Controllers\SentenceController::class, 'getSentences']);

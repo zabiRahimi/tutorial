@@ -8,11 +8,8 @@ const useType = (words) => {
     const [message, setMessage] = useState('');
     const [wordForShow, setWordForShow] = useState(0);
 
-
-
-    // دریافت کلمه ها از آرایه و تبدیل آن به متن
-    let context = words.map((word) => {
-        return word[0].toString();
+    let context = !words ? '' : words.map((word) => {
+        return word.word.toString()
     }).toString();
     context = context.replace(/,/gi, ' ');
 
@@ -125,15 +122,17 @@ const useType = (words) => {
     const showMeanWord = () => {
         let showMean = document.getElementById(`showMean`);
         showMean.innerHTML = `
-                <div key='1'>${words[wordForShow][0]}</div>
-                <div key='2'>${words[wordForShow][1]}</div>
-                <div key='3'>${words[wordForShow][2]}</div>
-                <div key='4'>${words[wordForShow][3]}</div>
+                <div key='1'>${words[wordForShow]['word']}</div>
+                <div key='2'>${words[wordForShow]['mean']}</div>
+                <div key='3'>${words[wordForShow]['pronounceEn']}</div>
+                <div key='4'>${words[wordForShow]['pronounceFa']}</div>
                 `;
 
         setWordForShow(() => wordForShow + 1)
     }
     useEffect(() => {
+        // console.log(words);
+
         // خط چشمک زن
         if (checkStartType === 'ok') {
             const interval_id = setInterval(() => {
@@ -149,7 +148,7 @@ const useType = (words) => {
     const handleGetPosition = (elementError) => {
         let getElementChar = document.getElementById(`char${check}`);
         let getPositionChar = getElementChar.getBoundingClientRect();
-        console.log(getElementChar.offsetLeft);
+        // console.log(getElementChar.offsetLeft);
         elementError.style.top = `${getElementChar.offsetTop - 33}px`;
         elementError.style.left = `${getElementChar.offsetLeft - 10}px`;
     }

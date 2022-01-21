@@ -2,7 +2,7 @@ import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 const LessonSection = forwardRef((props, ref) => {
-    const { element, handleElement } = props;
+    const { element,setElement, handleElement } = props;
     useImperativeHandle(ref, () => ({ deleteAlertSentence }), []);
     const sentenceForm = useRef(null),
         sentenceAlert = useRef(null),
@@ -10,6 +10,7 @@ const LessonSection = forwardRef((props, ref) => {
         sentenceMeanError = useRef(null),
         sentencePronounceEnError = useRef(null),
         sentencePronounceFaError = useRef(null)
+        
 
     const handleAddSentence = (e) => {
         e.preventDefault();

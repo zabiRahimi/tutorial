@@ -13,6 +13,8 @@ import ViewLesson from "./lessonsDeveloper/ViewLesson";
 
 import ViewTypeBooks from './typeSpellTranslate/ViewTypeBooks';
 import AddTypeSpellTarnslate from "./addTypeSpellTranslate/Index";
+import ViewTypeSpellT from "./typeSpellTranslate/ViewTypeSpellT";
+import ViewSentence from "./typeSpellTranslate/ViewSentence";
 
  
 // for text editor CKEditor
@@ -40,6 +42,9 @@ render(
 
 
       <Route path="typeSpellTranslate" element={<ViewTypeBooks />} />
+      <Route path='/typeSpellTranslate/:book/:lesson' element={<ViewTypeSpellT/>} />
+      <Route path='/typeSpellTranslateSentence/:word' element={<ViewSentence/>} />
+
     
 
       <Route path="tinymce" element={<Tinymce />} />
