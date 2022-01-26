@@ -10,7 +10,7 @@ use App\Models\BookType;
 
 class BookTypeController extends Controller
 {
-    public function getBookType()
+    public function getBookTypes()
     {
         $books=BookType::all();
         //توسط این دستور رابطه بین جدول پدر و فرزند برقرار می شود

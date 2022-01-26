@@ -1,12 +1,13 @@
 
 import axios from "axios";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-const Book = forwardRef((props,ref) => {
-    const { element, setElement, handleElement, lessonFun, wordFun, sentenceFun, handleChangeOverflowUl } = props;
+const Book = forwardRef((props, ref) => {
+    const { element, setElement, handleSaveValInput, lessonFun, wordFun, sentenceFun, handleChangeOverflowUl } = props;
     // ارسال این متد به والد و از والد به فرزندش بوک
     useImperativeHandle(ref, () => ({ deleteAlertBook }), []);
     const [valBooks, setValBooks] = useState();
-    const bookForm = useRef(null),
+    const editDelete = useRef(null),
+        bookForm = useRef(null),
         bookAlert = useRef(null),
         bookError = useRef(null),
         bookLinkError = useRef(null)
@@ -57,14 +58,28 @@ const Book = forwardRef((props,ref) => {
     * @param {*} name نام گروه یا کتاب
     */
     const handleSelectBook = (id, name) => {
-        setElement(prev => ({ ...prev,book: '', book_id: id, bookName: name }));
+        setElement(prev => ({ ...prev, book: '', book_id: id, bookName: name }));
         bookForm.current.reset();//خالی کردن فرم کتابها
         deleteAlertBook();
+        handleShowEditDelete(id, name);
         // ارجا از پدر، پدر نیز این متد را از فرزند لیسن ارجا گرفته
         lessonFun.current.getLessons(id);
         lessonFun.current.deleteAlertLesson();
         wordFun.current.deleteAlertWord();
         sentenceFun.current.deleteAlertSentence();
+    }
+
+    /**
+     * نمایش دکمه های ویرایش و حذف
+     * هنگامی که کاربر یک گروه، درس و غیرو را انتخاب کند
+     */
+    const handleShowEditDelete = (id, name) => {
+        editDelete.current.innerHTML = `<div class="editDelete"><div class="whichGroup">edit and delete group <span>${name}</span></div>
+       <div class="buttonEditDelete">
+           <button type="button" class="btn btn-info edit_group">edit</button>
+           <button type="button" class="btn btn-warning delete_group">delete</button>
+       </div></div>`
+
     }
 
     const handleAddBook = (e) => {
@@ -113,6 +128,9 @@ const Book = forwardRef((props,ref) => {
                             {!valBooks ? 'loging' : (valBooks == 'is not' ? 'هیچ گروهی موجود نیست.' : setBooks())}
                         </ul>
                     </div>
+                    <div ref={editDelete}>
+
+                    </div>
                 </div>
                 <div className="Cleft">
                     <div className="contentTitle">ایجاد گروه جدید</div>
@@ -121,10 +139,10 @@ const Book = forwardRef((props,ref) => {
 
                         <div className="formAlert" ref={bookAlert}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text"  onChange={e => handleElement(e, 'book')} placeholder='نام گروه' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'book')} placeholder='نام گروه' autoComplete="off" />
                         <div className="formError" ref={bookError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text"  onChange={e => handleElement(e, 'bookLink')} placeholder='لینک گروه' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک گروه' autoComplete="off" />
                         <div className="formError" ref={bookLinkError}></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />

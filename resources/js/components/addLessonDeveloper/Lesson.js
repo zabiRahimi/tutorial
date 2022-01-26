@@ -1,31 +1,32 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import axios from "axios";
-import useScrollTo from "../hooks/useScrollTo";
 
 const Lesson = forwardRef((props, ref) => {
-    const { element, setElement, handleElement, lessonSecFun, handleChangeOverflowUl } = props;
+    const { element, setElement, handleSaveValInput, lessonSecFun, bookFun, handleChangeOverflowUl } = props;
 
     // ارسال این متد به والد و از والد به فرزندش بوک
     useImperativeHandle(ref, () => ({ getLessons, deleteAlertLesson }), []);
 
     const [valLessons, setValLessons] = useState();
+    const lessonForm = useRef(null),
+        lessonAlert = useRef(null),
+        lessonError = useRef(null),
+        lessonLinkError = useRef(null)
 
     async function getLessons(book_id) {
         await axios.get(`/getLessons/${book_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                console.log(response.data.lessons.length);
-                if (response.data.lessons.length != 0) {
-                    setValLessons(response.data.lessons);
-                } else {
-                    setValLessons('not');
-                }
-
+                response.data.countlessons != 0 ?
+                    (setValLessons(response.data.lessons),
+                        setElement(prev => ({ ...prev, 'lessonCount': response.data.countlessons, 'lessonSectionCount': response.data.countLessonSections })))
+                    :
+                    (setValLessons('is not'),
+                        setElement(prev => ({ ...prev, 'lessonCount': 0, 'lessonSectionCount': 0 }))
+                    );
             })
             .catch(error => {
-                console.log(error.response);
                 alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
             })
-
     }
 
     const setLessons = () => {
@@ -36,51 +37,42 @@ const Lesson = forwardRef((props, ref) => {
     }
 
     const deleteAlertLesson = () => {
-        document.getElementById('lessonError').innerHTML = '';
-        document.getElementById('lessonLinkError').innerHTML = '';
-        document.getElementById('lessonAlert').innerHTML = '';
+        lessonError.current.innerHTML = '';
+        lessonLinkError.current.innerHTML = '';
+        lessonAlert.current.innerHTML = '';
     }
 
     const handleAddLesson = (e) => {
         e.preventDefault();
-        axios.post('/saveLesson', { 'book_id': element.book_id, 'lesson': element.lesson , 'lessonLink':element.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.post('/saveLesson', { 'book_id': element.book_id, 'lesson': element.lesson, 'lessonLink': element.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                console.log(response.data.lesson_id);
-                setElement(prev => ({ ...prev, lesson: '' }))
                 getLessons(element.book_id)
                 handleSelectLesson(response.data.lesson_id, element.lesson);
-                document.getElementById('lesson').value = '';
-                document.getElementById('lessonLink').value = '';
-
-                document.getElementById('lessonAlert').innerHTML = `<div class='success'>درس جدید با موفقیت ایجاد شد</div>`
-                useScrollTo('lessonAlert');
-
+                lessonAlert.current.innerHTML = `<div class='success'>درس جدید با موفقیت ایجاد شد</div>`
+                lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
             .catch(error => {
-                document.getElementById('lessonAlert').innerHTML = '';
+                lessonAlert.current.innerHTML = '';
+
                 if (error.response.status == 422) {
-                    const firstElementError = Object.keys(error.response.data.errors)[0];
-
-                    if (firstElementError == 'book_id') {
-                        const errorMessage = 'ابتدا لازم است از کادر انتخاب گروه، گروه مورد نظر را انتخاب یا ایجاد نمایید.'
-
-                        document.getElementById('lessonAlert').innerHTML = `<div class='error'>${errorMessage}</div>`
-                        useScrollTo('lessonAlert');
-
-                    } else if (firstElementError == 'lesson') {
-                        document.getElementById('lessonError').innerHTML = `<div class="error">${error.response.data.errors['lesson'][0]}</div>`
-                        useScrollTo('lessonError');
+                    const elementError = Object.keys(error.response.data.errors)[0];
+                    let divError;
+                    switch (elementError) {
+                        case 'lesson':
+                            divError = lessonError.current;
+                            break;
+                        case 'lessonLink':
+                            divError = lessonLinkError.current;
+                            break;
+                        default: divError = lessonAlert.current;
                     }
-                    else if (firstElementError == 'lessonLink') {
-                        document.getElementById('lessonLinkError').innerHTML = `<div class="error">${error.response.data.errors['lessonLink'][0]}</div>`
-                        useScrollTo('lessonLinkError');
-                    }
+                    divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
+                    divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    document.getElementById('lessonAlert').innerHTML = `<div class="error">${errorMessage}</div>`
-                    useScrollTo('lessonAlert');
-
+                    lessonAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
 
@@ -88,14 +80,12 @@ const Lesson = forwardRef((props, ref) => {
     }
 
     const handleSelectLesson = (id, name) => {
-        console.log(`${id} , ${name}`);
-        // setElement({ lesson_id: id, lessonName: name });
-        setElement(prev => ({ ...prev, lesson_id: id, lessonName: name }));
+
+        setElement(prev => ({ ...prev, lesson: '', lessonLink: '', lesson_id: id, lessonName: name }));
+        deleteAlertLesson()
+        lessonForm.current.reset();//خالی کردن فرم درس ها
+        bookFun.current.deleteAlertBook();
         lessonSecFun.current.deleteAlertLessonSec();
-
-
-        // // ارجا از پدر، پدر نیز این متد را از فرزند لیسن ارجا گرفته
-        // lessonFun.current.getLessons(id);
     }
 
     return (
@@ -114,7 +104,11 @@ const Lesson = forwardRef((props, ref) => {
                             انتخاب درس
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            {!valLessons ? 'loging' : (valLessons == 'not' ? 'برای این گروه درسی موجود نیست' : setLessons())}
+                            {!element.book_id ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
+                                <div className="spinner-border " role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())}
                         </ul>
                     </div>
                 </div>
@@ -122,13 +116,16 @@ const Lesson = forwardRef((props, ref) => {
                 <div className="Cleft">
                     <div className="contentTitle">ایجاد درس</div>
                     <div className="dis">{element.bookName ? `گروه ${element.bookName}` : 'ابتدا گروه را انتخاب کنید'}</div>
-                    <form className='addLessonForm' id="addLessonForm" method="post" onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
-                        <div className="formAlert" id='lessonAlert'></div>
-                        <input type="text" dir="auto" className="form-control input_text" id="lesson" onChange={handleElement} placeholder='نام درس' autoComplete="off" />
-                        <div className="formError" id='lessonError'></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" id="lessonLink" onChange={handleElement} placeholder='لینک درس' autoComplete="off" />
-                        <div className="formError" id='lessonLinkError'></div>
+                    <form className='addLessonForm' ref={lessonForm} method="post" onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
+                        <div className="formAlert" ref={lessonAlert}></div>
+
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام درس' autoComplete="off" />
+                        <div className="formError" ref={lessonError}></div>
+
+                        <input type="text" dir="auto" className="form-control input_text" id="lessonLink" onChange={e => handleSaveValInput(e, 'lessonLink')} placeholder='لینک درس' autoComplete="off" />
+                        <div className="formError" ref={lessonLinkError} ></div>
+
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
                     </form>
                 </div>

@@ -25,7 +25,7 @@ class LessonSectionController extends Controller
 
     protected function lessonSecValidator(array $data)
     {
-        $lesson_id=$data['lesson_id'];
+        $lesson_id=$data['lesson_id']?$data['lesson_id']:'';
         return Validator::make($data, [
             'lesson_id' => [ 'required', 'numeric' ,'exists:lessons,id' ],
             'lesson_section' => [ 'required', 'string', 'min:2' ,

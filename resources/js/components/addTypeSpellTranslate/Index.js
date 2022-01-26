@@ -1,5 +1,5 @@
 
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 import Book from './Book';
@@ -7,7 +7,7 @@ import Lesson from "./Lesson";
 import Word from "./Word";
 import Sentence from "./Sentence";
 
-const AddTypeSpellTranslate = (props) => {
+const AddTypeSpellTranslate = () => {
     useChengeDocumentTitle('add Type Spell Tarnslate');
     const [element, setElement] = useState({
         bookName: '',//برای نمایش نام گروه انتخاب شده در صفحه جاری
@@ -19,6 +19,7 @@ const AddTypeSpellTranslate = (props) => {
         lesson: '',
         lessonLink: '',
         lesson_id: '',
+        lessonCount:'',//هنگام حذف کتاب استفاده می‌شود
         
         wordName: '',
         word_id: '',
@@ -27,6 +28,8 @@ const AddTypeSpellTranslate = (props) => {
         wordMean: '',
         wordPronounceEn: '',
         wordPronounceFa: '',
+        wordCount:'',//هنگام حذف کتاب استفاده می‌شود
+        wordCount2:'',//هنگام حذف درس استفاده می‌شود
         
         sentence: '',
         sentenceMean: '',
@@ -44,23 +47,15 @@ const AddTypeSpellTranslate = (props) => {
      const sentenceFun = useRef();//sentence فراخوانی متد از کامپوننت   
     
 
-    /**
-     * این متد هنگامی که یکی از گروه های موجود درس انتخاب می‌شود 
-     * آی‌دی آن را به فرم ایجاد درس اضافه می کند
+     /**
+     * مقدار هر این‌پوت فرم را دخیره می‌کند
+     * هنگامی که دکمه ثبت فشرده شد این مقادیر به کنترلر فرستاده می‌شود
+     * @param {*} e 
+     * @param {*} nameElement 
      */
-    const handleElement = (e,nameElement, data = null, getId = null) => {
-        
+    const handleSaveValInput = (e,input) => {
             let {value } = e.target;
-            setElement(prev => ({ ...prev, [nameElement]: value }));
-        
-        // if (data) {
-        //     setElement(prev => ({ ...prev, [getId]: data }));
-
-        // } else {
-        //     let {value } = e.target;
-        //     setElement(prev => ({ ...prev, [name]: value }));
-        // }
-
+            setElement(prev => ({ ...prev, [input]: value }));
     }
     /**
      * در مورد نیاز اسکرول را به لیست اضافه می‌کند
@@ -90,7 +85,7 @@ const AddTypeSpellTranslate = (props) => {
                 lessonFun={lessonFun} //ارسال ارجا متد
                 wordFun={wordFun} //ارسال ارجا متد
                 sentenceFun={sentenceFun} //ارسال ارجا متد
-                handleElement={handleElement}
+                handleSaveValInput={handleSaveValInput}
                 setElement={setElement}
                 element={element}
                 handleChangeOverflowUl={handleChangeOverflowUl}
@@ -101,7 +96,7 @@ const AddTypeSpellTranslate = (props) => {
                 bookFun={bookFun} //ارسال ارجا متد
                 wordFun={wordFun} //ارسال ارجا متد
                 sentenceFun={sentenceFun} //ارسال ارجا متد
-                handleElement={handleElement}
+                handleSaveValInput={handleSaveValInput}
                 setElement={setElement}
                 element={element}
                 handleChangeOverflowUl={handleChangeOverflowUl}
@@ -112,7 +107,7 @@ const AddTypeSpellTranslate = (props) => {
                 bookFun={bookFun} //ارسال ارجا متد
                 lessonFun={lessonFun} //ارسال ارجا متد
                 sentenceFun={sentenceFun} //ارسال ارجا متد
-                handleElement={handleElement}
+                handleSaveValInput={handleSaveValInput}
                 setElement={setElement}
                 element={element}
                 handleChangeOverflowUl={handleChangeOverflowUl}
@@ -123,7 +118,7 @@ const AddTypeSpellTranslate = (props) => {
                 bookFun={bookFun} //ارسال ارجا متد
                 lessonFun={lessonFun} //ارسال ارجا متد
                 wordFun={wordFun} //ارسال ارجا متد
-                handleElement={handleElement}
+                handleSaveValInput={handleSaveValInput}
                 setElement={setElement}
                 element={element}
             />

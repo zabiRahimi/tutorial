@@ -2,7 +2,7 @@ import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 const Word = forwardRef((props, ref) => {
-    const { element, setElement, handleElement, bookFun, lessonFun, sentenceFun, handleChangeOverflowUl } = props;
+    const { element, setElement, handleSaveValInput, bookFun, lessonFun, sentenceFun, handleChangeOverflowUl } = props;
     useImperativeHandle(ref, () => ({ getWords, deleteAlertWord }), []);
     const [valWords, setValWords] = useState('');
 
@@ -134,19 +134,19 @@ const Word = forwardRef((props, ref) => {
 
                         <div className="formAlert" ref={wordAlert}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleElement(e ,'wordLink')} placeholder='لینک کلمه' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e ,'wordLink')} placeholder='لینک کلمه' autoComplete="off" />
                         <div className="formError" ref={wordLinkError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleElement(e ,'word')} placeholder=' کلمه' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e ,'word')} placeholder=' کلمه' autoComplete="off" />
                         <div className="formError" ref={wordError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text"  onChange={e=>handleElement(e ,'wordMean')} placeholder='معنی' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text"  onChange={e=>handleSaveValInput(e ,'wordMean')} placeholder='معنی' autoComplete="off" />
                         <div className="formError" ref={wordMeanError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleElement(e ,'wordPronounceEn')} placeholder='تلفظ به انگلیسی' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e ,'wordPronounceEn')} placeholder='تلفظ به انگلیسی' autoComplete="off" />
                         <div className="formError" ref={wordPronounceEnError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleElement(e ,'wordPronounceFa')} placeholder='تلفظ به فارسی' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e ,'wordPronounceFa')} placeholder='تلفظ به فارسی' autoComplete="off" />
                         <div className="formError" ref={wordPronounceFaError}></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />

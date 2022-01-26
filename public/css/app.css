@@ -11251,6 +11251,40 @@ a {
   color: #f1efef;
 }
 
+.mainAdd {
+  display: flex;
+  flex-direction: column;
+  background: #0030CC;
+  padding: 12px 12px;
+}
+.mainAdd nav {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.mainAdd nav a {
+  height: 35px;
+  width: 200px;
+  margin: 0 3px;
+  text-decoration: none;
+  background: #003E8F;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mainAdd nav a.a_book {
+  background: #0058CC;
+}
+.mainAdd .content_mainAdd {
+  margin: -2px 0 0;
+  padding: 20px 8px;
+  background-color: #0058CC;
+}
+
 .chunk {
   width: 100%;
   margin-top: 10px;
@@ -11279,7 +11313,9 @@ a {
   justify-content: space-around;
 }
 
-.Cright, .Cleft, .Ccenter {
+.Cright,
+.Cleft,
+.Ccenter {
   width: 350px;
   background-color: #e2eeee;
   border-radius: 3px;
@@ -11345,22 +11381,80 @@ a {
 .select_book ul li:hover {
   background-color: #c3daec;
 }
+.select_book .select_spinner {
+  padding: 2.7px 0;
+}
+.select_book .seletct_alert {
+  color: #f6993f;
+  text-align: center;
+  padding: 3px 0;
+}
 
-.addBookForm, .addLessonForm, .addLessonSecForm, .addWordForm, .addSentenceForm {
+/**
+ویرایش یا حذف گروه
+*/
+.editDelete {
+  width: 100%;
+  margin: 70px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.editDelete div.whichGroup {
+  margin-bottom: 10px;
+  color: #345063;
+}
+.editDelete div.whichGroup span {
+  color: #1e6fa5;
+}
+.editDelete div.buttonEditDelete {
+  width: 200px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.editDelete div.buttonEditDelete button.edit_group {
+  width: 80px;
+}
+.editDelete div.buttonEditDelete button.delete_group {
+  width: 80px;
+}
+
+.swalDelete {
+  direction: rtl;
+}
+.swalDelete div.bold {
+  color: #c59c6b;
+  font-size: 24px;
+}
+
+.addBookForm,
+.addLessonForm,
+.addLessonSecForm,
+.addWordForm,
+.addSentenceForm {
   width: 200px;
   margin: 15px 0;
   display: flex;
   flex-direction: column;
   direction: rtl;
 }
-.addBookForm .formAlert, .addLessonForm .formAlert, .addLessonSecForm .formAlert, .addWordForm .formAlert, .addSentenceForm .formAlert {
+.addBookForm .formAlert,
+.addLessonForm .formAlert,
+.addLessonSecForm .formAlert,
+.addWordForm .formAlert,
+.addSentenceForm .formAlert {
   min-height: 25px;
   padding: 3px;
   margin: 5px 0 3px;
   border-radius: 2px 2px 0 0;
   font-size: 12px;
 }
-.addBookForm .input_text, .addLessonForm .input_text, .addLessonSecForm .input_text, .addWordForm .input_text, .addSentenceForm .input_text {
+.addBookForm .input_text,
+.addLessonForm .input_text,
+.addLessonSecForm .input_text,
+.addWordForm .input_text,
+.addSentenceForm .input_text {
   direction: rtl;
 }
 .addBookForm ::-moz-placeholder, .addLessonForm ::-moz-placeholder, .addLessonSecForm ::-moz-placeholder, .addWordForm ::-moz-placeholder, .addSentenceForm ::-moz-placeholder {
@@ -11369,10 +11463,18 @@ a {
 .addBookForm :-ms-input-placeholder, .addLessonForm :-ms-input-placeholder, .addLessonSecForm :-ms-input-placeholder, .addWordForm :-ms-input-placeholder, .addSentenceForm :-ms-input-placeholder {
   color: #cacaca;
 }
-.addBookForm ::placeholder, .addLessonForm ::placeholder, .addLessonSecForm ::placeholder, .addWordForm ::placeholder, .addSentenceForm ::placeholder {
+.addBookForm ::placeholder,
+.addLessonForm ::placeholder,
+.addLessonSecForm ::placeholder,
+.addWordForm ::placeholder,
+.addSentenceForm ::placeholder {
   color: #cacaca;
 }
-.addBookForm .formError, .addLessonForm .formError, .addLessonSecForm .formError, .addWordForm .formError, .addSentenceForm .formError {
+.addBookForm .formError,
+.addLessonForm .formError,
+.addLessonSecForm .formError,
+.addWordForm .formError,
+.addSentenceForm .formError {
   min-height: 25px;
   padding: 3px 0;
   margin: 2px 0 5px;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 const LessonSection = forwardRef((props, ref) => {
-    const { element,setElement, handleElement } = props;
+    const { element,setElement, handleSaveValInput } = props;
     useImperativeHandle(ref, () => ({ deleteAlertSentence }), []);
     const sentenceForm = useRef(null),
         sentenceAlert = useRef(null),
@@ -79,22 +79,22 @@ const LessonSection = forwardRef((props, ref) => {
                         <div className="formAlert sentenceAlert" ref={sentenceAlert}>alert sentence</div>
 
                         <div className="sentenceFormItem">
-                            <textarea dir="auto" className="form-control input_text"  onChange={e=>handleElement(e,'sentence')} placeholder='جمله' autoComplete="off" />
+                            <textarea dir="auto" className="form-control input_text"  onChange={e=>handleSaveValInput(e,'sentence')} placeholder='جمله' autoComplete="off" />
                             <div className="formError" ref={sentenceError}></div>
                         </div>
 
                         <div className="sentenceFormItem">
-                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleElement(e,'sentenceMean')} placeholder='معنی جمله' autoComplete="off" />
+                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e,'sentenceMean')} placeholder='معنی جمله' autoComplete="off" />
                             <div className="formError" ref={sentenceMeanError}></div>
                         </div>
 
                         <div className="sentenceFormItem">
-                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleElement(e,'sentencePronounceEn')} placeholder='تلفظ به انگلیسی' autoComplete="off" />
+                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e,'sentencePronounceEn')} placeholder='تلفظ به انگلیسی' autoComplete="off" />
                             <div className="formError" ref={sentencePronounceEnError}></div>
                         </div>
 
                         <div className="sentenceFormItem">
-                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleElement(e,'sentencePronounceFa')} placeholder='تلفظ به فارسی' autoComplete="off" />
+                            <textarea dir="auto" className="form-control input_text" onChange={e=>handleSaveValInput(e,'sentencePronounceFa')} placeholder='تلفظ به فارسی' autoComplete="off" />
                             <div className="formError" ref={sentencePronounceFaError}></div>
                         </div>
 

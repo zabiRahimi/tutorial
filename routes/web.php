@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/saveBook', [App\Http\Controllers\BookController::class, 'saveBook']);
-Route::get('/getBook', [App\Http\Controllers\BookController::class, 'getBook']);
+Route::get('/getBooks', [App\Http\Controllers\BookController::class, 'getBooks']);
+Route::delete('/deleteBook/{book_id}', [App\Http\Controllers\BookController::class, 'deleteBook']);
+
+
 Route::post('/saveLesson', [App\Http\Controllers\LessonController::class, 'saveLesson']);
 Route::get('/getLessons/{book_id}', [App\Http\Controllers\LessonController::class, 'getLessons']);
 Route::post('/saveLessonSection', [App\Http\Controllers\LessonSectionController::class, 'saveLessonSection']);
@@ -27,7 +30,7 @@ Route::get('/getLessonSection/{lesson_id}', [App\Http\Controllers\LessonSectionC
 
 // type spell translate
 Route::post('/saveBookType', [App\Http\Controllers\BookTypeController::class, 'saveBook']);
-Route::get('/getBookType', [App\Http\Controllers\BookTypeController::class, 'getBookType']);
+Route::get('/getBookTypes', [App\Http\Controllers\BookTypeController::class, 'getBookTypes']);
 
 Route::post('/saveLessonType', [App\Http\Controllers\LessonTypeController::class, 'saveLesson']);
 Route::get('/getLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getLessons']);

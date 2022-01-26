@@ -2,7 +2,7 @@ import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import axios from "axios";
 
 const Lesson = forwardRef((props, ref) => {
-    const { element, setElement, handleElement, bookFun, wordFun, sentenceFun, handleChangeOverflowUl } = props;
+    const { element, setElement, handleSaveValInput, bookFun, wordFun, sentenceFun, handleChangeOverflowUl } = props;
 
     // ارسال این متد به والد و از والد به فرزندش بوک
     useImperativeHandle(ref, () => ({ getLessons, deleteAlertLesson }), []);
@@ -50,7 +50,7 @@ const Lesson = forwardRef((props, ref) => {
                 lessonAlert.current.innerHTML = `<div class='success'>درس جدید با موفقیت ایجاد شد</div>`
                 lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
-            
+
             .catch(error => {
                 lessonAlert.current.innerHTML = '';
                 if (error.response.status == 422) {
@@ -63,7 +63,7 @@ const Lesson = forwardRef((props, ref) => {
                         case 'lessonLink':
                             divError = lessonLinkError.current;
                             break;
-                        default : divError=lessonAlert.current;
+                        default: divError = lessonAlert.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
@@ -103,9 +103,11 @@ const Lesson = forwardRef((props, ref) => {
                             انتخاب درس
                         </button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            {!element.book_id ? 'ابتدا گروه را انتخاب کنید.' :
-                                !valLessons ? 'loging' : (valLessons == 'is not' ? 'برای این گروه درسی موجود نیست' : setLessons())
-                            }
+                            {!element.book_id ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
+                                <div className="spinner-border " role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())}
                         </ul>
                     </div>
                 </div>
@@ -113,14 +115,15 @@ const Lesson = forwardRef((props, ref) => {
                 <div className="Cleft">
                     <div className="contentTitle">ایجاد درس</div>
                     <div className="dis">{element.bookName ? `گروه ${element.bookName}` : 'ابتدا گروه را انتخاب کنید'}</div>
+                    
                     <form className='addLessonForm' id="addLessonForm" method="post" ref={lessonForm} onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
 
                         <div className="formAlert" ref={lessonAlert} ></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleElement(e, 'lesson')} placeholder='نام درس' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام درس' autoComplete="off" />
                         <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleElement(e, 'lessonLink')} placeholder='لینک درس' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lessonLink')} placeholder='لینک درس' autoComplete="off" />
                         <div className="formError" ref={lessonLinkError}></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />

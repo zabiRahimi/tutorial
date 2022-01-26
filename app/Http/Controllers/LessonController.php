@@ -42,8 +42,19 @@ class LessonController extends Controller
 
     public function getLessons(Request $request,  $book_id)
     {
-        $lessons=Lesson::where('book_id' , $book_id)->get();
-        return response()->json(['lessons'=>$lessons],200);
+        $lessons=Lesson::where('book_id' , $book_id)->withCount('lesson_sections')->get();
+
+        $countLessons=$lessons->count();
+        
+        $countLessonSections=0;//جهت ذخیره تعداد بخش ها
+
+        // دریافت تعداد بخش ها
+        foreach ($lessons as $lesson) {
+
+            $countLessonSections += $lesson->lesson_sections_count;
+        }
+        
+        return response()->json(['lessons'=>$lessons,'countlessons'=>$countLessons,'countLessonSections'=>$countLessonSections],200);
 
     }
 }

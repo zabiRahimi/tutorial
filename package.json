@@ -38,6 +38,7 @@
         "raw-loader": "^4.0.2",
         "react-router": "^6.2.1",
         "react-router-dom": "^6.2.1",
+        "sweetalert2": "^11.3.6",
         "tinymce": "^5.10.2",
         "webpack": "^5.65.0"
     }

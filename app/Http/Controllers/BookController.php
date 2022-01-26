@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Book;
 class BookController extends Controller
 {
-    public function getBook()
+    public function getBooks()
     {
-        $book=Book::all();
+        $books=Book::all();
         //توسط این دستور رابطه بین جدول پدر و فرزند برقرار می شود
         //یعنی جدول فرزند با پدر جوین می‌شود
-        $book->load('lessons');
-        return response()->json(['book'=>$book],200);
+        $books->load('lessons');
+        
+        return response()->json(['books'=>$books],200);
 
     }
 
@@ -39,5 +40,10 @@ class BookController extends Controller
             'book' => [ 'required', 'alpha_dash', 'min:2' ,'unique:books,book' ],
             'bookLink' => [ 'required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2' ,'unique:books,bookLink' ],
         ]);
+    }
+
+    public function deleteBook(Request $request , int $book_id)
+    {
+        Book::find($book_id)->delete();
     }
 }
