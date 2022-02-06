@@ -20,11 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/saveBook', [App\Http\Controllers\BookController::class, 'saveBook']);
 Route::get('/getBooks', [App\Http\Controllers\BookController::class, 'getBooks']);
+Route::put('/editBook/{book_id}', [App\Http\Controllers\BookController::class, 'editBook']);
 Route::delete('/deleteBook/{book_id}', [App\Http\Controllers\BookController::class, 'deleteBook']);
 
 
 Route::post('/saveLesson', [App\Http\Controllers\LessonController::class, 'saveLesson']);
 Route::get('/getLessons/{book_id}', [App\Http\Controllers\LessonController::class, 'getLessons']);
+
 Route::post('/saveLessonSection', [App\Http\Controllers\LessonSectionController::class, 'saveLessonSection']);
 Route::get('/getLessonSection/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getLessonSection']);
 

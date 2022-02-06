@@ -60,7 +60,7 @@ const ViewBooks = () => {
       <div className="menuPage">
         <Link to='/'>home</Link>
         <Link to={`${url}/guideAddLesson`}>راهنمای اضافه کردن درس</Link>
-        <Link to="/addLessonDeveloper">ایجاد و ویرایش درس </Link>
+        <Link to="/addLessonDeveloper/book"  >ایجاد و ویرایش درس </Link>
       </div>
       {!valBooks ? 'loging' : setBooks()}
     </div>

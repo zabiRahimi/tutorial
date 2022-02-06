@@ -4,14 +4,14 @@ $bgBox          :azure;
 
 
 .mainAdd {
-    display   : flex;
+    display       : flex;
     flex-direction: column;
-    background: #0030CC;
-    padding   : 12px 12px;
+    background    : #101939;
+    padding       : 12px 6px;
 
     nav {
-        width        : 100%;
-        height       : 40px;
+        width           : 100%;
+        height          : 40px;
         // margin-bottom: 5px;
 
         display        : flex;
@@ -20,38 +20,190 @@ $bgBox          :azure;
         flex-direction : row-reverse;
 
         a {
-            height: 35px;
-            width : 200px;
-            margin: 0 3px;
+            height         : 35px;
+            width          : 250px;
+            margin         : 0 1px;
             text-decoration: none;
-            background     : #003E8F;
-           border-radius: 10px;
-            display: flex;
+            background     : #1f316f;
+            border-radius  : 8px 8px 0 0;
+            display        : flex;
             justify-content: center;
-            align-items: center;
+            align-items    : center;
+            color          : #37F67A;
+            font-size      : 18px;
         }
 
-        a.a_book {
-           background:#0058CC;
-            
+        .MA_active {
+            //mainAdd
+            background   : #2C52A5;
+            border       : 2px solid #3460C1;
+            border-bottom: none;
+            position     : relative;
+            z-index      : 2;
         }
 
-        a.a_lesson {
-            
+        .MA_passive {
+            //غیر فعال
+            color: #24ab79;
         }
 
-        a.a_lessonSec {
-            
-        }
+        // a.a_lessonSec {
+        //     color: #167378;
+        // }
     }
 
-    .content_mainAdd{
-        margin: -2px 0 0;
-        padding: 20px 8px;
-        background-color: #0058CC;
+    .content_mainAdd {
+        margin          : -4px 0 0;
+        padding         : 20px 8px;
+        background-color: #2C52A5;
+        border-top      : 2px solid #3460C1;
+        border-radius   : 4px;
     }
 }
 
+.sectionAED {
+    .navAED {
+        width           : 100%;
+        height          : 35px;
+        // margin-bottom: 5px;
+
+        display        : flex;
+        justify-content: center;
+        align-items    : center;
+        flex-direction : row-reverse;
+
+        a {
+            height         : 30px;
+            width          : 200px;
+            margin         : 0 1px;
+            text-decoration: none;
+            background     : #1f316f;
+            border-radius  : 3px;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+            font-size      : 16px;
+            border-radius  : 5px 5px 0 0;
+        }
+
+        .SAED_active {
+            //sectionAddEditDelete
+            color        : #A4D4DB;
+            background   : #273E8C;
+            border       : 2px solid #3B8A96;
+            border-bottom: none;
+            position     : relative;
+            z-index      : 2;
+        }
+
+        .SAED_passive {
+            color: #77a6ce;
+
+        }
+    }
+
+    .SAED_content {
+        //sectionAddEditDelete
+        min-height     : 360px;
+        margin         : -4px 0 0;
+        background     : #273E8C;
+        border-top     : 2px solid #3B8A96;
+        border-radius  : 4px;
+        position       : relative;
+        display        : flex;
+        justify-content: center;
+
+    }
+}
+
+.select_book {
+    width     : 300px;
+    margin-top: 140px;
+
+    button {
+        width     : 100%;
+        direction : rtl;
+        background: #0067b1;
+    }
+
+    button:focus {
+        background: #0067b1;
+
+    }
+
+    ul {
+        width      : 100%;
+        max-height : 230px;
+        overflow   : auto;
+        // overflow: visible;
+        margin     : 0;
+        padding    : 0;
+
+        li {
+            width     : 100%;
+            padding   : 2px 0;
+            cursor    : pointer;
+            text-align: center;
+        }
+
+        li:hover {
+            background-color: #c3daec;
+        }
+    }
+
+    // نماد انتظار 
+    .select_spinner {
+        padding: 2.70px 0;
+    }
+
+    .seletct_alert {
+        color     : $orange-500;
+        text-align: center;
+        padding   : 3px 0;
+    }
+}
+
+
+.AE_Form {
+    width         : 400px;
+    margin        : 40px 0;
+    padding       : 0 62px 25px;
+    display       : flex;
+    flex-direction: column;
+    direction     : rtl;
+    background    : #30356f;
+    border-radius : 6px;
+
+    .formAlert {
+        // دیو آلرت میزبان دیو موفقیت ثبت و یا خطاهای دیتابیس وامثالهم
+        min-height   : 25px;
+        padding      : 3px;
+        margin       : 5px 0 3px;
+        border-radius: 2px 2px 0 0;
+        font-size    : 12px;
+    }
+
+    .input_text {
+        direction: rtl;
+    }
+
+    ::placeholder {
+        color: #cacaca;
+    }
+
+    .formError {
+        // استایل دیو خطا، این دیو میزبان دیو خطا می‌باشد
+        min-height   : 25px;
+        padding      : 3px 0;
+        margin       : 2px 0 5px;
+        color        : #e90d0d;
+        border-radius: 0 0 2px 2px;
+        font-size    : 12px;
+    }
+    .btn_form{
+        margin-bottom: 12px;
+    }
+}
 
 
 
@@ -136,46 +288,46 @@ $bgBox          :azure;
     }
 }
 
-.select_book {
-    width     : 200px;
-    margin-top: 40px;
+// .select_book {
+//     width     : 200px;
+//     margin-top: 40px;
 
-    button {
-        width    : 100%;
-        direction: rtl;
-    }
+//     button {
+//         width    : 100%;
+//         direction: rtl;
+//     }
 
-    ul {
-        width      : 100%;
-        max-height : 230px;
-        overflow   : auto;
-        // overflow: visible;
-        margin     : 0;
-        padding    : 0;
+//     ul {
+//         width      : 100%;
+//         max-height : 230px;
+//         overflow   : auto;
+//         // overflow: visible;
+//         margin     : 0;
+//         padding    : 0;
 
-        li {
-            width     : 100%;
-            padding   : 2px 0;
-            cursor    : pointer;
-            text-align: center;
-        }
+//         li {
+//             width     : 100%;
+//             padding   : 2px 0;
+//             cursor    : pointer;
+//             text-align: center;
+//         }
 
-        li:hover {
-            background-color: #c3daec;
-        }
-    }
+//         li:hover {
+//             background-color: #c3daec;
+//         }
+//     }
 
-    // نماد انتظار 
-    .select_spinner {
-        padding: 2.70px 0;
-    }
+// // نماد انتظار 
+// .select_spinner {
+//     padding: 2.70px 0;
+// }
 
-    .seletct_alert {
-        color     : $orange-500;
-        text-align: center;
-        padding   : 3px 0;
-    }
-}
+// .seletct_alert {
+//     color     : $orange-500;
+//     text-align: center;
+//     padding   : 3px 0;
+// }
+// }
 
 
 /**

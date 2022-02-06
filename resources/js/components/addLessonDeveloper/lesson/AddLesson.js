@@ -52,11 +52,11 @@ const {element}=props;
     }
 
     return (
-        <section>
-            <div className="contentTitle">ایجاد درس</div>
-                    <div className="dis">{element.bookName ? `گروه ${element.bookName}` : 'ابتدا گروه را انتخاب کنید'}</div>
+        <section className="SAED_content">
+            {/* <div className="contentTitle">ایجاد درس</div> */}
+                    {/* <div className="dis">{element.bookName ? `گروه ${element.bookName}` : 'ابتدا گروه را انتخاب کنید'}</div> */}
 
-                    <form className='addLessonForm' ref={lessonForm} method="post" onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
+                    <form className='AE_Form' ref={lessonForm} method="post" onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
                         <div className="formAlert" ref={lessonAlert}></div>
 
                         <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام درس' autoComplete="off" />

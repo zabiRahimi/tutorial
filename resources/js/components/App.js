@@ -7,15 +7,31 @@ import {
   Route
 } from "react-router-dom";
 import Home from './Home';
+
 import ViewBooks from './lessonsDeveloper/ViewBooks';
-import AddLessonDeveloper from "./addLessonDeveloper/Index";
-import Book from "./addLessonDeveloper/book/Book"
 import ViewLesson from "./lessonsDeveloper/ViewLesson";
 
+import AddLessonDeveloper from "./addLessonDeveloper/Index";
+
+import Book from "./addLessonDeveloper/book/Book"
+import SelectBook from "./addLessonDeveloper/book/SelectBook";
+import AddBook from "./addLessonDeveloper/book/AddBook";
+import EditDelBook from "./addLessonDeveloper/book/EditDelBook";
+
+import Lesson from "./addLessonDeveloper/lesson/Lesson";
+import SelectLesson from "./addLessonDeveloper/lesson/SelectLesson";
+import AddLesson from "./addLessonDeveloper/lesson/AddLesson";
+import EditDelLesson from "./addLessonDeveloper/lesson/EditDelLesson";
+
+import LessonSection from "./addLessonDeveloper/lessonSection/LessonSection";
+
+
 import ViewTypeBooks from './typeSpellTranslate/ViewTypeBooks';
-import AddTypeSpellTarnslate from "./addTypeSpellTranslate/Index";
 import ViewTypeSpellT from "./typeSpellTranslate/ViewTypeSpellT";
 import ViewSentence from "./typeSpellTranslate/ViewSentence";
+
+import AddTypeSpellTarnslate from "./addTypeSpellTranslate/Index";
+
 
 
 // for text editor CKEditor
@@ -23,8 +39,7 @@ import Tinymce from "./tinymce/Index"
 
 
 import NotFound from './NotFound';
-import LessonSection from "./addLessonDeveloper/lessonSection/LessonSection";
-import Lesson from "./addLessonDeveloper/lesson/Lesson";
+
 
 
 
@@ -38,9 +53,18 @@ render(
 
       <Route path="addLessonDeveloper" element={<AddLessonDeveloper />} >
         <Route path="book" element={<Book />}>
-          </Route>
+          {/* <Route index element={<SelectBook />} /> */}
+          <Route path="select" element={<SelectBook />} />
+          <Route path="add" element={<AddBook />} />
+          <Route path="edit" element={<EditDelBook />} />
+
+        </Route>
         <Route path="lesson" element={<Lesson />}>
-          </Route>
+          {/* <Route index element={<SelectLesson />} /> */}
+          <Route path="select" element={<SelectLesson />} />
+          <Route path="add" element={<AddLesson />} />
+          <Route path="edit" element={<EditDelLesson />} />
+        </Route>
         <Route path="lessonSec" element={<LessonSection />}>
 
         </Route>

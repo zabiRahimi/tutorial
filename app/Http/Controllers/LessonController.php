@@ -44,17 +44,17 @@ class LessonController extends Controller
     {
         $lessons=Lesson::where('book_id' , $book_id)->withCount('lesson_sections')->get();
 
-        $countLessons=$lessons->count();
+        $lessonCount=$lessons->count();
         
-        $countLessonSections=0;//جهت ذخیره تعداد بخش ها
+        $lessonSecCount=0;//جهت ذخیره تعداد بخش ها
 
         // دریافت تعداد بخش ها
         foreach ($lessons as $lesson) {
 
-            $countLessonSections += $lesson->lesson_sections_count;
+            $lessonSecCount += $lesson->lesson_sections_count;
         }
         
-        return response()->json(['lessons'=>$lessons,'countlessons'=>$countLessons,'countLessonSections'=>$countLessonSections],200);
+        return response()->json(['lessons'=>$lessons,'lessonCount'=>$lessonCount,'lessonSecCount'=>$lessonSecCount],200);
 
     }
 }

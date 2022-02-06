@@ -11254,8 +11254,8 @@ a {
 .mainAdd {
   display: flex;
   flex-direction: column;
-  background: #0030CC;
-  padding: 12px 12px;
+  background: #101939;
+  padding: 12px 6px;
 }
 .mainAdd nav {
   width: 100%;
@@ -11267,22 +11267,154 @@ a {
 }
 .mainAdd nav a {
   height: 35px;
-  width: 200px;
-  margin: 0 3px;
+  width: 250px;
+  margin: 0 1px;
   text-decoration: none;
-  background: #003E8F;
-  border-radius: 10px;
+  background: #1f316f;
+  border-radius: 8px 8px 0 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #37F67A;
+  font-size: 18px;
 }
-.mainAdd nav a.a_book {
-  background: #0058CC;
+.mainAdd nav .MA_active {
+  background: #2C52A5;
+  border: 2px solid #3460C1;
+  border-bottom: none;
+  position: relative;
+  z-index: 2;
+}
+.mainAdd nav .MA_passive {
+  color: #24ab79;
 }
 .mainAdd .content_mainAdd {
-  margin: -2px 0 0;
+  margin: -4px 0 0;
   padding: 20px 8px;
-  background-color: #0058CC;
+  background-color: #2C52A5;
+  border-top: 2px solid #3460C1;
+  border-radius: 4px;
+}
+
+.sectionAED .navAED {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+.sectionAED .navAED a {
+  height: 30px;
+  width: 200px;
+  margin: 0 1px;
+  text-decoration: none;
+  background: #1f316f;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border-radius: 5px 5px 0 0;
+}
+.sectionAED .navAED .SAED_active {
+  color: #A4D4DB;
+  background: #273E8C;
+  border: 2px solid #3B8A96;
+  border-bottom: none;
+  position: relative;
+  z-index: 2;
+}
+.sectionAED .navAED .SAED_passive {
+  color: #77a6ce;
+}
+.sectionAED .SAED_content {
+  min-height: 360px;
+  margin: -4px 0 0;
+  background: #273E8C;
+  border-top: 2px solid #3B8A96;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.select_book {
+  width: 300px;
+  margin-top: 140px;
+}
+.select_book button {
+  width: 100%;
+  direction: rtl;
+  background: #0067b1;
+}
+.select_book button:focus {
+  background: #0067b1;
+}
+.select_book ul {
+  width: 100%;
+  max-height: 230px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+}
+.select_book ul li {
+  width: 100%;
+  padding: 2px 0;
+  cursor: pointer;
+  text-align: center;
+}
+.select_book ul li:hover {
+  background-color: #c3daec;
+}
+.select_book .select_spinner {
+  padding: 2.7px 0;
+}
+.select_book .seletct_alert {
+  color: #f6993f;
+  text-align: center;
+  padding: 3px 0;
+}
+
+.AE_Form {
+  width: 400px;
+  margin: 40px 0;
+  padding: 0 62px 25px;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+  background: #30356f;
+  border-radius: 6px;
+}
+.AE_Form .formAlert {
+  min-height: 25px;
+  padding: 3px;
+  margin: 5px 0 3px;
+  border-radius: 2px 2px 0 0;
+  font-size: 12px;
+}
+.AE_Form .input_text {
+  direction: rtl;
+}
+.AE_Form ::-moz-placeholder {
+  color: #cacaca;
+}
+.AE_Form :-ms-input-placeholder {
+  color: #cacaca;
+}
+.AE_Form ::placeholder {
+  color: #cacaca;
+}
+.AE_Form .formError {
+  min-height: 25px;
+  padding: 3px 0;
+  margin: 2px 0 5px;
+  color: #e90d0d;
+  border-radius: 0 0 2px 2px;
+  font-size: 12px;
+}
+.AE_Form .btn_form {
+  margin-bottom: 12px;
 }
 
 .chunk {
@@ -11355,39 +11487,6 @@ a {
 }
 .Ccenter2 .dis {
   width: calc(50% - 10px);
-}
-
-.select_book {
-  width: 200px;
-  margin-top: 40px;
-}
-.select_book button {
-  width: 100%;
-  direction: rtl;
-}
-.select_book ul {
-  width: 100%;
-  max-height: 230px;
-  overflow: auto;
-  margin: 0;
-  padding: 0;
-}
-.select_book ul li {
-  width: 100%;
-  padding: 2px 0;
-  cursor: pointer;
-  text-align: center;
-}
-.select_book ul li:hover {
-  background-color: #c3daec;
-}
-.select_book .select_spinner {
-  padding: 2.7px 0;
-}
-.select_book .seletct_alert {
-  color: #f6993f;
-  text-align: center;
-  padding: 3px 0;
 }
 
 /**
