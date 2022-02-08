@@ -28,7 +28,7 @@ class LessonController extends Controller
         $book_id=$data['book_id'];
         return Validator::make($data, [
             'book_id' => [ 'required', 'numeric' ,'exists:books,id' ],
-            'lesson' => [ 'required', 'string', 'min:2' ,
+            'lesson' => [ 'required', 'min:2' ,
             Rule::unique('lessons')->where(function ($query) use($book_id){
                 return $query->where('book_id',$book_id);
             }) ],
@@ -56,5 +56,29 @@ class LessonController extends Controller
         
         return response()->json(['lessons'=>$lessons,'lessonCount'=>$lessonCount,'lessonSecCount'=>$lessonSecCount],200);
 
+    }
+
+    public function editLesson(Request $request, int $lesson_id)
+    {
+        $this->lessonEditValidator($request->all(),$lesson_id)->validate();
+        $lesson = Lesson::find($lesson_id);
+
+        $lesson->lesson = $request->lesson;
+        $lesson->lessonLink = $request->lessonLink;
+
+        $lesson->save();
+    }
+
+    private function lessonEditValidator(array $data,$lesson_id)
+    {
+        return Validator::make($data, [
+            'lesson' => ['required', 'min:2', Rule::unique('lessons','lesson')->ignore($lesson_id)],
+            'lessonLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('lessons','lessonLink')->ignore($lesson_id)],
+        ]);
+    }
+
+    public function deleteLesson(Request $request, int $lesson_id)
+    {
+        Lesson::find($lesson_id)->delete();
     }
 }

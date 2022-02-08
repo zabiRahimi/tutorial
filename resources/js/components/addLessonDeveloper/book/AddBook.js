@@ -12,7 +12,6 @@ const AddBook = () => {
     const [input, setInput] = useState({
         book: '',
         bookLink: '',
-        book_id: '',
     });
 
     const bookForm = useRef(null),
@@ -49,20 +48,18 @@ const AddBook = () => {
                  bookForm.current.reset();
                  setElement(prev => ({ ...prev, book_id: response.data.book_id, book: input.book ,bookLink:input.bookLink }));
                  setInput(prev => ({ ...prev, book: '', bookLink: '' }));
+                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
                  valBooks.push({id:response.data.book_id, book: input.book ,bookLink:input.bookLink})
                 setValBooks(valBooks)
                  Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'ثبت نام با موفقیت انجام شد .',
+                    title: 'ثبت کتاب با موفقیت انجام شد .',
                     showConfirmButton: false,
-                    timer: 4500
-                }).then((result) => {
-                 navigate("/addLessonDeveloper/book/add");
+                    timer: 3000
                 })
             })
             .catch(error => {
-                console.log(error);
                 bookAlert.current.innerHTML = ''
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
@@ -90,11 +87,11 @@ const AddBook = () => {
 
                 <div className="formAlert" ref={bookAlert} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'book')} placeholder='نام گروه' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'book')} placeholder='نام کتاب' autoComplete="off" />
 
                 <div className="formError" ref={bookError} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک گروه' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک کتاب' autoComplete="off" />
 
                 <div className="formError" ref={bookLinkError}></div>
 

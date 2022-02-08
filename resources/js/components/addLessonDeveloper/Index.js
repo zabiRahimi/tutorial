@@ -7,15 +7,21 @@ const AddLessonDeveloper = () => {
 
     useChengeDocumentTitle('add lesson');
 
-    // let { state } = useLocation();
+    // let navigate = useNavigate();
 
-    let navigate = useNavigate();
-
+    /**
+     * هنگامی که کاربر یکی از لینک های این صفحه را کلیک کند
+     * یوزافکت صفحه مورد نظر بازخوانی می‌شود، این متد زمانی 
+     * کاربرد دارد که کاربر در صفحه مورد نظر دوباره لینک همان
+     * صفحه را کلیک کند 
+     * افکت صفحه مورد نظر با تغییر مقدار این متد فراخوانی می‌شود
+     * مقدار این متد در همین صفحه تغییر می‌کند آن هم زمانی که 
+     * کاربر لینک صفحه مورد نظرش را کلیک کند
+     */
+    const [refresh, setRefresh] = useState(1);
     const [element, setElement] = useState({
-        // bookName: '',//برای نمایش نام گروه انتخاب شده در صفحه جاری
         book: '',
         bookLink: '',
-        // bookLink2: '',//جهت استفاده در فرم ویرایش
         book_id: '',
 
         lessonName: '', //برای نمایش نام درس در صفحه جاری
@@ -31,45 +37,12 @@ const AddLessonDeveloper = () => {
 
     });
 
-    useEffect(() => {
-        // checkLink();
-    }, [])
-
-    // const checkLink = () => {
-    //     navigate(`${state.link}`, { state: { re_index: state.re_index, link: state.link, link2: state.link2 } })
-    // }
-    // console.log(zabi);
     /**
      * دریافت از فرزندش لیسن که نهایتا با پاراپس فرستاده شده به بوک
      */
     const bookFun = useRef();//lessonSection فراخوانی متد از کامپوننت   
     const lessonFun = useRef();// lesson فراخوانی متد از کاپوننت 
     const lessonSecFun = useRef();//lessonSection فراخوانی متد از کامپوننت   
-
-    // /**
-    //  * مقدار هر این‌پوت فرم را دخیره می‌کند
-    //  * هنگامی که دکمه ثبت فشرده شد این مقادیر به کنترلر فرستاده می‌شود
-    //  * @param {*} e 
-    //  * @param {*} nameElement 
-    //  */
-    // const handleSaveValInput = (e, input) => {
-    //     let { value } = e.target;
-    //     setElement(prev => ({ ...prev, [input]: value }));
-    // }
-
-    /**
-     * در مورد نیاز اسکرول را به لیست اضافه می‌کند
-     * عدد 230 ماکزیمم ارتفاع لیست است که در فایل سی‌اس‌اس اعمال شده
-     * تابع چک می‌کند اگر لیست بیشتر از 230 ارتفاع داشت اسکرول اضافه کند
-     * و اگر کمتر بود اسکرول حذف می‌گردد
-     * @param {*} e 
-     */
-    const handleChangeOverflowUl = (e) => {
-        const parent = e.target.parentNode;
-        const child = parent.querySelector('ul');
-        const height = child.offsetHeight;
-        child.style.overflow = height < 230 ? 'visible' : 'auto';
-    }
 
     return (
         <div >
@@ -83,26 +56,25 @@ const AddLessonDeveloper = () => {
             </div>
             <section className="mainAdd">
                 <nav className="menu_mainAdd">
-                    <NavLink to='/addLessonDeveloper/book'
-                        state={{ re_index: 1, link: 'book', link2: 'select' }}
-                        className={({ isActive }) =>
-                            isActive ? 'MA_active' : 'MA_passive'}>کتاب</NavLink>
+                    <NavLink to='/addLessonDeveloper/book' onClick={() => setRefresh(refresh + 1)}
+                        className={({ isActive }) =>isActive ? 'MA_active' : 'MA_passive'}>
+                        کتاب
+                    </NavLink>
+
                     <NavLink to='/addLessonDeveloper/lesson'
-                        state={{ re_index: 2, link: 'lesson', link2: 'select' }}
-                        className={({ isActive }) =>
-                            isActive ? 'MA_active' : 'MA_passive'}>فصل کتاب</NavLink>
+                        className={({ isActive }) =>isActive ? 'MA_active' : 'MA_passive'}>
+                        فصل کتاب
+                    </NavLink>
+
                     <NavLink to='/addLessonDeveloper/lessonSec'
-                        state={{ re_index: 3, link: 'lessonSec', link2: 'select' }}
-                        className={({ isActive }) =>
-                            isActive ? 'MA_active' : 'MA_passive'}>بخش کتاب</NavLink>
+                        className={({ isActive }) => isActive ? 'MA_active' : 'MA_passive'}>
+                        بخش کتاب
+                    </NavLink>
                 </nav>
                 <section className="content_mainAdd">
-                    <Outlet context={[element, setElement]} />
-
+                    <Outlet context={{ element, setElement, refresh, setRefresh }} />
                 </section>
             </section>
-
-
         </div>
     );
 }

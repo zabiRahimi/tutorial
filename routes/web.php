@@ -26,9 +26,11 @@ Route::delete('/deleteBook/{book_id}', [App\Http\Controllers\BookController::cla
 
 Route::post('/saveLesson', [App\Http\Controllers\LessonController::class, 'saveLesson']);
 Route::get('/getLessons/{book_id}', [App\Http\Controllers\LessonController::class, 'getLessons']);
+Route::put('/editLesson/{lesson_id}', [App\Http\Controllers\LessonController::class, 'editLesson']);
+Route::delete('/deleteLesson/{lesson_id}', [App\Http\Controllers\LessonController::class, 'deleteLesson']);
 
 Route::post('/saveLessonSection', [App\Http\Controllers\LessonSectionController::class, 'saveLessonSection']);
-Route::get('/getLessonSection/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getLessonSection']);
+Route::get('/getLessonSections/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getLessonSections']);
 
 // type spell translate
 Route::post('/saveBookType', [App\Http\Controllers\BookTypeController::class, 'saveBook']);

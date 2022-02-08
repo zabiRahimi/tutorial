@@ -1,14 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { useOutletContext } from "react-router";
+import { useNavigate ,useOutletContext } from "react-router-dom";
+// import { useOutletContext } from "react-router";
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 import Swal from 'sweetalert2';
 
 const SelectBook=()=>{
 useChengeDocumentTitle('select book');
 const navigate = useNavigate();
-
     
 const {valBooks,setElement} = useOutletContext();
 
@@ -16,6 +14,10 @@ useEffect(()=>{
     checkHasBook()
 },[])
 
+/**
+ * چنانچه کتابی ایجاد نشده باشد این متد هشدار داده  
+ * و کاربر به صفحه ایجاد کتاب هدایت می‌کند
+ */
 const checkHasBook=()=>{
     valBooks.length==0?
     Swal.fire({
@@ -24,10 +26,8 @@ const checkHasBook=()=>{
         title: 'تا کنون کتابی ایجاد نشده است',
         showConfirmButton: false,
         timer: 3000,
-
     }).then((result) => {
         navigate(`/addLessonDeveloper/book/add`)
-
     })
     :'';
 }
@@ -54,8 +54,7 @@ const setBooks = () => {
     })
     return val;
 }
-// const result=valBooks.find(({id})=>id===94)
-// console.log(valBooks.indexOf(result));
+
 /**
  * تنظیم ارتفاع نمایش لیست کتابها
  * @param {*} e 
@@ -71,7 +70,7 @@ const handleChangeOverflowUl = (e) => {
         <section className="SAED_content">
              <div className="dropdown select_book">
                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={handleChangeOverflowUl}>
-                         انتخاب گروه
+                         انتخاب کتاب
                      </button>
                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                          {!valBooks ? <div className="d-flex justify-content-center select_spinner">

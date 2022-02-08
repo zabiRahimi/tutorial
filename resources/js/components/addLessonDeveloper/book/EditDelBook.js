@@ -7,7 +7,7 @@ import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 const EditDelBook = () => {
     useChengeDocumentTitle('edit or delete book');
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const bookForm = useRef(null),
         bookAlert = useRef(null),
@@ -88,6 +88,7 @@ const EditDelBook = () => {
     const handleSaveValInput = (e, input) => {
         let { value } = e.target;
         setInput(prev => ({ ...prev, [input]: value }));
+        
     }
 
     const handleEditBook = (e) => {
@@ -95,6 +96,7 @@ const EditDelBook = () => {
         axios.put(`/editBook/${input.book_id}`, { 'book': input.book, 'bookLink': input.bookLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
                 deleteAlertBook();
+                setElement(prev => ({ ...prev, book: input.book, bookLink:input.bookLink }));
                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                 let newBooks = valBooks.map((valBook) => {
                     if (valBook.id == input.book_id) return Object.assign({}, valBook, { book: input.book, 'bookLink': input.bookLink });
@@ -128,9 +130,9 @@ const EditDelBook = () => {
 
     function deleteBook(bookId) {
         Swal.fire({
-            title: 'آیا مایل به حذف این گروه هستید؟',
+            title: 'آیا مایل به حذف این کتاب هستید؟',
             color: '#aa4f0f',
-            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این گروه شامل<br /> ${count.lessonCount} درس و ${count.lessonSecCount} بخش است.</div></div>`,
+            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این گروه شامل<br /> ${count.lessonCount} فصل و ${count.lessonSecCount} بخش است.</div></div>`,
 
             showCancelButton: true,
             confirmButtonText: 'delete',
@@ -145,7 +147,7 @@ const EditDelBook = () => {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'گروه با موفقیت حذف شد',
+                            title: 'کتاب با موفقیت حذف شد',
                             showConfirmButton: false,
                             timer: 4000
                         }).then((result) => {
@@ -157,7 +159,7 @@ const EditDelBook = () => {
                         Swal.fire({
                             position: 'center',
                             icon: 'warning',
-                            title: 'گروه حذف نشد !!',
+                            title: 'کتاب حذف نشد !!',
                             showConfirmButton: false,
                             timer: 3000
                         })
@@ -173,11 +175,11 @@ const EditDelBook = () => {
 
                 <div className="formAlert" ref={bookAlert} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" value={input.book} onChange={e => handleSaveValInput(e, 'book')} placeholder='نام گروه' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" value={input.book} onChange={e => handleSaveValInput(e, 'book')} placeholder='نام کتاب' autoComplete="off" />
 
                 <div className="formError" ref={bookError} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" value={input.bookLink} onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک گروه' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" value={input.bookLink} onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک کتاب' autoComplete="off" />
 
                 <div className="formError" ref={bookLinkError}></div>
 

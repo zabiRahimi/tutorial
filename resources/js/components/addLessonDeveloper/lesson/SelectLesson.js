@@ -1,35 +1,49 @@
-import { forwardRef, useEffect, useState } from "react"
-import { useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useOutletContext , useNavigate } from "react-router-dom";
+import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
+import Swal from 'sweetalert2';
 
-const SelectLesson=(props , ref)=>{
-    // const [element , setElement]=useOutletContext();
-    // ارسال این متد به والد و از والد به فرزندش بوک
-    // useImperativeHandle(ref, () => ({ getLessons, deleteAlertLesson }), []);
+const SelectLesson=()=>{
+useChengeDocumentTitle('select lesson');
+const navigate = useNavigate();
 
-    const [valLessons, setValLessons] = useState();
+const {valLessons,setElement} = useOutletContext();
 
-
-    async function getLessons(book_id) {
-        await axios.get(`/getLessons/${book_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
-            .then(response => {
-                response.data.countlessons != 0 ?
-                    (setValLessons(response.data.lessons),
-                        setElement(prev => ({ ...prev, 'lessonCount': response.data.countlessons, 'lessonSectionCount': response.data.countLessonSections })))
-                    :
-                    (setValLessons('is not'),
-                        setElement(prev => ({ ...prev, 'lessonCount': 0, 'lessonSectionCount': 0 }))
-                    );
-            })
-            .catch(error => {
-                alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
-            })
-    }
 useEffect(()=>{
-    getLessons(1)
+    checkHasLesson()
+    
 },[]);
+
+/**
+ * چنانچه فصلی ایجاد نشده باشد این متد هشدار داده  
+ * و کاربر به صفحه ایجاد فصل هدایت می‌کند
+ */
+ const checkHasLesson=()=>{
+    valLessons.length==0?
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'تا کنون فصلی ایجاد نشده است',
+        showConfirmButton: false,
+        timer: 3000,
+    }).then((result) => {
+        navigate(`/addLessonDeveloper/lesson/add`)
+    })
+    :'';
+}
+/**
+  * انتخاب فصل کتاب و ذخیره اطلاعات فصل
+  * index ذخیره اطلاعات در فایل
+  * @param {*} id 
+  * @param {*} book 
+  * @param {*} bookLink 
+  */
+ const handleSelectLesson = (id, lesson,lessonLink) => {
+    setElement(prev => ({ ...prev, lesson_id:id, lesson: lesson, lessonLink:lessonLink }));
+}
     const setLessons = () => {
         let val = valLessons.map((lessons, i) => {
-            return <li key={i} onClick={() => handleSelectLesson(lessons.id, lessons.lesson)}>{lessons.lesson}</li>
+            return <li key={i} onClick={() => handleSelectLesson(lessons.id, lessons.lesson, lessons.lessonLink)}>{lessons.lesson}</li>
         })
         return val;
     }
@@ -46,11 +60,11 @@ useEffect(()=>{
                              انتخاب درس
                          </button>
                          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                             {/* {!element.book_id ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
+                             {!valLessons ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
                                  <div className="spinner-border " role="status">
                                      <span className="visually-hidden">Loading...</span>
                                  </div>
-                             </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())} */}
+                             </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())}
                          </ul>
                      </div>
         </section>

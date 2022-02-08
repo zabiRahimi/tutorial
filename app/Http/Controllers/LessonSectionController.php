@@ -36,10 +36,11 @@ class LessonSectionController extends Controller
         ]);
     }
 
-    public function getLessonSection(Request $request,  $lesson_id)
+    public function getLessonSections(Request $request,  $lesson_id)
     {
-        $lessonSection=LessonSection::where('lesson_id' , $lesson_id)->get();
-        return response()->json(['lessonSection'=>$lessonSection],200);
+        $lessonSections=LessonSection::where('lesson_id' , $lesson_id)->get();
+        $lessonSecCount=$lessonSections->count();
+        return response()->json(['lessonSections'=>$lessonSections,'lessonSecCount'=>$lessonSecCount],200);
 
     }
 }

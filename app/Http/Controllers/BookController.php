@@ -39,7 +39,7 @@ class BookController extends Controller
 
 
         return Validator::make($data, [
-            'book' => ['required', 'alpha_dash', 'min:2', 'unique:books,book'],
+            'book' => ['required', 'min:2', 'unique:books,book'],
             'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', 'unique:books,bookLink'],
         ]);
     }
@@ -58,7 +58,7 @@ class BookController extends Controller
     private function bookEditValidator(array $data,$book_id)
     {
         return Validator::make($data, [
-            'book' => ['required', 'alpha_dash', 'min:2', Rule::unique('books','book')->ignore($book_id)],
+            'book' => ['required', 'min:2', Rule::unique('books','book')->ignore($book_id)],
             'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('books','bookLink')->ignore($book_id)],
         ]);
     }

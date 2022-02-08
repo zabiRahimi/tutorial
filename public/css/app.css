@@ -11296,6 +11296,30 @@ a {
   border-radius: 4px;
 }
 
+.sectionAED .showNameBook {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0;
+}
+.sectionAED .showNameBook .line {
+  width: 100%;
+  height: 1px;
+  border: 1px solid #273E8C;
+}
+.sectionAED .showNameBook .nameBook {
+  position: relative;
+  z-index: 3;
+  margin-top: -14px;
+  background: #273E8C;
+  color: #f5db5e;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 1px 150px 0;
+  border-radius: 13px;
+}
 .sectionAED .navAED {
   width: 100%;
   height: 35px;
