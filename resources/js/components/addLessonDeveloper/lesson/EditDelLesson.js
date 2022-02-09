@@ -180,7 +180,7 @@ const EditDelLesson=()=>{
                         <div className="formError" ref={lessonLinkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
-                        <input type="button" className='btn btn-danger btn_form' onClick={() => deleteLesson(input.lesson_id)} value='حذف فصل کتاب' />
+                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(input.lesson_id)} value='حذف فصل کتاب' />
                     </form>
         </section>
     )

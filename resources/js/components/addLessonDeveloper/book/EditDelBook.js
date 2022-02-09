@@ -184,7 +184,7 @@ const EditDelBook = () => {
                 <div className="formError" ref={bookLinkError}></div>
 
                 <input type="submit" className='btn btn-success btn_form' value='ثبت ویرایش' />
-                <input type="button" className='btn btn-danger btn_form' onClick={() => deleteBook(input.book_id)} value='حذف کتاب' />
+                <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteBook(input.book_id)} value='حذف کتاب' />
             </form>
         </section>
     )

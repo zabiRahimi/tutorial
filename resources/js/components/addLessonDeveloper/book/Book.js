@@ -25,6 +25,7 @@ const Book = () => {
         const fetchData = async () => {
             await getBooks();
             checkHasBook();
+            deleteAllId();
         }
         fetchData()
     }, [ check,refresh]);
@@ -39,6 +40,17 @@ const Book = () => {
                 navigate(`select`);
         }
     }
+
+    /**
+     * هرگاه کاربر لینک کتاب را کلیک کند
+     * این متد تمام آی‌دی‌های ست شده را پاک می‌کند
+     * نام کتاب و لینک کتاب ست شده را پاک می‌کند
+     * نام فصل و لینک فصل ست شده را پاک می‌کند
+     * در نبود این متد برنامه دچار مشکل می‌شود
+     */
+    const deleteAllId=()=>{
+        setElement(prev => ({...prev ,book_id:'', lesson_id:'',lessonSec_id:'',book:'',bookLink:'',lesson:'',lessonLink:''}))
+    } 
 
     return (
         <section className="sectionAED">

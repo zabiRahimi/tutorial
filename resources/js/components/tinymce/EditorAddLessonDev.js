@@ -7,11 +7,13 @@ import tinymce from 'tinymce/tinymce';
 
 const EditorALD = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({ setContentTiny }), []);
-  const { element, setElement } = props;
+  const { input, setInput } = props;
 
 
   const handleSetElement = (value) => {
-    setElement(prev => ({ ...prev, ['des']: value }));
+    
+    setInput(prev => ({ ...prev, ['des']: value }));
+    
   }
 
   /**
@@ -21,7 +23,7 @@ const EditorALD = forwardRef((props, ref) => {
    * فراخوانی می‌شود
    */
   const setContentTiny = () => {
-    setElement(prev => ({ ...prev, ['des']: '' }));
+    setInput(prev => ({ ...prev, ['des']: '' }));
   }
   tinymce.PluginManager.add('element', function (editor, url) {
     // با این متد بستر نوشتن متن انگلیسی در متن فارسی مهیا می‌شود
@@ -46,9 +48,9 @@ const EditorALD = forwardRef((props, ref) => {
   return (
     <div>
       {/* نمایش آنلاین محتوای تایپ شده در ادیتور */}
-      <div className='editorVal' dangerouslySetInnerHTML={{ __html: element.des }} />
+      <div className='editorVal' dangerouslySetInnerHTML={{ __html: input.des }} />
       <Editor
-        value={element.des}
+        value={input.des}
         onEditorChange={handleSetElement}
         init={{
           selector: '#des',

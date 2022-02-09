@@ -24,16 +24,14 @@ const AddLessonDeveloper = () => {
         bookLink: '',
         book_id: '',
 
-        lessonName: '', //برای نمایش نام درس در صفحه جاری
+        
         lesson: '',
         lessonLink: '',
         lesson_id: '',
-        lessonCount: 0,//هنگام حذف کتاب استفاده می‌شود
 
         lesson_section: '',
         des: '',
-        lessonSectionCount: 0,//هنگام حذف کتاب استفاده می‌شود
-        lessonSectionCount2: '',//هنگام حذف درس استفاده می‌شود
+        lessonSec_id:''
 
     });
 

@@ -11362,7 +11362,6 @@ a {
   display: flex;
   justify-content: center;
 }
-
 .select_book {
   width: 300px;
   margin-top: 140px;
@@ -11439,6 +11438,62 @@ a {
 }
 .AE_Form .btn_form {
   margin-bottom: 12px;
+}
+.AE_Form .btn_form_danger {
+  color: #e7e6e6;
+}
+
+.AET_form {
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  direction: rtl;
+}
+.AET_form .formAlert {
+  width: 500px;
+  min-height: 25px;
+  padding: 3px;
+  margin: 5px 0 3px;
+  border-radius: 2px 2px 0 0;
+  font-size: 12px;
+}
+.AET_form .input_text {
+  width: 500px;
+  direction: rtl;
+}
+.AET_form ::-moz-placeholder {
+  color: #cacaca;
+}
+.AET_form :-ms-input-placeholder {
+  color: #cacaca;
+}
+.AET_form ::placeholder {
+  color: #cacaca;
+}
+.AET_form .labelTextarea {
+  width: 500px;
+  display: inline-flex;
+  padding: 0 8px;
+  background-color: #bfd9d9;
+  border-radius: 20px 20px 0 0;
+  justify-content: center;
+}
+.AET_form .btn_form {
+  width: 250px;
+  margin-bottom: 10px;
+}
+.AET_form .btn_form_danger {
+  color: #e7e6e6;
+}
+.AET_form .formError {
+  width: 500px;
+  min-height: 25px;
+  padding: 3px 0;
+  margin: 2px 0 5px;
+  color: #e90d0d;
+  border-radius: 0 0 2px 2px;
+  font-size: 12px;
 }
 
 .chunk {

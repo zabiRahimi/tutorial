@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AddLesson from "./AddLesson";
 import { NavLink, useOutletContext, Outlet, useNavigate } from "react-router-dom";
-// import { useOutletContext } from "react-router";
-
 import Swal from 'sweetalert2';
 
 const Lesson = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { element, setElement } = useOutletContext();
 
@@ -50,6 +47,7 @@ const Lesson = () => {
     useEffect(() => {
         !element.book_id ? '' : getLessons(element.book_id);
         checkHaslesson();
+        deleteAllId();
     }, [element.book_id, check]);
 
     const checkHaslesson = () => {
@@ -66,6 +64,16 @@ const Lesson = () => {
                     navigate(`select`);
             }
         }
+    }
+
+    /**
+     * هرگاه کاربر لینک فصل را کلیک کند
+     * این متد تمام آی‌دی‌های ست شده را پاک می‌کند
+     * متن و تیتر بخش ست شده را پاک می‌کند
+     * در نبود این متد برنامه دچار مشکل می‌شود
+     */
+     const deleteAllId=()=>{
+        setElement(prev => ({...prev , lesson_id:'',lessonSec_id:'',lesson_section:'',des:''}))
     }
 
     return (

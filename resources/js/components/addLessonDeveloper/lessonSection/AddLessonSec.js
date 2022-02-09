@@ -1,27 +1,43 @@
-import { forwardRef, useRef } from "react";
+import {  useRef,useState } from "react";
 import EditorALD from "../../tinymce/EditorAddLessonDev";
 // import EditorALD from "../tinymce/EditorAddLessonDev";
-import { Link,useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
-const AddLessonSec = (props, ref) => {
-    // const{element , setElement}=props;
-    const [element , setElement]=useOutletContext();
+const AddLessonSec = () => {
+    const {valLessonSecs,setValLessonSecs,element , setElement}=useOutletContext();
 
     const tinyFun = useRef(),// tiny فراخوانی متد از کاپوننت 
         lessonSecForm = useRef(null),
         lessonSecAlert = useRef(null),
         lessonSecError = useRef(null),
-        desError = useRef(null)
+        desError = useRef(null);
+
+        const [input , setInput]=useState({
+            lesson_id:element.lesson_id,
+            lesson_section:'',
+            des:''
+        })
         
     const handleAddLessonSection = (e) => {
         e.preventDefault();
-        axios.post('/saveLessonSection', { 'lesson_id': element.lesson_id, 'lesson_section': element.lesson_section, 'des': element.des }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.post('/saveLessonSection', { 'lesson_id': element.lesson_id, 'lesson_section': input.lesson_section, 'des': input.des }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
                 lessonSecForm.current.reset();
                 tinyFun.current.setContentTiny();//خالی کردن ادیتور
-                lessonSecAlert.current.innerHTML = `<div class='success'>بخش جدید با موفقیت ایجاد شد</div>`
-                lessonSecAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                setElement(prev => ({ ...prev, lessonSec_id: response.data.lessonSec_id, lesson_section: input.lesson_section ,des:input.des }));
+                 setInput(() => ({ lesson_section: '', des: '' }));
+                //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
+                valLessonSecs.push({id:response.data.lessonSec_id, lesson_section: input.lesson_section ,des:input.des})
+                setValLessonSecs(valLessonSecs)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'فصل کتاب با موفقیت ثبت شد',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
 
             })
             .catch(error => {
@@ -55,24 +71,35 @@ const AddLessonSec = (props, ref) => {
         lessonSecError.current.innerHTML = '';
         desError.current.innerHTML = '';
     }
-    return (
-        <section>
-            <div className="contentTitle">ایجاد بخش</div>
-            <div className="dis">{element.lessonName && element.bookName ? `گروه ${element.bookName} و درس ${element.lessonName}` : 'ابتدا گروه و سپس درس را انتخاب یا ایجاد کنید.'}</div>
 
-            <form className='addLessonSecForm' ref={lessonSecForm} method="post" onSubmit={handleAddLessonSection} onFocus={deleteAlertLessonSec}>
+    /**
+   * مقدار هر این‌پوت فرم را دخیره می‌کند
+   * هنگامی که دکمه ثبت فشرده شد این مقادیر به کنترلر فرستاده می‌شود
+   * @param {*} e 
+   * @param {*} nameElement 
+   */
+     const handleSaveValInput = (e, input) => {
+        let { value } = e.target;
+        setInput(prev => ({ ...prev, [input]: value }));
+    }
+
+    return (
+        <section className="SAED_content">
+            
+
+            <form className='AET_form' ref={lessonSecForm} method="post" onSubmit={handleAddLessonSection} onFocus={deleteAlertLessonSec}>
 
                 <div className="formAlert" ref={lessonSecAlert}></div>
 
-                <input type="text" dir="auto" className="form-control input_text" id="lesson_section" onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر درس' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" id="lesson_section" onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
 
                 <div className="formError" ref={lessonSecError}></div>
 
-                <div className="labelTextarea">متن درس</div>
+                <div className="labelTextarea">متن بخش</div>
                 <EditorALD
                     ref={tinyFun}
-                    setElement={setElement}
-                    element={element}
+                    setInput={setInput}
+                    input={input}
                 />
                 <div className="formError" ref={desError}></div>
 
@@ -84,4 +111,4 @@ const AddLessonSec = (props, ref) => {
     )
 }
 
-export default forwardRef(AddLessonSec);
+export default AddLessonSec;

@@ -24,7 +24,9 @@ import AddLesson from "./addLessonDeveloper/lesson/AddLesson";
 import EditDelLesson from "./addLessonDeveloper/lesson/EditDelLesson";
 
 import LessonSection from "./addLessonDeveloper/lessonSection/LessonSection";
-
+import SelectLessonSec from "./addLessonDeveloper/lessonSection/SelectLessonSec";
+import AddLessonSec from "./addLessonDeveloper/lessonSection/AddLessonSec";
+import EditDelLessonSec from "./addLessonDeveloper/lessonSection/EditDelLessonSec";
 
 import ViewTypeBooks from './typeSpellTranslate/ViewTypeBooks';
 import ViewTypeSpellT from "./typeSpellTranslate/ViewTypeSpellT";
@@ -66,7 +68,9 @@ render(
           <Route path="edit" element={<EditDelLesson />} />
         </Route>
         <Route path="lessonSec" element={<LessonSection />}>
-
+          <Route path="select" element={<SelectLessonSec />} />
+          <Route path="add" element={<AddLessonSec />} />
+          <Route path="edit" element={<EditDelLessonSec />} />
         </Route>
       </Route>
 
