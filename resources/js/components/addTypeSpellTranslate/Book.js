@@ -6,6 +6,9 @@ const Book = forwardRef((props, ref) => {
     // ارسال این متد به والد و از والد به فرزندش بوک
     useImperativeHandle(ref, () => ({ deleteAlertBook }), []);
     const [valBooks, setValBooks] = useState();
+
+   
+    
     const editDelete = useRef(null),
         bookForm = useRef(null),
         bookAlert = useRef(null),
@@ -68,6 +71,8 @@ const Book = forwardRef((props, ref) => {
         wordFun.current.deleteAlertWord();
         sentenceFun.current.deleteAlertSentence();
     }
+
+    
 
     /**
      * نمایش دکمه های ویرایش و حذف

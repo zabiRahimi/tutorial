@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const LessonSection = () => {
     const navigate = useNavigate();
-    const { element, setElement } = useOutletContext();
+    const { element, setElement, refresh } = useOutletContext();
     const [check, setCheck] = useState('');
     const [valLessonSecs, setValLessonSecs] = useState([]);
     
@@ -52,7 +52,7 @@ const LessonSection = () => {
     useEffect(() => {
         !element.lesson_id ? '' : getLessonSecs(element.lesson_id);
         checkHaslesson();
-    }, [element.lesson_id, check]);
+    }, [element.lesson_id, check,refresh]);
 
     const checkHaslesson = () => {
         if (!element.book_id) {
@@ -61,14 +61,6 @@ const LessonSection = () => {
             alertSelectLesson()
         } else {
             navigate("add");
-            // switch (check) {
-            //     case '': ''
-            //         break;
-            //     case 2: navigate("add");
-            //         break;
-            //     default:
-            //         navigate(`select`);
-            // }
         }
     }
 

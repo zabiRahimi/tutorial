@@ -73,11 +73,7 @@ const handleChangeOverflowUl = (e) => {
                          انتخاب کتاب
                      </button>
                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                         {!valBooks ? <div className="d-flex justify-content-center select_spinner">
-                                <div className="spinner-border " role="status">
-                                 <span className="visually-hidden">Loading...</span>
-                             </div>
-                            </div> : (valBooks == 'is not' ? <div className="seletct_alert">تا کنون گروهی ایجاد نشده است</div> : setBooks())}
+                         {setBooks()}
                         </ul>
                  </div>
         </section>

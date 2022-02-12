@@ -17,6 +17,11 @@ class LessonType extends Model
     {
         return $this->hasMany(Word::class);
     }
+
+    public function sentences()
+    {
+        return $this->hasManyThrough(Sentence::class,Word::class);
+    }
     
     public function bookType()
     {

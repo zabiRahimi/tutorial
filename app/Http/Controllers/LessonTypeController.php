@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 use App\Models\LessonType;
+use App\Models\Sentence;
 
 class LessonTypeController extends Controller
 {
-    public function saveLesson(Request $request)
+    public function saveLessonType(Request $request)
     {
         $this->lessonValidator($request->all())->validate();
         $lesson=LessonType::create(
@@ -21,7 +22,7 @@ class LessonTypeController extends Controller
                 'lessonLink'=> $request->lessonLink,
             ]
             );
-        return response()->json(['lesson_id'=>$lesson->id],200);
+        return response()->json(['lessonType_id'=>$lesson->id],200);
     }
 
     public function lessonValidator(array $data)
@@ -41,10 +42,47 @@ class LessonTypeController extends Controller
         ]);
     }
 
-    public function getLessons(Request $request,  $book_id)
+    public function getLessonTypes( int $book_id)
     {
-        $lessons=LessonType::where('book_type_id' , $book_id)->get();
-        return response()->json(['lessons'=>$lessons],200);
+        $lessons=LessonType::where('book_type_id' , $book_id)->with('words')->withCount('words')->withCount('sentences')->get();
+        $lessonCount=$lessons->count();
+        
+        $wordCount=0;//جهت ذخیره تعداد کلمات
+        $sentenceCount=0;
+        // دریافت تعداد کلمات
+        foreach ($lessons as $lesson) {
 
+            $wordCount += $lesson->words_count;
+            $sentenceCount += $lesson->sentences_count;
+          
+            
+        }
+        
+        return response()->json(['lessonTypes'=>$lessons,'lessonTypeCount'=>$lessonCount,'wordTypeCount'=>$wordCount,'sentenceTypeCount'=>$sentenceCount],200);
+
+    }
+
+    public function editLessonType(Request $request, int $lesson_id)
+    {
+        $this->lessonEditValidator($request->all(),$lesson_id)->validate();
+        $lesson = LessonType::find($lesson_id);
+
+        $lesson->lesson = $request->lesson;
+        $lesson->lessonLink = $request->lessonLink;
+
+        $lesson->save();
+    }
+
+    private function lessonEditValidator(array $data,$lesson_id)
+    {
+        return Validator::make($data, [
+            'lesson' => ['required', 'min:2', Rule::unique('lesson_types','lesson')->ignore($lesson_id)],
+            'lessonLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('lesson_types','lessonLink')->ignore($lesson_id)],
+        ]);
+    }
+
+    public function deleteLessonType(Request $request, int $lesson_id)
+    {
+        LessonType::find($lesson_id)->delete();
     }
 }

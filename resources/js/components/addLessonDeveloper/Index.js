@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, NavLink, Outlet} from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 
 
 const AddLessonDeveloper = () => {
 
     useChengeDocumentTitle('add lesson');
-
-    // let navigate = useNavigate();
 
     /**
      * هنگامی که کاربر یکی از لینک های این صفحه را کلیک کند
@@ -23,7 +21,6 @@ const AddLessonDeveloper = () => {
         book: '',
         bookLink: '',
         book_id: '',
-
         
         lesson: '',
         lessonLink: '',
@@ -35,15 +32,8 @@ const AddLessonDeveloper = () => {
 
     });
 
-    /**
-     * دریافت از فرزندش لیسن که نهایتا با پاراپس فرستاده شده به بوک
-     */
-    const bookFun = useRef();//lessonSection فراخوانی متد از کامپوننت   
-    const lessonFun = useRef();// lesson فراخوانی متد از کاپوننت 
-    const lessonSecFun = useRef();//lessonSection فراخوانی متد از کامپوننت   
-
     return (
-        <div >
+        <section >
             <div className="lessonsDeveloperTitle">
                 <h3>اضافه کردن درس جدید</h3>
             </div>
@@ -59,12 +49,12 @@ const AddLessonDeveloper = () => {
                         کتاب
                     </NavLink>
 
-                    <NavLink to='/addLessonDeveloper/lesson'
+                    <NavLink to='/addLessonDeveloper/lesson' onClick={() => setRefresh(refresh + 1)}
                         className={({ isActive }) =>isActive ? 'MA_active' : 'MA_passive'}>
                         فصل کتاب
                     </NavLink>
 
-                    <NavLink to='/addLessonDeveloper/lessonSec'
+                    <NavLink to='/addLessonDeveloper/lessonSec' onClick={() => setRefresh(refresh + 1)}
                         className={({ isActive }) => isActive ? 'MA_active' : 'MA_passive'}>
                         بخش کتاب
                     </NavLink>
@@ -73,7 +63,7 @@ const AddLessonDeveloper = () => {
                     <Outlet context={{ element, setElement, refresh, setRefresh }} />
                 </section>
             </section>
-        </div>
+        </section>
     );
 }
 

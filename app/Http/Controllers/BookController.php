@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 use App\Models\Book;
 
 class BookController extends Controller
@@ -36,8 +35,6 @@ class BookController extends Controller
 
     public function bookValidator(array $data)
     {
-
-
         return Validator::make($data, [
             'book' => ['required', 'min:2', 'unique:books,book'],
             'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', 'unique:books,bookLink'],

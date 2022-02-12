@@ -13,8 +13,8 @@ const ViewBooks = () => {
   /**
    * دریافت کتابها از دیتابیس
    */
-  async function getBook() {
-    await axios.get('/getBookType', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+  async function getBooks() {
+    await axios.get('/getBookTypes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
       .then(response => {
         setValBooks(response.data.books);
       })
@@ -24,7 +24,7 @@ const ViewBooks = () => {
   }
 
   useEffect(() => {
-    getBook();
+    getBooks();
   }, []);
 
   /**
@@ -61,7 +61,7 @@ const ViewBooks = () => {
       <div className="menuPage">
         <Link className='fontEn' to="/">home</Link>
         <Link to="/">راهنمای اضافه کردن درس</Link>
-        <Link to="/addTypeSpellTranslate">ایجاد و ویرایش درس </Link>
+        <Link to="/addTypeSpellTranslate/bookType">ایجاد و ویرایش درس </Link>
       </div>
       {!valBooks ? 'loging' : setBooks()}
 

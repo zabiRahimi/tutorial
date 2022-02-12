@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
-
 import Swal from 'sweetalert2';
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 

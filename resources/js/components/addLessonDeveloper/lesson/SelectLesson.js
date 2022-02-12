@@ -64,11 +64,7 @@ const SelectLesson = () => {
                     انتخاب درس
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    {!valLessons ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
-                        <div className="spinner-border " role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())}
+                    { setLessons()}
                 </ul>
             </div>
         </section>

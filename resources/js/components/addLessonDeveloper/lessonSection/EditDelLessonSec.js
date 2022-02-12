@@ -1,9 +1,7 @@
 import {  useRef,useState,useEffect } from "react";
 import EditorALD from "../../tinymce/EditorAddLessonDev";
-// import EditorALD from "../tinymce/EditorAddLessonDev";
 import { useOutletContext,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
 
 const EditDelLessonSec = () => {
     

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 const Lesson = () => {
     const navigate = useNavigate();
 
-    const { element, setElement } = useOutletContext();
+    const { element, setElement, refresh } = useOutletContext();
 
     const [check, setCheck] = useState('');
 
@@ -48,7 +48,7 @@ const Lesson = () => {
         !element.book_id ? '' : getLessons(element.book_id);
         checkHaslesson();
         deleteAllId();
-    }, [element.book_id, check]);
+    }, [element.book_id, check, refresh]);
 
     const checkHaslesson = () => {
         if (!element.book_id) {

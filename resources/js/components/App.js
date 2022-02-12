@@ -34,6 +34,28 @@ import ViewSentence from "./typeSpellTranslate/ViewSentence";
 
 import AddTypeSpellTarnslate from "./addTypeSpellTranslate/Index";
 
+import BookType from "./addTypeSpellTranslate/bookType/BookType";
+import SelectBookType from "./addTypeSpellTranslate/bookType/SelectBookType";
+import AddBookType from "./addTypeSpellTranslate/bookType/AddBookType";
+import EditDelBookType from "./addTypeSpellTranslate/bookType/EditDelBookType";
+
+import LessonType from "./addTypeSpellTranslate/lessonType/LessonType";
+import SelectLessonType from "./addTypeSpellTranslate/lessonType/SelectLessonType";
+import AddLessonType from "./addTypeSpellTranslate/lessonType/AddLessonType";
+import EditDelLessonType from "./addTypeSpellTranslate/lessonType/EditDelLessonType";
+
+
+import WordType from "./addTypeSpellTranslate/wordType/WordType";
+import SelectWordType from "./addTypeSpellTranslate/wordType/SelectWordType";
+import AddWordType from "./addTypeSpellTranslate/wordType/AddWordType";
+import EditDelWordType from "./addTypeSpellTranslate/wordType/EditDelWordType";
+
+
+import SentenceType from './addTypeSpellTranslate/sentenceType/SentenceType';
+import SelectSentenceType from "./addTypeSpellTranslate/sentenceType/SelectSentenceType";
+import AddSentenceType from "./addTypeSpellTranslate/sentenceType/AddSentenceType";
+import EditDelSentenceType from "./addTypeSpellTranslate/sentenceType/EditDelSentenceType";
+
 
 
 // for text editor CKEditor
@@ -77,7 +99,32 @@ render(
       <Route path="lessons" element={<ViewBooks />} />
       <Route path='/lessons/:book/:lesson' element={<ViewLesson />} />
 
-      <Route path="addTypeSpellTranslate" element={<AddTypeSpellTarnslate />} />
+      <Route path="addTypeSpellTranslate" element={<AddTypeSpellTarnslate />} >
+        <Route path="bookType" element={<BookType />}>
+          <Route path="select" element={<SelectBookType />} />
+          <Route path="add" element={<AddBookType />} />
+          <Route path="edit" element={<EditDelBookType />} />
+        </Route>
+
+        <Route path="lessonType" element={<LessonType />}>
+          <Route path="select" element={<SelectLessonType />} />
+          <Route path="add" element={<AddLessonType />} />
+          <Route path="edit" element={<EditDelLessonType />} />
+        </Route>
+
+        <Route path="wordType" element={<WordType />}>
+          <Route path="select" element={<SelectWordType />} />
+          <Route path="add" element={<AddWordType />} />
+          <Route path="edit" element={<EditDelWordType />} />
+        </Route>
+
+        <Route path="sentenceType" element={<SentenceType />}>
+          <Route path="select" element={<SelectSentenceType />} />
+          <Route path="add" element={<AddSentenceType />} />
+          <Route path="edit" element={<EditDelSentenceType />} />
+        </Route>
+
+      </Route>
 
 
       <Route path="typeSpellTranslate" element={<ViewTypeBooks />} />

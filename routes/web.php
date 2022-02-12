@@ -36,10 +36,13 @@ Route::delete('/deleteLessonSection/{lessonSec_id}', [App\Http\Controllers\Lesso
 
 // type spell translate
 Route::post('/saveBookType', [App\Http\Controllers\BookTypeController::class, 'saveBook']);
-Route::get('/getBookTypes', [App\Http\Controllers\BookTypeController::class, 'getBookTypes']);
+Route::get('/getAllBookTypes', [App\Http\Controllers\BookTypeController::class, 'getAllBookTypes']);
+Route::get('/getOneBookType/{book_id}', [App\Http\Controllers\BookTypeController::class, 'getOneBookType']);
+Route::put('/editBookType/{book_id}', [App\Http\Controllers\BookTypeController::class, 'editBookType']);
+Route::delete('/deleteBookType/{book_id}', [App\Http\Controllers\BookTypeController::class, 'deleteBookType']);
 
 Route::post('/saveLessonType', [App\Http\Controllers\LessonTypeController::class, 'saveLesson']);
-Route::get('/getLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getLessons']);
+Route::get('/getLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getLessonTypes']);
 
 Route::post('/saveWord', [App\Http\Controllers\WordController::class, 'saveWord']);
 Route::get('/getWords/{lesson_id}', [App\Http\Controllers\WordController::class, 'getWords']);
