@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LessonType extends Model
 {
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+
     use HasFactory;
     protected $fillable=[
         'book_type_id',

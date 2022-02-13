@@ -41,8 +41,11 @@ Route::get('/getOneBookType/{book_id}', [App\Http\Controllers\BookTypeController
 Route::put('/editBookType/{book_id}', [App\Http\Controllers\BookTypeController::class, 'editBookType']);
 Route::delete('/deleteBookType/{book_id}', [App\Http\Controllers\BookTypeController::class, 'deleteBookType']);
 
-Route::post('/saveLessonType', [App\Http\Controllers\LessonTypeController::class, 'saveLesson']);
-Route::get('/getLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getLessonTypes']);
+Route::post('/saveLessonType', [App\Http\Controllers\LessonTypeController::class, 'saveLessonType']);
+Route::get('/getAllLessonTypes/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'getAllLessonTypes']);
+Route::get('/getOneLessonType/{lesson_id}', [App\Http\Controllers\LessonTypeController::class, 'getOneLessonType']);
+Route::put('/editLessonType/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'editLessonType']);
+Route::delete('/deleteLessonType/{book_id}', [App\Http\Controllers\LessonTypeController::class, 'deleteLessonType']);
 
 Route::post('/saveWord', [App\Http\Controllers\WordController::class, 'saveWord']);
 Route::get('/getWords/{lesson_id}', [App\Http\Controllers\WordController::class, 'getWords']);

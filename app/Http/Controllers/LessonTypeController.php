@@ -8,10 +8,24 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 use App\Models\LessonType;
-use App\Models\Sentence;
 
 class LessonTypeController extends Controller
 {
+    public function getAllLessonTypes( int $book_id)
+    {
+        $lessons=LessonType::where('book_type_id' , $book_id)->with('words')->get();
+        $lessonCount=$lessons->count();
+        return response()->json(['lessonTypes'=>$lessons,'lessonTypeCount'=>$lessonCount],200);
+    }
+
+    public function getOneLessonType(int $lesson_id)
+    {
+        $lessonType=LessonType::where('id',$lesson_id)->withCount('words')->withCount('sentences')->get();
+        $wordTypeCount=$lessonType[0]->words_count;
+        $sentenceTypeCount=$lessonType[0]->sentences_count;
+        return response()->json(['wordTypeCount'=>$wordTypeCount, 'sentenceTypeCount'=>$sentenceTypeCount],200);
+    }
+
     public function saveLessonType(Request $request)
     {
         $this->lessonValidator($request->all())->validate();
@@ -42,25 +56,7 @@ class LessonTypeController extends Controller
         ]);
     }
 
-    public function getLessonTypes( int $book_id)
-    {
-        $lessons=LessonType::where('book_type_id' , $book_id)->with('words')->withCount('words')->withCount('sentences')->get();
-        $lessonCount=$lessons->count();
-        
-        $wordCount=0;//جهت ذخیره تعداد کلمات
-        $sentenceCount=0;
-        // دریافت تعداد کلمات
-        foreach ($lessons as $lesson) {
-
-            $wordCount += $lesson->words_count;
-            $sentenceCount += $lesson->sentences_count;
-          
-            
-        }
-        
-        return response()->json(['lessonTypes'=>$lessons,'lessonTypeCount'=>$lessonCount,'wordTypeCount'=>$wordCount,'sentenceTypeCount'=>$sentenceCount],200);
-
-    }
+   
 
     public function editLessonType(Request $request, int $lesson_id)
     {
@@ -81,7 +77,7 @@ class LessonTypeController extends Controller
         ]);
     }
 
-    public function deleteLessonType(Request $request, int $lesson_id)
+    public function deleteLessonType( int $lesson_id)
     {
         LessonType::find($lesson_id)->delete();
     }

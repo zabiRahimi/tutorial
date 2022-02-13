@@ -108,36 +108,6 @@ const Lesson = () => {
             }
 
         </section>
-
-        // <div className="chunk">
-        //     <div className="title">
-        //         <h6>انتخاب یا ایجاد درس</h6>
-        //     </div>
-        //     <div className="content">
-        //         <div className="Cright">
-
-        //             <div className="contentTitle">انتخاب درس موجود</div>
-        //             <div className="dis">{element.bookName ? `گروه ${element.bookName}` : 'ابتدا گروه را انتخاب کنید'}</div>
-
-        //             <div className="dropdown select_book">
-        //                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={handleChangeOverflowUl}>
-        //                     انتخاب درس
-        //                 </button>
-        //                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        //                     {!element.book_id ? <div className="seletct_alert">ابتدا گروه را انتخاب کنید.</div> : !valLessons ? <div className="d-flex justify-content-center select_spinner">
-        //                         <div className="spinner-border " role="status">
-        //                             <span className="visually-hidden">Loading...</span>
-        //                         </div>
-        //                     </div> : (valLessons == 'is not' ? <div className="seletct_alert"> برای این گروه درسی موجود نیست</div> : setLessons())}
-        //                 </ul>
-        //             </div>
-        //         </div>
-
-        //         <div className="Cleft">
-
-        //         </div>
-        //     </div>
-        // </div>
     );
 }
 
