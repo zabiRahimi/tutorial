@@ -7,19 +7,18 @@ const SelectLessonType=()=>{
     useChengeDocumentTitle('select lesson Type spell translate');
     const navigate = useNavigate();
 
-    const { valLessonTypes, setElement } = useOutletContext();
+    const { setIndex, valLessons, setLesson } = useOutletContext();
 
     useEffect(() => {
-        checkHasLessonType()
-
+        checkHasLesson()
     }, []);
 
     /**
      * چنانچه فصلی ایجاد نشده باشد این متد هشدار داده  
      * و کاربر به صفحه ایجاد فصل هدایت می‌کند
      */
-    const checkHasLessonType = () => {
-        valLessonTypes.length == 0 ?
+    const checkHasLesson = () => {
+        valLessons.length == 0 ?
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -36,16 +35,19 @@ const SelectLessonType=()=>{
       * انتخاب فصل کتاب و ذخیره اطلاعات فصل
       * index ذخیره اطلاعات در فایل
       * @param {*} id 
-      * @param {*} bookType 
-      * @param {*} bookTypeLink 
+      * @param {*} book 
+      * @param {*} link 
       */
-    const handleSelectLessonType = (id, lessonType, lessonTypeLink) => {
-        setElement(prev => ({ ...prev, lessonType_id: id, lessonType: lessonType, lessonTypeLink: lessonTypeLink }));
+    const handleSelectLesson = (id, lesson, link) => {
+
+        setIndex(prev => ({ ...prev, lesson_id: id, lesson: lesson }));
+
+        setLesson({id, lesson, link});
     }
 
-    const setLessonTypes = () => {
-        let val = valLessonTypes.map((lessonTypes, i) => {
-            return <li key={i} onClick={() => handleSelectLessonType(lessonTypes.id, lessonTypes.lesson, lessonTypes.lessonLink)}>{lessonTypes.lesson}</li>
+    const setLessons = () => {
+        let val = valLessons.map((lesson, i) => {
+            return <li key={i} onClick={() => handleSelectLesson(lesson.id, lesson.lesson, lesson.link)}>{lesson.lesson}</li>
         })
         return val;
     }
@@ -64,7 +66,7 @@ const SelectLessonType=()=>{
                     انتخاب درس
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    { setLessonTypes()}
+                    { setLessons()}
                 </ul>
             </div>
         </section>

@@ -15,15 +15,15 @@ class LessonTypeController extends Controller
     {
         $lessons=LessonType::where('book_type_id' , $book_id)->with('words')->get();
         $lessonCount=$lessons->count();
-        return response()->json(['lessonTypes'=>$lessons,'lessonTypeCount'=>$lessonCount],200);
+        return response()->json(['lessons'=>$lessons,'lessonCount'=>$lessonCount],200);
     }
 
     public function getOneLessonType(int $lesson_id)
     {
-        $lessonType=LessonType::where('id',$lesson_id)->withCount('words')->withCount('sentences')->get();
-        $wordTypeCount=$lessonType[0]->words_count;
-        $sentenceTypeCount=$lessonType[0]->sentences_count;
-        return response()->json(['wordTypeCount'=>$wordTypeCount, 'sentenceTypeCount'=>$sentenceTypeCount],200);
+        $lesson=LessonType::where('id',$lesson_id)->withCount('words')->withCount('sentences')->get();
+        $wordCount=$lesson[0]->words_count;
+        $sentenceCount=$lesson[0]->sentences_count;
+        return response()->json(['wordCount'=>$wordCount, 'sentenceCount'=>$sentenceCount],200);
     }
 
     public function saveLessonType(Request $request)
@@ -33,10 +33,10 @@ class LessonTypeController extends Controller
             [
                 'book_type_id' => $request->book_id,
                 'lesson'=> $request->lesson,
-                'lessonLink'=> $request->lessonLink,
+                'link'=> $request->link,
             ]
             );
-        return response()->json(['lessonType_id'=>$lesson->id],200);
+        return response()->json(['lesson_id'=>$lesson->id],200);
     }
 
     public function lessonValidator(array $data)
@@ -48,7 +48,7 @@ class LessonTypeController extends Controller
             Rule::unique('lesson_types')->where(function ($query) use($book_id){
                 return $query->where('book_type_id',$book_id);
             }) ],
-            'lessonLink' => [ 'required', 'min:2' ,
+            'link' => [ 'required', 'min:2' ,
             'regex:/^[A-Za-z0-9-]+$/',
             Rule::unique('lesson_types')->where(function ($query) use($book_id){
                 return $query->where('book_type_id',$book_id);
@@ -58,27 +58,37 @@ class LessonTypeController extends Controller
 
    
 
-    public function editLessonType(Request $request, int $lesson_id)
+    public function editLessonType(Request $request, int $id)
     {
-        $this->lessonEditValidator($request->all(),$lesson_id)->validate();
-        $lesson = LessonType::find($lesson_id);
+        $this->lessonEditValidator($request->all(),$id)->validate();
+        $lesson = LessonType::find($id);
 
         $lesson->lesson = $request->lesson;
-        $lesson->lessonLink = $request->lessonLink;
+        $lesson->link = $request->link;
 
         $lesson->save();
     }
 
-    private function lessonEditValidator(array $data,$lesson_id)
+    private function lessonEditValidator(array $data,$id)
     {
+        $book_id=$data['book_id'];
         return Validator::make($data, [
-            'lesson' => ['required', 'min:2', Rule::unique('lesson_types','lesson')->ignore($lesson_id)],
-            'lessonLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('lesson_types','lessonLink')->ignore($lesson_id)],
+            'book_id' => [ 'required', 'numeric' ,'exists:book_types,id' ],
+            'lesson' => [ 'required', 'min:2' ,
+            Rule::unique('lesson_types')->where(function ($query) use($book_id){
+                return $query->where('book_type_id',$book_id);
+            })->ignore($id) ],
+            'link' => [ 'required', 'min:2' ,
+            'regex:/^[A-Za-z0-9-]+$/',
+            Rule::unique('lesson_types')->where(function ($query) use($book_id){
+                return $query->where('book_type_id',$book_id);
+            })->ignore($id) ],
         ]);
+       
     }
 
-    public function deleteLessonType( int $lesson_id)
+    public function deleteLessonType( int $id)
     {
-        LessonType::find($lesson_id)->delete();
+        LessonType::find($id)->delete();
     }
 }

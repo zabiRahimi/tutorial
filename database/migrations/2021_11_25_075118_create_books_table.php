@@ -15,8 +15,8 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('book' ,15)->index()->unique();
-            $table->string('bookLink' ,15)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
+            $table->string('book' ,25)->index()->unique();
+            $table->string('link' ,25)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
             $table->timestamps();
         });
     }

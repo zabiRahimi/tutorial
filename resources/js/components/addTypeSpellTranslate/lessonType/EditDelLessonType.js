@@ -5,24 +5,24 @@ import Swal from "sweetalert2";
 
 const EditDelLessonType=()=>{
     useChengeDocumentTitle('edit or delete lesson');
+
     const navigate = useNavigate();
 
-    const { element, setElement,valLessonTypes, setValLessonTypes } = useOutletContext();
+    const {index, setIndex, valLessons, setValLessons, lesson, setLesson } = useOutletContext();
 
-    const lessonTypeForm = useRef(null),
-    lessonTypeAlert = useRef(null),
-    lessonTypeError = useRef(null),
-    lessonTypeLinkError = useRef(null);
+    const form = useRef(null),
+    notify = useRef(null),
+    lessonError = useRef(null),
+    linkError = useRef(null);
 
     const [input , setInput]=useState({
-        lessonType_id:element.lessonType_id,
-        lessonType:element.lessonType,
-        lessonTypeLink:element.lessonTypeLink
+        lesson:lesson.lesson,
+        link:lesson.link
     });
 
     const [count , setCount]=useState({
-        wordType:0,
-        sentenceType:0
+        word:0,
+        sentence:0
     });
 
     /**
@@ -30,12 +30,12 @@ const EditDelLessonType=()=>{
      * مورد استفاده هنگام حذف فصل برای هشدار به کاربر
      * @param {*} lesson_id 
      */
-    async function getOneLessonType(lessonType_id){
-        await axios.get(`/getOneLessonType/${lessonType_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+    async function getOneLesson(id){
+        await axios.get(`/getOneLessonType/${id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
         .then(response => {
             setCount( {
-                wordType:response.data.wordTypeCount,
-                sentenceType:response.data.sentenceTypeCount
+                word:response.data.wordCount,
+                sentence:response.data.sentenceCount
             })
                 
         })
@@ -45,19 +45,22 @@ const EditDelLessonType=()=>{
     }
 
     useEffect(() => {
+
         const fetchData=async ()=>{
-           await checkHasLessonTypeId();
-           await getOneLessonType(input.lessonType_id);
+           await checkHasLessonId();
+           await getOneLesson(lesson.id);
         }
+
         fetchData();
-    }, [input.bookType_id]);
+
+    }, [lesson.id]);
 
      /**
      * این متد چک می‌کند که کاربر یک فصلی را
      *  برای ویرایش و حذف انتخاب کرده باشد
      */
-      const checkHasLessonTypeId = () => {
-        if (input.lessonType_id) { } else {
+      const checkHasLessonId = () => {
+        if (lesson.id) { } else {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -65,7 +68,7 @@ const EditDelLessonType=()=>{
                 showConfirmButton: false,
                 timer: 3000,
             }).then((result) => {
-                valLessonTypes.length == 0 ?
+                valLessons.length == 0 ?
                     //چنانچه هیچ فصلی از قبل ایجاد نشده باشد کاربر به این مسیر هدایت می‌شود
                     navigate(`/addTypeSpellTranslate/lessonType/add`) :
                     //چنانچه فصلی وجود داشته باشد کاربر به این مسیر هدایت می‌شود
@@ -74,10 +77,10 @@ const EditDelLessonType=()=>{
         }
     }
 
-    const deleteAlertLessonType = () => {
-        lessonTypeError.current.innerHTML = '';
-        lessonTypeLinkError.current.innerHTML = '';
-        lessonTypeAlert.current.innerHTML = '';
+    const deleteAlert = () => {
+        lessonError.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        notify.current.innerHTML = '';
     }
 
      /**
@@ -90,64 +93,77 @@ const EditDelLessonType=()=>{
         setInput(prev => ({ ...prev, [input]: value }));
     }
 
-    const handleEditLessonType = (e) => {
+    const handleEditLesson = (e) => {
         e.preventDefault();
-        axios.put(`/editLessonType/${input.lessonType_id}`, { 'lesson': input.lessonType, 'lessonLink': input.lessonTypeLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.put(`/editLessonType/${lesson.id}`, {'book_id':index.book_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                deleteAlertLessonType();
+                
+                deleteAlert();
 
-                setElement(prev => ({ ...prev, lessonType: input.lessonType ,lessonTypeLink:input.lessonTypeLink }));
+                setIndex(prev => ({ ...prev, lesson: input.lesson }));
+
                  // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
-                 let newLessonTypes = valLessonTypes.map((valLessonType) => {
-                    if (valLessonType.id == input.lessonType_id) return Object.assign({}, valLessonType, { lesson: input.lessonType, 'lessonLink': input.lessonTypeLink });
-                    return valLessonType;
+                 let newLessons = valLessons.map((valLesson) => {
+                    if (valLesson.id == lesson.id) return Object.assign({}, valLesson, { ...input});
+                    return valLesson;
                 });
-                setValLessonTypes(newLessonTypes);
-                lessonTypeAlert.current.innerHTML = `<div class='success'>فصل کتاب با موفقیت ویرایش شد.</div>`
-                lessonTypeAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                setValLessons(newLessons);
+
+                notify.current.innerHTML = `<div class='success'>فصل کتاب با موفقیت ویرایش شد.</div>`
+                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
             .catch(error => {
-                lessonTypeAlert.current.innerHTML = '';
+                console.log(`EditDelLessonType.js error: ${error}`);
+                notify.current.innerHTML = '';
 
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
                     let divError;
                     switch (elementError) {
                         case 'lesson':
-                            divError = lessonTypeError.current;
+                            divError = lessonError.current;
                             break;
-                        case 'lessonLink':
-                            divError = lessonTypeLinkError.current;
+                        case 'link':
+                            divError = linkError.current;
                             break;
-                        default: divError = lessonTypeAlert.current;
+                        default: divError = notify.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    lessonTypeAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    lessonTypeAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
-    function deleteLessonType(lessonTypeId) {
+    function deleteLesson(lessonId) {
         Swal.fire({
             title: 'آیا مایل به حذف این فصل هستید؟',
             color: '#aa4f0f',
-            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این فصل شامل<br /> ${count.wordType} کلمه و ${count.sentenceType} جمله است.</div></div>`,
+            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این فصل شامل<br /> ${count.word} کلمه و ${count.sentence} جمله است.</div></div>`,
 
             showCancelButton: true,
             confirmButtonText: 'delete',
             confirmButtonColor: '#ffd600',
             preConfirm: () => {
-                return axios.delete(`/deleteLessonType/${lessonTypeId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+                return axios.delete(`/deleteLessonType/${lessonId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
                     .then(response => {
-                        const index = valLessonTypes.findIndex(({ id }) => id === lessonTypeId)
-                        valLessonTypes.splice(index, 1)
-                        setValLessonTypes(valLessonTypes)
-                        setElement(prev => ({ ...prev, lessonType_id: '', lessonType: '', lessonTypeLink: '' }));
+
+                        const index = valLessons.findIndex(({ id }) => id === lessonId);
+
+                        valLessons.splice(index, 1);
+
+                        setValLessons(valLessons);
+
+                        setIndex(prev => ({ ...prev, lesson_id: '', lesson: '' }));
+
+                        setLesson({id:'',lesson:'',link:''});
+
+                        setInput({lesson: '', link: ''});
+                        
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -155,7 +171,7 @@ const EditDelLessonType=()=>{
                             showConfirmButton: false,
                             timer: 4000
                         }).then((result) => {
-                            valLessonTypes.length == 0 ? navigate(`/addTypeSpellTranslate/lessonType/add`) :
+                            valLessons.length == 0 ? navigate(`/addTypeSpellTranslate/lessonType/add`) :
                                 navigate(`/addTypeSpellTranslate/lessonType/select`);
                         })
                     })
@@ -175,17 +191,17 @@ const EditDelLessonType=()=>{
 
     return (
         <section className="SAED_content">
-            <form className='AE_Form' ref={lessonTypeForm} method="post" onSubmit={handleEditLessonType} onFocus={deleteAlertLessonType}>
-                        <div className="formAlert" ref={lessonTypeAlert}></div>
+            <form className='AE_Form' ref={form} method="post" onSubmit={handleEditLesson} onFocus={deleteAlert}>
+                        <div className="formAlert" ref={notify}></div>
 
-                        <input type="text" dir="auto" value={input.lessonType} className="form-control input_text" onChange={e => handleSaveValInput(e, 'lessonType')} placeholder='نام فصل' autoComplete="off" />
-                        <div className="formError" ref={lessonTypeError}></div>
+                        <input type="text" dir="auto" value={input.lesson} className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام فصل' autoComplete="off" />
+                        <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" value={input.lessonTypeLink} className="form-control input_text" id="lessonLink" onChange={e => handleSaveValInput(e, 'lessonTypeLink')} placeholder='لینک فصل' autoComplete="off" />
-                        <div className="formError" ref={lessonTypeLinkError} ></div>
+                        <input type="text" dir="auto" value={input.link} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک فصل' autoComplete="off" />
+                        <div className="formError" ref={linkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
-                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLessonType(input.lessonType_id)} value='حذف فصل کتاب' />
+                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(lesson.id)} value='حذف فصل کتاب' />
                     </form>
         </section>
     )

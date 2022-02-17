@@ -15,39 +15,39 @@ class BookTypeController extends Controller
 
     public function getAllBookTypes()
     {
-        $bookTypes=BookType::all();
+        $books=BookType::all();
         //توسط این دستور رابطه بین جدول پدر و فرزند برقرار می شود
         //یعنی جدول فرزند با پدر جوین می‌شود
-        $bookTypes->load('lesson_types');
-        return response()->json(['bookTypes'=>$bookTypes],200);
+        $books->load('lesson_types');
+        return response()->json(['books'=>$books],200);
 
     }
 
     public function getOneBookType(int $id)
     {
-        $bookType=BookType::where('id',$id)->withCount('lesson_types')->withCount('words')->withCount('sentences')->get();
+        $book=BookType::find($id)->withCount('lesson_types')->withCount('words')->withCount('sentences')->get();
 
-        $lessonCount=0;
-        $wordCount=0;
-        $sentenceCount=0;
+        $lessonCount=$book[0]->lesson_types_count;
+        $wordCount=$book[0]->words_count;
+        $sentenceCount=$book[0]->sentences_count;
 
-        foreach($bookType as $book){
-            $lessonCount += $book->lesson_types_count;
-            $wordCount +=$book -> words_count ;
-            $sentenceCount += $book-> sentences_count;
-        }
+        // foreach($bookType as $book){
+        //     $lessonCount += $book->lesson_types_count;
+        //     $wordCount +=$book -> words_count ;
+        //     $sentenceCount += $book-> sentences_count;
+        // }
 
-        return response()->json(['bookType'=>$bookType,'lessonCount'=>$lessonCount,'wordCount'=>$wordCount,'sentenceCount'=>$sentenceCount],200);
+        return response()->json(['book'=>$book,'lessonCount'=>$lessonCount,'wordCount'=>$wordCount,'sentenceCount'=>$sentenceCount],200);
     }
 
 
-    public function saveBook(Request $request)
+    public function saveBookType(Request $request)
     {
         $this->bookValidator($request->all())->validate();
         $book=BookType::create(
             [
                 'book'=> $request->book,
-                'bookLink'=> $request->bookLink
+                'link'=> $request->link
             ]
             );
         return response()->json(['book_id'=>$book->id],200);
@@ -56,32 +56,32 @@ class BookTypeController extends Controller
     public function bookValidator(array $data)
     {
         return Validator::make($data, [
-            'book' => [ 'required', 'alpha_dash', 'min:2' ,'unique:book_types,book' ],
-            'bookLink' => [ 'required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2' ,'unique:book_types,bookLink' ],
+            'book' => [ 'required', 'string', 'min:2' ,'unique:book_types,book' ],
+            'link' => [ 'required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2' ,'unique:book_types,link' ],
         ]);
     }
 
-    public function editBookType(Request $request, int $book_id)
+    public function editBookType(Request $request, int $id)
     {
-        $this->bookEditValidator($request->all(),$book_id)->validate();
-        $book = BookType::find($book_id);
+        $this->bookEditValidator($request->all(),$id)->validate();
+        $book = BookType::find($id);
 
         $book->book = $request->book;
-        $book->bookLink = $request->bookLink;
+        $book->link = $request->link;
 
         $book->save();
     }
 
-    private function bookEditValidator(array $data,$book_id)
+    private function bookEditValidator(array $data,$id)
     {
         return Validator::make($data, [
-            'book' => ['required', 'min:2', Rule::unique('book_types','book')->ignore($book_id)],
-            'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('book_types','bookLink')->ignore($book_id)],
+            'book' => ['required', 'min:2', Rule::unique('book_types','book')->ignore($id)],
+            'link' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('book_types','link')->ignore($id)],
         ]);
     }
 
-    public function deleteBookType(int $book_id)
+    public function deleteBookType(int $id)
     {
-        BookType::find($book_id)->delete();
+        BookType::find($id)->delete();
     }
 }

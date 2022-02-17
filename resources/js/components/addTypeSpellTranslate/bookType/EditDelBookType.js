@@ -8,23 +8,22 @@ const EditDelBookType=()=>{
 
     const navigate = useNavigate();
 
-    const bookTypeForm = useRef(null),
-        bookTypeAlert = useRef(null),
-        bookTypeError = useRef(null),
-        bookTypeLinkError = useRef(null);
+    const form = useRef(null),
+        notify = useRef(null),
+        bookError = useRef(null),
+        linkError = useRef(null);
 
-    const { element, setElement, valBookTypes, setValBookTypes } = useOutletContext();
+    const { setIndex, valBooks, setValBooks, book, setBook } = useOutletContext();
 
     const [input, setInput] = useState({
-        bookType_id: element.bookType_id,
-        bookType: element.bookType,
-        bookTypeLink: element.bookTypeLink
+        book: book.book,
+        link: book.link
     });
 
     const [count, setCount] = useState({
-        lessonTypeCount: 0,
-        wordTypeCount: 0,
-        sentenceTypeCount: 0
+        lesson: 0,
+        word: 0,
+        sentence: 0
     })
 
     /**
@@ -32,11 +31,15 @@ const EditDelBookType=()=>{
      * مورد استفاده هنگام حذف کتاب برای هشدار به کاربر
      * @param {*} bookType_id 
      */
-    async function getOneBookType(bookType_id) {
-        await axios.get(`/getOneBookType/${bookType_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+    async function getOneBook(id) {
+        await axios.get(`/getOneBookType/${id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             
                 .then(response => {
-                    response.data.bookType.length != 0 ? (setCount({lessonTypeCount:response.data.lessonCount, wordTypeCount:response.data.wordCount, sentenceTypeCount:response.data.sentenceCount})) : setCount({lessonTypeCount:0, wordTypeCount:0, sentenceTypeCount:0});
+                    const data=response.data;
+
+                    data.book.length != 0 ? setCount({lesson:data.lessonCount, word:data.wordCount, sentence:data.sentenceCount}) 
+                    : 
+                    setCount({lesson:0, word:0, sentence:0});
                 })
                 .catch(error => {
                     alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
@@ -45,23 +48,23 @@ const EditDelBookType=()=>{
     }
 
     useEffect(() => {
-        checkHasBookTypeId()
-        getOneBookType(input.bookType_id)
-    }, [input.bookType_id])
+        checkHasBookId()
+        book.id?getOneBook(book.id):'';
+    }, [book.id])
 
     /**
      * این متد چک می‌کند که کاربر یک کتاب را برای ویرایش و حذف انتخاب کرده باشد
      */
-    const checkHasBookTypeId = () => {
-        if (input.bookType_id) { } else {
+    const checkHasBookId = () => {
+        if (book.id) { } else {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
                 title: 'هیچ کتابی انتخاب و یا ایجاد نشده است',
                 showConfirmButton: false,
                 timer: 3000,
-            }).then((result) => {
-                valBookTypes.length == 0 ?
+            }).then(() => {
+                valBooks.length == 0 ?
                     //چنانچه هیچ کتابی از قبل ایجاد نشده باشد کاربر به این مسیر هدایت می‌شود
                     navigate(`/addTypeSpellTranslate/bookType/add`) :
                     //چنانچه کتابی وجود داشته باشد کاربر به این مسیر هدایت می‌شود
@@ -73,10 +76,10 @@ const EditDelBookType=()=>{
     /**
    * این متد همه اعلانهای فرم ایجاد گروه را پاک می‌کند
    */
-    const deleteAlertBookType = () => {
-        bookTypeError.current.innerHTML = '';
-        bookTypeLinkError.current.innerHTML = '';
-        bookTypeAlert.current.innerHTML = '';
+    const deleteAlert = () => {
+        bookError.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        notify.current.innerHTML = '';
     }
 
     /**
@@ -87,62 +90,73 @@ const EditDelBookType=()=>{
     const handleSaveValInput = (e, input) => {
         let { value } = e.target;
         setInput(prev => ({ ...prev, [input]: value }));
-        
     }
 
-    const handleEditBookType = (e) => {
+    const handleEditBook = (e) => {
         e.preventDefault();
-        axios.put(`/editBookType/${input.bookType_id}`, { 'book': input.bookType, 'bookLink': input.bookTypeLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.put(`/editBookType/${book.id}`, {...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                deleteAlertBookType();
-                setElement(prev => ({ ...prev, bookType: input.bookType, bookTypeLink:input.bookTypeLink }));
+                deleteAlert();
+                setIndex(prev => ({ ...prev, book: input.book }));
+
                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
-                let newBookTypes = valBookTypes.map((valBookType) => {
-                    if (valBookType.id == input.bookType_id) return Object.assign({}, valBookType, { book: input.bookType, 'bookLink': input.bookTypeLink });
-                    return valBookType;
+                let newBooks = valBooks.map((valBook) => {
+                    if (valBook.id == book.id) return Object.assign({}, valBook, { ...input});
+                    return valBook;
                 });
-                setValBookTypes(newBookTypes);
-                bookTypeAlert.current.innerHTML = `<div class='success'>کتاب با موفقیت ویرایش شد.</div>`
-                bookTypeAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                setValBooks(newBooks);
+
+                notify.current.innerHTML = `<div class='success'>کتاب با موفقیت ویرایش شد.</div>`
+                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
             .catch(error => {
-                bookTypeAlert.current.innerHTML = ''
+                notify.current.innerHTML = ''
+
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
                     let divError;
                     switch (elementError) {
                         case 'book':
-                            divError = bookTypeError.current
+                            divError = bookError.current
                             break;
-                        case 'bookLink':
-                            divError = bookTypeLinkError.current
+                        case 'link':
+                            divError = linkError.current
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
-                    bookTypeAlert.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
-                    bookTypeAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
-    function deleteBookType(bookTypeId) {
+    function deleteBook(bookId) {
         Swal.fire({
             title: 'آیا مایل به حذف این کتاب هستید؟',
             color: '#aa4f0f',
-            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این گروه شامل<br /> ${count.lessonTypeCount} فصل و ${count.wordTypeCount} کلمه و ${count.sentenceTypeCount} جمله است .</div></div>`,
+            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این گروه شامل<br /> ${count.lesson} فصل و ${count.word} کلمه و ${count.sentence} جمله است .</div></div>`,
 
             showCancelButton: true,
             confirmButtonText: 'delete',
             confirmButtonColor: '#ffd600',
             preConfirm: () => {
-                return axios.delete(`/deleteBookType/${bookTypeId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+                return axios.delete(`/deleteBookType/${bookId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
                     .then(response => {
-                        const index = valBookTypes.findIndex(({ id }) => id === bookTypeId)
-                        valBookTypes.splice(index, 1)
-                        setValBookTypes(valBookTypes)
-                        setElement(prev => ({ ...prev, bookType_id: '', bookType: '', bookTypeLink: '' }));
+
+                        const index = valBooks.findIndex(({ id }) => id === bookId);
+                        
+                        valBooks.splice(index, 1);
+
+                        setValBooks(valBooks);
+
+                        setIndex(prev => ({ ...prev, book_id: '', book: '' }));
+
+                        setBook({id:'',book:'',link:''});
+
+                        setInput({book: '', link: ''});
+                        
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -150,7 +164,7 @@ const EditDelBookType=()=>{
                             showConfirmButton: false,
                             timer: 4000
                         }).then((result) => {
-                            valBookTypes.length == 0 ? navigate(`/addTypeSpellTranslate/bookType/add`) :
+                            valBooks.length == 0 ? navigate(`/addTypeSpellTranslate/bookType/add`) :
                                 navigate(`/addTypeSpellTranslate/bookType/select`);
                         })
                     })
@@ -170,20 +184,20 @@ const EditDelBookType=()=>{
 
     return (
         <section className="SAED_content">
-            <form className='AE_Form' ref={bookTypeForm} method="post" onSubmit={handleEditBookType} onFocus={deleteAlertBookType}>
+            <form className='AE_Form' ref={form} method="post" onSubmit={handleEditBook} onFocus={deleteAlert}>
 
-                <div className="formAlert" ref={bookTypeAlert} ></div>
+                <div className="formAlert" ref={notify} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" value={input.bookType} onChange={e => handleSaveValInput(e, 'bookType')} placeholder='نام کتاب' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" value={input.book} onChange={e => handleSaveValInput(e, 'book')} placeholder='نام کتاب' autoComplete="off" />
 
-                <div className="formError" ref={bookTypeError} ></div>
+                <div className="formError" ref={bookError} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" value={input.bookTypeLink} onChange={e => handleSaveValInput(e, 'bookTypeLink')} placeholder='لینک کتاب' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" value={input.link} onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک کتاب' autoComplete="off" />
 
-                <div className="formError" ref={bookTypeLinkError}></div>
+                <div className="formError" ref={linkError}></div>
 
                 <input type="submit" className='btn btn-success btn_form' value='ثبت ویرایش' />
-                <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteBookType(input.bookType_id)} value='حذف کتاب' />
+                <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteBook(book.id)} value='حذف کتاب' />
             </form>
         </section>
     )

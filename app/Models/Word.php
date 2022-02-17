@@ -10,7 +10,7 @@ class Word extends Model
     use HasFactory;
     protected $fillable=[
         'lesson_type_id',
-        'wordLink',
+        'link',
         'word',
         'mean',
         'pronounceEn',

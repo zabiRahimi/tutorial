@@ -11,7 +11,7 @@ class Lesson extends Model
     protected $fillable=[
         'book_id',
         'lesson',
-        'lessonLink'
+        'link'
     ];
     public function lesson_sections()
     {

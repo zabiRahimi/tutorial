@@ -11,7 +11,7 @@ class BookType extends Model
     use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
     protected $fillable = [
         'book',
-        'bookLink'
+        'link'
     ];
     public function lesson_types()
     {

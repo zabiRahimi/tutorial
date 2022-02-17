@@ -4,35 +4,42 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router";
 
 const BookType = () => {
-    const [valBookTypes, setValBookTypes] = useState([]);
+    const [valBooks, setValBooks] = useState([]);
+
     const [check, setCheck] = useState('');
 
- 
     let navigate = useNavigate();
 
-    const { element, setElement, refresh } = useOutletContext();
-
-    async function getAllBookTypes() {
+    const { index, setIndex, refresh } = useOutletContext();
+    
+    /**
+     * اشتراک بین کامپوننت‌های فرزند
+     */
+    const [book, setBook] = useState({
+        id: '',
+        book: '',
+        link: ''
+    })
+    async function getAllBooks() {
         await axios.get('/getAllBookTypes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                response.data.bookTypes.length != 0 ? (setValBookTypes(response.data.bookTypes), setCheck(1)) : setCheck(2);
+                response.data.books.length != 0 ? (setValBooks(response.data.books), setCheck(1)) : setCheck(2);
             })
             .catch(error => {
-                console.log(error);
                 alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
             })
     }
 
     useEffect(() => {
         const fetchData = async () => {
-            await getAllBookTypes();
-            checkHasBookType();
+            await getAllBooks();
+            checkHasBook();
             deleteAllId();
         }
         fetchData()
     }, [check, refresh]);
 
-    const checkHasBookType = () => {
+    const checkHasBook = () => {
         switch (check) {
             case '': ''
                 break;
@@ -51,7 +58,7 @@ const BookType = () => {
      * در نبود این متد برنامه دچار مشکل می‌شود
      */
     const deleteAllId = () => {
-        setElement(prev => ({ ...prev, BookType_id: '', lessonType_id: '', wordType_id: '', sentenceType_id: '', BookType: '', BookTypeLink: '', lessonType: '', lessonTypeLink: '' }))
+        setIndex(prev => ({ ...prev, Book_id: '', lesson_id: '', word_id: '', sentence_id: '', Book: '', lesson: '', word: '', sentence: '' }));
     }
 
     return (
@@ -69,7 +76,7 @@ const BookType = () => {
                             isActive ? 'SAED_active' : 'SAED_passive'}
                         >ویرایش و حذف کتاب</NavLink>
                     </nav>
-                    <Outlet context={{ valBookTypes, setValBookTypes, element, setElement }} />
+                    <Outlet context={{ index, setIndex, valBooks, setValBooks, book, setBook }} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">

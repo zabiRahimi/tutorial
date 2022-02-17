@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { NavLink, useOutletContext, Outlet, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
@@ -7,24 +6,28 @@ const LessonType=()=>{
 
     const navigate = useNavigate();
 
-    const { element, setElement, refresh } = useOutletContext();
+    const { index, setIndex, refresh } = useOutletContext();
 
     const [check, setCheck] = useState('');
 
-    const [valLessonTypes, setValLessonTypes] = useState([]);
+    const [valLessons, setValLessons] = useState([]);
 
-    async function getLessonTypes(bookType_id) {
-        await axios.get(`/getAllLessonTypes/${bookType_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+    const [lesson, setLesson] = useState({
+            id:'',
+            lesson:'',
+            link:''
+        });
+
+    async function getLessons(id) {
+        await axios.get(`/getAllLessonTypes/${id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                response.data.lessonTypeCount != 0 ?
+                response.data.lessonCount != 0 ?
                     (
-                        setValLessonTypes(response.data.lessonTypes),
-                        // setElement(prev => ({ ...prev, 'lessonTypeCount': response.data.lessonTypeCount })),
+                        setValLessons(response.data.lessons),
                         setCheck(1)
                     )
                     :
                     (
-                        // setElement(prev => ({ ...prev, 'lessonTypeCount': 0})),
                         setCheck(2)
                     );
             })
@@ -33,7 +36,7 @@ const LessonType=()=>{
             })
     }
 
-    const alertSelectbookType = () => {
+    const alertSelect = () => {
         Swal.fire({
             position: 'center',
             icon: 'warning',
@@ -46,14 +49,14 @@ const LessonType=()=>{
     }
 
     useEffect(() => {
-        !element.bookType_id ? '' : getLessonTypes(element.bookType_id);
-        checkHaslessonType();
+        !index.book_id ? '' : getLessons(index.book_id);
+        checkHaslesson();
         deleteAllId();
-    }, [element.bookType_id, check, refresh]);
+    }, [index.book_id, check, refresh]);
 
-    const checkHaslessonType = () => {
-        if (!element.bookType_id) {
-            alertSelectbookType()
+    const checkHaslesson = () => {
+        if (!index.book_id) {
+            alertSelect()
         } else {
 
             switch (check) {
@@ -74,7 +77,7 @@ const LessonType=()=>{
      * در نبود این متد برنامه دچار مشکل می‌شود
      */
      const deleteAllId=()=>{
-        setElement(prev => ({...prev , lessonType_id:'',wordType_id:'',sentenceType_id:'',wordType:''}))
+        setIndex(prev => ({...prev , lesson_id:'',word_id:'',sentence_id:'',lesson:'',  word:'', sentence:''}));
     }
     return (
         <section className="sectionAED">
@@ -83,7 +86,7 @@ const LessonType=()=>{
                 <>
                     <section className="showNameBook">
                         <div className="line"></div>
-                        <div className="nameBook">{element.bookType}</div>
+                        <div className="nameBook">{index.book}</div>
                     </section> 
 
                     <nav className="navAED">
@@ -96,7 +99,7 @@ const LessonType=()=>{
                             isActive ? 'SAED_active' : 'SAED_passive'}
                             >ویرایش و حذف فصل</NavLink>
                     </nav>
-                    <Outlet context={{ valLessonTypes,setValLessonTypes, element, setElement }} />
+                    <Outlet context={{index, setIndex, valLessons, setValLessons, lesson, setLesson }} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">

@@ -45,7 +45,7 @@ const EditDelLesson=()=>{
            await getLessonSections(input.lesson_id);
         }
         fetchData();
-    }, [input.book_id]);
+    }, []);
 
      /**
      * این متد چک می‌کند که کاربر یک فصلی را
@@ -87,7 +87,7 @@ const EditDelLesson=()=>{
 
     const handleEditLesson = (e) => {
         e.preventDefault();
-        axios.put(`/editLesson/${input.lesson_id}`, { 'lesson': input.lesson, 'lessonLink': input.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.put(`/editLesson/${input.lesson_id}`, {'book_id':element.book_id, 'lesson': input.lesson, 'lessonLink': input.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
                 deleteAlertLesson();
 

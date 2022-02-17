@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router";
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 import Swal from "sweetalert2";
@@ -7,19 +6,17 @@ import Swal from "sweetalert2";
 const AddBookType=()=>{
     useChengeDocumentTitle('add book type spell translate');
 
-    let navigate = useNavigate();
-
     const [input, setInput] = useState({
-        bookType: '',
-        bookTypeLink: '',
+        book: '',
+        link: '',
     });
 
-    const bookTypeForm = useRef(null),
-        bookTypeAlert = useRef(null),
-        bookTypeError = useRef(null),
-        bookTypeLinkError = useRef(null);
+    const form = useRef(null),
+        alert = useRef(null),
+        bookError = useRef(null),
+        linkError = useRef(null);
 
-    const { setElement,valBookTypes,setValBookTypes } = useOutletContext();
+    const {setIndex, valBooks, setValBooks, setBook } = useOutletContext();
 
     /**
    * مقدار هر این‌پوت فرم را دخیره می‌کند
@@ -35,22 +32,27 @@ const AddBookType=()=>{
     /**
    * این متد همه اعلانهای فرم ایجاد گروه را پاک می‌کند
    */
-    const deleteAlertBookType = () => {
-        bookTypeError.current.innerHTML = '';
-        bookTypeLinkError.current.innerHTML = '';
-        bookTypeAlert.current.innerHTML = '';
+    const deleteAlert = () => {
+        bookError.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        alert.current.innerHTML = '';
     }
 
-    const handleAddBookType = (e) => {
+    const handleAddBook = (e) => {
         e.preventDefault();
-        axios.post('/saveBookType', { 'book': input.bookType, 'bookLink': input.bookTypeLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.post('/saveBookType', { ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then( response => {
-                 bookTypeForm.current.reset();
-                 setElement(prev => ({ ...prev, bookType_id: response.data.book_id, bookType: input.bookType ,bookTypeLink:input.bookTypeLink }));
-                 setInput(prev => ({ ...prev, bookType: '', bookTypeLink: '' }));
+                const id=response.data.book_id;
+                 form.current.reset();
+                 setIndex(prev => ({ ...prev, book_id: id, book: input.book }));
+
+                 setBook({id, ...input});
+
+                 setInput({ book: '', link: '' });
+
                  //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                 valBookTypes.push({id:response.data.book_id, book: input.bookType ,bookLink:input.bookTypeLink})
-                setValBookTypes(valBookTypes)
+                 valBooks.push({id, ...input});
+                setValBooks(valBooks);
                  Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -60,40 +62,40 @@ const AddBookType=()=>{
                 })
             })
             .catch(error => {
-                bookTypeAlert.current.innerHTML = ''
+                alert.current.innerHTML = ''
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
                     let divError;
                     switch (elementError) {
                         case 'book':
-                            divError = bookTypeError.current
+                            divError = bookError.current
                             break;
-                        case 'bookLink':
-                            divError = bookTypeLinkError.current
+                        case 'link':
+                            divError = linkError.current
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
-                    bookTypeAlert.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
-                    bookTypeAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    alert.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
+                    alert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
     return (
         <section className="SAED_content">
-            <form className='AE_Form' ref={bookTypeForm} method="post" onSubmit={handleAddBookType} onFocus={deleteAlertBookType}>
+            <form className='AE_Form' ref={form} method="post" onSubmit={handleAddBook} onFocus={deleteAlert}>
 
-                <div className="formAlert" ref={bookTypeAlert} ></div>
+                <div className="formAlert" ref={alert} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookType')} placeholder='نام کتاب' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'book')} placeholder='نام کتاب' autoComplete="off" />
 
-                <div className="formError" ref={bookTypeError} ></div>
+                <div className="formError" ref={bookError} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookTypeLink')} placeholder='لینک کتاب' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک کتاب' autoComplete="off" />
 
-                <div className="formError" ref={bookTypeLinkError}></div>
+                <div className="formError" ref={linkError}></div>
 
                 <input type="submit" className='btn btn-success btn_form' value='ثبت' />
             </form>

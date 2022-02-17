@@ -16,8 +16,8 @@ class CreateLessonsTable extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('lesson' ,15)->index();
-            $table->string('lessonLink' ,15)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
+            $table->string('lesson' ,25)->index();
+            $table->string('link' ,25)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
             $table->timestamps();
         });
     }

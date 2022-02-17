@@ -13,7 +13,7 @@ class LessonType extends Model
     protected $fillable=[
         'book_type_id',
         'lesson',
-        'lessonLink'
+        'link'
     ];
     public function words()
     {
