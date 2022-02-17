@@ -1,20 +1,26 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, useNavigate} from "react-router-dom";
-import { useOutletContext } from "react-router";
+import { NavLink, Outlet, useNavigate, useOutletContext } from "react-router-dom";
 
 const Book = () => {
-    const [valBooks, setValBooks] = useState([]);
-    const [check, setCheck] = useState('');
+
+    const { index, setIndex, refresh } = useOutletContext();
 
     let navigate = useNavigate();
 
-    const {element, setElement ,refresh } = useOutletContext();
+    const [check, setCheck] = useState('');
+
+    const [valBooks, setValBooks] = useState([]);
+
+    const [book, setBook] = useState({
+        book: '',
+        link: ''
+    })
 
     async function getBooks() {
-        await axios.get('/getBooks', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
-            .then( response => {
-                 response.data.books.length != 0 ? (setValBooks(response.data.books), setCheck(1)) : setCheck(2);
+        await axios.get('/getAllBooks', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+            .then(response => {
+                response.data.books.length != 0 ? (setValBooks(response.data.books), setCheck(1)) : setCheck(2);
             })
             .catch(error => {
                 alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
@@ -28,15 +34,15 @@ const Book = () => {
             deleteAllId();
         }
         fetchData()
-    }, [ check,refresh]);
+    }, [check, refresh]);
 
     const checkHasBook = () => {
         switch (check) {
             case '': ''
                 break;
-            case 2 : navigate("add"); 
+            case 2: navigate("add");
                 break;
-            default: 
+            default:
                 navigate(`select`);
         }
     }
@@ -48,26 +54,29 @@ const Book = () => {
      * نام فصل و لینک فصل ست شده را پاک می‌کند
      * در نبود این متد برنامه دچار مشکل می‌شود
      */
-    const deleteAllId=()=>{
-        setElement(prev => ({...prev ,book_id:'', lesson_id:'',lessonSec_id:'',book:'',bookLink:'',lesson:'',lessonLink:''}))
-    } 
+    const deleteAllId = () => {
+        setIndex(prev => ({
+            ...prev, book_id: '', lesson_id: '', lessonSec_id: '', book: '', lesson: '',
+            lesson_section: ''
+        }));
+    }
 
     return (
         <section className="sectionAED">
             {check != '' ?
                 <>
                     <nav className="navAED">
-                        <NavLink to={'select'}  className={({ isActive }) =>
-                            isActive  ? 'SAED_active' : 'SAED_passive'}
-                            >انتخاب کتاب</NavLink>
+                        <NavLink to={'select'} className={({ isActive }) =>
+                            isActive ? 'SAED_active' : 'SAED_passive'}
+                        >انتخاب کتاب</NavLink>
                         <NavLink to={'add'} className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}
-                            >ایجاد کتاب</NavLink>
+                        >ایجاد کتاب</NavLink>
                         <NavLink to={'edit'} className={({ isActive }) =>
-                            isActive  ? 'SAED_active' : 'SAED_passive'}
-                            >ویرایش و حذف کتاب</NavLink>
+                            isActive ? 'SAED_active' : 'SAED_passive'}
+                        >ویرایش و حذف کتاب</NavLink>
                     </nav>
-                    <Outlet context={{ valBooks,setValBooks, element, setElement}} />
+                    <Outlet context={{ index, setIndex, valBooks, setValBooks, book, setBook }} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">

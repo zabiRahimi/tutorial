@@ -1,25 +1,23 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useOutletContext } from "react-router";
+import { useOutletContext } from "react-router-dom";
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 import Swal from "sweetalert2";
 
 const AddBook = () => {
     useChengeDocumentTitle('add book');
 
-    let navigate = useNavigate();
+    const { setIndex, valBooks, setValBooks, setBook } = useOutletContext();
 
     const [input, setInput] = useState({
         book: '',
-        bookLink: '',
+        link: '',
     });
 
-    const bookForm = useRef(null),
-        bookAlert = useRef(null),
+    const form = useRef(null),
+        notify = useRef(null),
         bookError = useRef(null),
-        bookLinkError = useRef(null);
+        linkError = useRef(null);
 
-    const { setElement,valBooks,setValBooks } = useOutletContext();
 
     /**
    * مقدار هر این‌پوت فرم را دخیره می‌کند
@@ -35,23 +33,33 @@ const AddBook = () => {
     /**
    * این متد همه اعلانهای فرم ایجاد گروه را پاک می‌کند
    */
-    const deleteAlertBook = () => {
+    const deleteAlert = () => {
         bookError.current.innerHTML = '';
-        bookLinkError.current.innerHTML = '';
-        bookAlert.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        notify.current.innerHTML = '';
     }
 
     const handleAddBook = (e) => {
         e.preventDefault();
-        axios.post('/saveBook', { 'book': input.book, 'bookLink': input.bookLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
-            .then( response => {
-                 bookForm.current.reset();
-                 setElement(prev => ({ ...prev, book_id: response.data.book_id, book: input.book ,bookLink:input.bookLink }));
-                 setInput(prev => ({ ...prev, book: '', bookLink: '' }));
-                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                 valBooks.push({id:response.data.book_id, book: input.book ,bookLink:input.bookLink})
-                setValBooks(valBooks)
-                 Swal.fire({
+        axios.post('/saveBook', { ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+            .then(response => {
+
+                const id = response.data.id;
+
+                form.current.reset();
+
+                setIndex(prev => ({ ...prev, book_id: id, book: input.book }));
+
+                setBook({ id, ...input });
+
+                //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
+                valBooks.push({ id, ...input });
+
+                setValBooks(valBooks);
+
+                setInput({ book: '', link: '' });
+
+                Swal.fire({
                     position: 'center',
                     icon: 'success',
                     title: 'ثبت کتاب با موفقیت انجام شد .',
@@ -60,7 +68,7 @@ const AddBook = () => {
                 })
             })
             .catch(error => {
-                bookAlert.current.innerHTML = ''
+                notify.current.innerHTML = ''
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
                     let divError;
@@ -68,32 +76,32 @@ const AddBook = () => {
                         case 'book':
                             divError = bookError.current
                             break;
-                        case 'bookLink':
-                            divError = bookLinkError.current
+                        case 'link':
+                            divError = linkError.current
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
-                    bookAlert.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
-                    bookAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class='error'>'خطایی رخ داده است، مطمعن شوید دیتابیس فعال است.'</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
     return (
         <section className="SAED_content">
-            <form className='AE_Form' ref={bookForm} method="post" onSubmit={handleAddBook} onFocus={deleteAlertBook}>
+            <form className='AE_Form' ref={form} method="post" onSubmit={handleAddBook} onFocus={deleteAlert}>
 
-                <div className="formAlert" ref={bookAlert} ></div>
+                <div className="formAlert" ref={notify} ></div>
 
                 <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'book')} placeholder='نام کتاب' autoComplete="off" />
 
                 <div className="formError" ref={bookError} ></div>
 
-                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'bookLink')} placeholder='لینک کتاب' autoComplete="off" />
+                <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک کتاب' autoComplete="off" />
 
-                <div className="formError" ref={bookLinkError}></div>
+                <div className="formError" ref={linkError}></div>
 
                 <input type="submit" className='btn btn-success btn_form' value='ثبت' />
             </form>

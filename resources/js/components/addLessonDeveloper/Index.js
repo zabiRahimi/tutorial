@@ -17,17 +17,14 @@ const AddLessonDeveloper = () => {
      * کاربر لینک صفحه مورد نظرش را کلیک کند
      */
     const [refresh, setRefresh] = useState(1);
-    const [element, setElement] = useState({
+    const [index, setIndex] = useState({
         book: '',
-        bookLink: '',
         book_id: '',
         
         lesson: '',
-        lessonLink: '',
         lesson_id: '',
 
         lesson_section: '',
-        des: '',
         lessonSec_id:''
 
     });
@@ -60,7 +57,7 @@ const AddLessonDeveloper = () => {
                     </NavLink>
                 </nav>
                 <section className="content_mainAdd">
-                    <Outlet context={{ element, setElement, refresh, setRefresh }} />
+                    <Outlet context={{ index, setIndex, refresh, setRefresh }} />
                 </section>
             </section>
         </section>

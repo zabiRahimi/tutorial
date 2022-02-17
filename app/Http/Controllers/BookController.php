@@ -10,9 +10,10 @@ use App\Models\Book;
 
 class BookController extends Controller
 {
-    public function getBooks()
+    public function getAllBooks()
     {
         $books = Book::all();
+
         //توسط این دستور رابطه بین جدول پدر و فرزند برقرار می شود
         //یعنی جدول فرزند با پدر جوین می‌شود
         $books->load('lessons');
@@ -20,6 +21,15 @@ class BookController extends Controller
         return response()->json(['books' => $books], 200);
     }
 
+    public function getOneBook(int $id)
+    {
+        $book=Book::find($id)->withCount('lessons')->withCount('lesson_sections')->get();
+
+        $lessonCount=$book[0]->lessons_count;
+        $lessonSecCount=$book[0]->lesson_sections_count;
+
+        return response()->json(['book'=>$book,'lessonCount'=>$lessonCount,'lessonSecCount'=>$lessonSecCount],200);
+    }
 
     public function saveBook(Request $request)
     {
@@ -27,41 +37,41 @@ class BookController extends Controller
         $book = Book::create(
             [
                 'book' => $request->book,
-                'bookLink' => $request->bookLink
+                'link' => $request->link
             ]
         );
-        return response()->json(['book_id' => $book->id], 200);
+        return response()->json(['id' => $book->id], 200);
     }
 
     public function bookValidator(array $data)
     {
         return Validator::make($data, [
             'book' => ['required', 'min:2', 'unique:books,book'],
-            'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', 'unique:books,bookLink'],
+            'link' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', 'unique:books,link'],
         ]);
     }
 
-    public function editBook(Request $request, int $book_id)
+    public function editBook(Request $request, int $id)
     {
-        $this->bookEditValidator($request->all(),$book_id)->validate();
-        $book = Book::find($book_id);
+        $this->bookEditValidator($request->all(),$id)->validate();
+        $book = Book::find($id);
 
         $book->book = $request->book;
-        $book->bookLink = $request->bookLink;
+        $book->link = $request->link;
 
         $book->save();
     }
 
-    private function bookEditValidator(array $data,$book_id)
+    private function bookEditValidator(array $data,$id)
     {
         return Validator::make($data, [
-            'book' => ['required', 'min:2', Rule::unique('books','book')->ignore($book_id)],
-            'bookLink' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('books','bookLink')->ignore($book_id)],
+            'book' => ['required', 'min:2', Rule::unique('books','book')->ignore($id)],
+            'link' => ['required', 'regex:/^[A-Za-z0-9-]+$/', 'min:2', Rule::unique('books','link')->ignore($id)],
         ]);
     }
 
-    public function deleteBook(Request $request, int $book_id)
+    public function deleteBook(Request $request, int $id)
     {
-        Book::find($book_id)->delete();
+        Book::find($id)->delete();
     }
 }

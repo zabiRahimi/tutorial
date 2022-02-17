@@ -31,12 +31,6 @@ class BookTypeController extends Controller
         $wordCount=$book[0]->words_count;
         $sentenceCount=$book[0]->sentences_count;
 
-        // foreach($bookType as $book){
-        //     $lessonCount += $book->lesson_types_count;
-        //     $wordCount +=$book -> words_count ;
-        //     $sentenceCount += $book-> sentences_count;
-        // }
-
         return response()->json(['book'=>$book,'lessonCount'=>$lessonCount,'wordCount'=>$wordCount,'sentenceCount'=>$sentenceCount],200);
     }
 

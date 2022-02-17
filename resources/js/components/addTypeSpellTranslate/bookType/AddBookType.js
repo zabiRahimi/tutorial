@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router";
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 import Swal from "sweetalert2";
 
-const AddBookType=()=>{
+const AddBookType = () => {
     useChengeDocumentTitle('add book type spell translate');
 
     const [input, setInput] = useState({
@@ -16,7 +16,7 @@ const AddBookType=()=>{
         bookError = useRef(null),
         linkError = useRef(null);
 
-    const {setIndex, valBooks, setValBooks, setBook } = useOutletContext();
+    const { setIndex, valBooks, setValBooks, setBook } = useOutletContext();
 
     /**
    * مقدار هر این‌پوت فرم را دخیره می‌کند
@@ -41,19 +41,21 @@ const AddBookType=()=>{
     const handleAddBook = (e) => {
         e.preventDefault();
         axios.post('/saveBookType', { ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
-            .then( response => {
-                const id=response.data.book_id;
-                 form.current.reset();
-                 setIndex(prev => ({ ...prev, book_id: id, book: input.book }));
+            .then(response => {
+                const id = response.data.book_id;
+                form.current.reset();
+                setIndex(prev => ({ ...prev, book_id: id, book: input.book }));
 
-                 setBook({id, ...input});
+                setBook({ id, ...input });
 
-                 setInput({ book: '', link: '' });
+                //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
+                valBooks.push({ id, ...input });
 
-                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                 valBooks.push({id, ...input});
                 setValBooks(valBooks);
-                 Swal.fire({
+
+                setInput({ book: '', link: '' });
+
+                Swal.fire({
                     position: 'center',
                     icon: 'success',
                     title: 'ثبت کتاب با موفقیت انجام شد .',

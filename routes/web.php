@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/saveBook', [App\Http\Controllers\BookController::class, 'saveBook']);
-Route::get('/getBooks', [App\Http\Controllers\BookController::class, 'getBooks']);
+Route::get('/getAllBooks', [App\Http\Controllers\BookController::class, 'getAllBooks']);
+Route::get('/getOneBook/{book_id}', [App\Http\Controllers\BookController::class, 'getOneBook']);
 Route::put('/editBook/{book_id}', [App\Http\Controllers\BookController::class, 'editBook']);
 Route::delete('/deleteBook/{book_id}', [App\Http\Controllers\BookController::class, 'deleteBook']);
 

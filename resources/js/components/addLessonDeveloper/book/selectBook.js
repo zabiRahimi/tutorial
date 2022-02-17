@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate ,useOutletContext } from "react-router-dom";
-// import { useOutletContext } from "react-router";
 import useChengeDocumentTitle from "../../hooks/useChengeDocumentTitle";
 import Swal from 'sweetalert2';
 
 const SelectBook=()=>{
 useChengeDocumentTitle('select book');
+
+const {setIndex, valBooks, setBook} = useOutletContext();
+
 const navigate = useNavigate();
     
-const {valBooks,setElement} = useOutletContext();
 
 useEffect(()=>{
     checkHasBook()
@@ -26,7 +27,7 @@ const checkHasBook=()=>{
         title: 'تا کنون کتابی ایجاد نشده است',
         showConfirmButton: false,
         timer: 3000,
-    }).then((result) => {
+    }).then(() => {
         navigate(`/addLessonDeveloper/book/add`)
     })
     :'';
@@ -37,10 +38,12 @@ const checkHasBook=()=>{
   * index ذخیره اطلاعات در فایل
   * @param {*} id 
   * @param {*} book 
-  * @param {*} bookLink 
+  * @param {*} link 
   */
-  const handleSelectBook = (id, book,bookLink) => {
-    setElement(prev => ({ ...prev,  book_id: id, book: book, bookLink:bookLink }));
+  const handleSelectBook = (id, book, link) => {
+    setIndex(prev => ({ ...prev,  book_id: id, book: book }));
+
+    setBook({id, book, link});
 }
 
 /**
@@ -50,7 +53,7 @@ const checkHasBook=()=>{
 */
 const setBooks = () => {
     let val = valBooks.map((books, i) => {
-        return <li key={i} onClick={() => handleSelectBook(books.id, books.book,books.bookLink)}>{books.book}</li>
+        return <li key={i} onClick={() => handleSelectBook(books.id, books.book, books.link)}>{books.book}</li>
     })
     return val;
 }

@@ -8,12 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+
     protected $fillable = [
         'book',
         'link'
     ];
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function lesson_sections(){
+        return $this->hasManyThrough(LessonSection::class,Lesson::class);
     }
 }
