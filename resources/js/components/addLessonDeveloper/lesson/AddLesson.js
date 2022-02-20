@@ -4,34 +4,44 @@ import Swal from "sweetalert2";
 
 
 const AddLesson=()=>{
-    const { element, setElement,valLessons, setValLessons } = useOutletContext();
+    const { index, setIndex,valLessons, setValLessons, lesson, setLesson } = useOutletContext();
 
-    const lessonForm = useRef(null),
-    lessonAlert = useRef(null),
+    const form = useRef(null),
+    notify = useRef(null),
     lessonError = useRef(null),
-    lessonLinkError = useRef(null);
+    linkError = useRef(null);
 
     const [input , setInput]=useState({
         lesson:'',
-        lessonLink:''
+        link:''
     })
 
-    const deleteAlertLesson = () => {
+    const deleteAlert = () => {
         lessonError.current.innerHTML = '';
-        lessonLinkError.current.innerHTML = '';
-        lessonAlert.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        notify.current.innerHTML = '';
     }
 
     const handleAddLesson = (e) => {
         e.preventDefault();
-        axios.post('/saveLesson', { 'book_id': element.book_id, 'lesson': input.lesson, 'lessonLink': input.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.post('/saveLesson', { 'book_id': index.book_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                lessonForm.current.reset();
-                setElement(prev => ({ ...prev, lesson_id: response.data.lesson_id, lesson: input.lesson ,lessonLink:input.lessonLink }));
-                 setInput(() => ({ lesson: '', lessonLink: '' }));
+
+                const id = response.data.id;
+
+                form.current.reset();
+                
+                setIndex(prev => ({ ...prev, lesson_id: id, lesson: input.lesson  }));
+
                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                valLessons.push({id:response.data.lesson_id, lesson: input.lesson ,lessonLink:input.lessonLink})
-                setValLessons(valLessons)
+                valLessons.push({id:id, ...input});
+
+                setValLessons(valLessons);
+
+                setLesson({id:id, ...input});
+
+                setInput(() => ({ lesson: '', link: '' }));
+
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -41,7 +51,7 @@ const AddLesson=()=>{
                 })
             })
             .catch(error => {
-                lessonAlert.current.innerHTML = '';
+                notify.current.innerHTML = '';
 
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
@@ -50,18 +60,18 @@ const AddLesson=()=>{
                         case 'lesson':
                             divError = lessonError.current;
                             break;
-                        case 'lessonLink':
-                            divError = lessonLinkError.current;
+                        case 'link':
+                            divError = linkError.current;
                             break;
-                        default: divError = lessonAlert.current;
+                        default: divError = notify.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    lessonAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
@@ -79,14 +89,14 @@ const AddLesson=()=>{
     return (
         <section className="SAED_content">
 
-                    <form className='AE_Form' ref={lessonForm} method="post" onSubmit={handleAddLesson} onFocus={deleteAlertLesson}>
-                        <div className="formAlert" ref={lessonAlert}></div>
+                    <form className='AE_Form' ref={form} method="post" onSubmit={handleAddLesson} onFocus={deleteAlert}>
+                        <div className="formAlert" ref={notify}></div>
 
                         <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام فصل' autoComplete="off" />
                         <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" id="lessonLink" onChange={e => handleSaveValInput(e, 'lessonLink')} placeholder='لینک فصل' autoComplete="off" />
-                        <div className="formError" ref={lessonLinkError} ></div>
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک فصل' autoComplete="off" />
+                        <div className="formError" ref={linkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
                     </form>

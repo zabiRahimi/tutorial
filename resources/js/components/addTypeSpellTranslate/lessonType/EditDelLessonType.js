@@ -102,6 +102,8 @@ const EditDelLessonType=()=>{
 
                 setIndex(prev => ({ ...prev, lesson: input.lesson }));
 
+                setLesson(prev => ({...prev, ...input}));
+
                  // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                  let newLessons = valLessons.map((valLesson) => {
                     if (valLesson.id == lesson.id) return Object.assign({}, valLesson, { ...input});

@@ -96,6 +96,8 @@ const EditDelWordType = () => {
 
                 setIndex(prev => ({ ...prev, word: input.word}));
 
+                setWord(prev => ({...prev, ...input}));
+
                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                 let newWords = valWords.map((valWord) => {
                     if (valWord.id == word.id) return Object.assign({}, valWord, { ...input});

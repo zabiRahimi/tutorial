@@ -99,6 +99,9 @@ const EditDelBookType=()=>{
                 deleteAlert();
                 setIndex(prev => ({ ...prev, book: input.book }));
 
+                setBook(prev => ({...prev, ...input}));
+
+
                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                 let newBooks = valBooks.map((valBook) => {
                     if (valBook.id == book.id) return Object.assign({}, valBook, { ...input});

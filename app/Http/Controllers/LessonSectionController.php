@@ -10,6 +10,14 @@ use App\Models\LessonSection;
 
 class LessonSectionController extends Controller
 {
+
+    public function getAllLessonSections($lesson_id)
+    {
+        $lessonSections=LessonSection::where('lesson_id' , $lesson_id)->get();
+
+        return response()->json(['lessonSections'=>$lessonSections],200);
+    }
+
     public function saveLessonSection(Request $request)
     {
         $this->lessonSecValidator($request->all())->validate();
@@ -34,14 +42,6 @@ class LessonSectionController extends Controller
             }) ],
             'des'=>['required', 'string', 'min:12'],
         ]);
-    }
-
-    public function getLessonSections(Request $request,  $lesson_id)
-    {
-        $lessonSections=LessonSection::where('lesson_id' , $lesson_id)->get();
-        $lessonSecCount=$lessonSections->count();
-        return response()->json(['lessonSections'=>$lessonSections,'lessonSecCount'=>$lessonSecCount],200);
-
     }
 
     public function editLessonSection(Request $request, int $lessonSec_id)

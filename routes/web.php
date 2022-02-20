@@ -26,12 +26,14 @@ Route::delete('/deleteBook/{book_id}', [App\Http\Controllers\BookController::cla
 
 
 Route::post('/saveLesson', [App\Http\Controllers\LessonController::class, 'saveLesson']);
-Route::get('/getLessons/{book_id}', [App\Http\Controllers\LessonController::class, 'getLessons']);
+Route::get('/getAllLessons/{book_id}', [App\Http\Controllers\LessonController::class, 'getAllLessons']);
+Route::get('/getOneLesson/{lesson_id}', [App\Http\Controllers\LessonController::class, 'getOneLesson']);
 Route::put('/editLesson/{lesson_id}', [App\Http\Controllers\LessonController::class, 'editLesson']);
 Route::delete('/deleteLesson/{lesson_id}', [App\Http\Controllers\LessonController::class, 'deleteLesson']);
 
 Route::post('/saveLessonSection', [App\Http\Controllers\LessonSectionController::class, 'saveLessonSection']);
-Route::get('/getLessonSections/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getLessonSections']);
+Route::get('/getAllLessonSections/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getAllLessonSections']);
+Route::get('/getOneLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'getOneLessonSection']);
 Route::put('/editLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'editLessonSection']);
 Route::delete('/deleteLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'deleteLessonSection']);
 

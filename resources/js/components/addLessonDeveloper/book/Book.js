@@ -13,6 +13,7 @@ const Book = () => {
     const [valBooks, setValBooks] = useState([]);
 
     const [book, setBook] = useState({
+        id:'',
         book: '',
         link: ''
     })

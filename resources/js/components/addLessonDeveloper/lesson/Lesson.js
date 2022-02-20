@@ -6,24 +6,29 @@ import Swal from 'sweetalert2';
 const Lesson = () => {
     const navigate = useNavigate();
 
-    const { element, setElement, refresh } = useOutletContext();
+    const { index, setIndex, refresh } = useOutletContext();
 
     const [check, setCheck] = useState('');
 
     const [valLessons, setValLessons] = useState([]);
 
+    const [lesson, setLesson] = useState({
+        lesson:'',
+        link:''
+    });
+
     async function getLessons(book_id) {
-        await axios.get(`/getLessons/${book_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+        await axios.get(`/getAllLessons/${book_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                response.data.lessonCount != 0 ?
+                response.data.lessons.length != 0 ?
                     (
                         setValLessons(response.data.lessons),
-                        setElement(prev => ({ ...prev, 'lessonCount': response.data.lessonCount, 'lessonSecCount': response.data.lessonSecCount })),
+                        // setElement(prev => ({ ...prev, 'lessonCount': response.data.lessonCount, 'lessonSecCount': response.data.lessonSecCount })),
                         setCheck(1)
                     )
                     :
                     (
-                        setElement(prev => ({ ...prev, 'lessonCount': 0, 'lessonSectionCount': 0 })),
+                        // setElement(prev => ({ ...prev, 'lessonCount': 0, 'lessonSectionCount': 0 })),
                         setCheck(2)
                     );
             })
@@ -45,13 +50,13 @@ const Lesson = () => {
     }
 
     useEffect(() => {
-        !element.book_id ? '' : getLessons(element.book_id);
+        !index.book_id ? '' : getLessons(index.book_id);
         checkHaslesson();
         deleteAllId();
-    }, [element.book_id, check, refresh]);
+    }, [index.book_id, check, refresh]);
 
     const checkHaslesson = () => {
-        if (!element.book_id) {
+        if (!index.book_id) {
             alertSelectbook()
         } else {
 
@@ -73,7 +78,7 @@ const Lesson = () => {
      * در نبود این متد برنامه دچار مشکل می‌شود
      */
      const deleteAllId=()=>{
-        setElement(prev => ({...prev , lesson_id:'',lessonSec_id:'',lesson_section:'',des:''}))
+        setIndex(prev => ({...prev , lesson_id:'', lessonSec_id:'', lesson:'', lesson_section:'' }));
     }
 
     return (
@@ -84,7 +89,7 @@ const Lesson = () => {
                 <>
                     <section className="showNameBook">
                         <div className="line"></div>
-                        <div className="nameBook">{element.book}</div>
+                        <div className="nameBook">{index.book}</div>
                     </section> 
 
                     <nav className="navAED">
@@ -97,7 +102,7 @@ const Lesson = () => {
                             isActive ? 'SAED_active' : 'SAED_passive'}
                             >ویرایش و حذف فصل</NavLink>
                     </nav>
-                    <Outlet context={{ valLessons,setValLessons, element, setElement }} />
+                    <Outlet context={{index, setIndex, valLessons, setValLessons, lesson, setLesson}} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">

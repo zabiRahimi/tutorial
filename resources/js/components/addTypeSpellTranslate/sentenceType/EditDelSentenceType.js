@@ -73,6 +73,8 @@ const EditDelSentenceType=()=>{
             .then(() => {
                 deleteAlert();
 
+                setSentence(prev => ({...prev, ...input}));
+
                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                 let newSentences = valSentences.map((valSentence) => {
                     if (valSentence.id == sentence.id) return Object.assign({}, valSentence, { ...input});

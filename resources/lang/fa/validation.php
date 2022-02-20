@@ -228,7 +228,8 @@ return [
       'word'=>'کلمه',
       'wordLink'=>'لینک کلمه',
       'sentence'=>'جمله',
-      'sentenceLink'=>'لینک جمله'
+      'sentenceLink'=>'لینک جمله',
+      'des'=>'متن'
     ],
 
 ];

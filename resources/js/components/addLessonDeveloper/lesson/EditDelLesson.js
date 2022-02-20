@@ -7,17 +7,16 @@ const EditDelLesson=()=>{
     useChengeDocumentTitle('edit or delete lesson');
     const navigate = useNavigate();
 
-    const { element, setElement,valLessons, setValLessons } = useOutletContext();
+    const { index, setIndex, valLessons, setValLessons, lesson, setLesson } = useOutletContext();
 
-    const lessonForm = useRef(null),
-    lessonAlert = useRef(null),
+    const form = useRef(null),
+    notify = useRef(null),
     lessonError = useRef(null),
-    lessonLinkError = useRef(null);
+    linkError = useRef(null);
 
     const [input , setInput]=useState({
-        lesson_id:element.lesson_id,
-        lesson:element.lesson,
-        lessonLink:element.lessonLink
+        lesson:lesson.lesson,
+        link:lesson.link
     });
 
     const [secCount , setSecCount]=useState(0);
@@ -25,10 +24,10 @@ const EditDelLesson=()=>{
     /**
      * دریافت تعداد بخشهای فصل کتاب
      * مورد استفاده هنگام حذف فصل برای هشدار به کاربر
-     * @param {*} lesson_id 
+     * @param {*} id 
      */
-    async function getLessonSections(lesson_id){
-        await axios.get(`/getLessonSections/${lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+    async function getOneLesson(id){
+        await axios.get(`/getOneLesson/${id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
         .then(response => {
             
             setSecCount( response.data.lessonSecCount)
@@ -40,11 +39,9 @@ const EditDelLesson=()=>{
     }
 
     useEffect(() => {
-        const fetchData=async ()=>{
-           await checkHasLessonId();
-           await getLessonSections(input.lesson_id);
-        }
-        fetchData();
+        
+            checkHasLessonId();
+            getOneLesson(lesson.id);
     }, []);
 
      /**
@@ -52,7 +49,7 @@ const EditDelLesson=()=>{
      *  برای ویرایش و حذف انتخاب کرده باشد
      */
       const checkHasLessonId = () => {
-        if (input.lesson_id) { } else {
+        if (lesson.id) { } else {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
@@ -69,10 +66,10 @@ const EditDelLesson=()=>{
         }
     }
 
-    const deleteAlertLesson = () => {
+    const deleteAlert = () => {
         lessonError.current.innerHTML = '';
-        lessonLinkError.current.innerHTML = '';
-        lessonAlert.current.innerHTML = '';
+        linkError.current.innerHTML = '';
+        notify.current.innerHTML = '';
     }
 
      /**
@@ -87,22 +84,28 @@ const EditDelLesson=()=>{
 
     const handleEditLesson = (e) => {
         e.preventDefault();
-        axios.put(`/editLesson/${input.lesson_id}`, {'book_id':element.book_id, 'lesson': input.lesson, 'lessonLink': input.lessonLink }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
-            .then(response => {
-                deleteAlertLesson();
+        axios.put(`/editLesson/${lesson.id}`, {'book_id':index.book_id, ...input}, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+            .then(() => {
 
-                setElement(prev => ({ ...prev, lesson: input.lesson ,lessonLink:input.lessonLink }));
+                deleteAlert();
+
+                setIndex(prev => ({ ...prev, lesson: input.lesson  }));
+
+                setLesson(prev => ({...prev, ...input}));
+
                  // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                  let newLessons = valLessons.map((valLesson) => {
-                    if (valLesson.id == input.lesson_id) return Object.assign({}, valLesson, { lesson: input.lesson, 'lessonLink': input.lessonLink });
+                    if (valLesson.id == lesson.id) return Object.assign({}, valLesson, {...input});
                     return valLesson;
                 });
+
                 setValLessons(newLessons);
-                lessonAlert.current.innerHTML = `<div class='success'>فصل کتاب با موفقیت ویرایش شد.</div>`
-                lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+
+                notify.current.innerHTML = `<div class='success'>فصل کتاب با موفقیت ویرایش شد.</div>`
+                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
             .catch(error => {
-                lessonAlert.current.innerHTML = '';
+                notify.current.innerHTML = '';
 
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
@@ -111,18 +114,18 @@ const EditDelLesson=()=>{
                         case 'lesson':
                             divError = lessonError.current;
                             break;
-                        case 'lessonLink':
-                            divError = lessonLinkError.current;
+                        case 'link':
+                            divError = linkError.current;
                             break;
-                        default: divError = lessonAlert.current;
+                        default: divError = notify.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    lessonAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    lessonAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
@@ -138,11 +141,18 @@ const EditDelLesson=()=>{
             confirmButtonColor: '#ffd600',
             preConfirm: () => {
                 return axios.delete(`/deleteLesson/${lessonId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
-                    .then(response => {
-                        const index = valLessons.findIndex(({ id }) => id === lessonId)
-                        valLessons.splice(index, 1)
-                        setValLessons(valLessons)
-                        setElement(prev => ({ ...prev, lesson_id: '', lesson: '', lessonLink: '' }));
+                    .then(() => {
+
+                        const index = valLessons.findIndex(({ id }) => id === lessonId);
+
+                        valLessons.splice(index, 1);
+
+                        setValLessons(valLessons);
+
+                        setIndex(prev => ({ ...prev, lesson_id: '', lesson: '' }));
+
+                        setLesson({id:'', lesson:'', link:''});
+
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -170,17 +180,17 @@ const EditDelLesson=()=>{
 
     return (
         <section className="SAED_content">
-            <form className='AE_Form' ref={lessonForm} method="post" onSubmit={handleEditLesson} onFocus={deleteAlertLesson}>
-                        <div className="formAlert" ref={lessonAlert}></div>
+            <form className='AE_Form' ref={form} method="post" onSubmit={handleEditLesson} onFocus={deleteAlert}>
+                        <div className="formAlert" ref={notify}></div>
 
                         <input type="text" dir="auto" value={input.lesson} className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام فصل' autoComplete="off" />
                         <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" value={input.lessonLink} className="form-control input_text" id="lessonLink" onChange={e => handleSaveValInput(e, 'lessonLink')} placeholder='لینک فصل' autoComplete="off" />
-                        <div className="formError" ref={lessonLinkError} ></div>
+                        <input type="text" dir="auto" value={input.link} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک فصل' autoComplete="off" />
+                        <div className="formError" ref={linkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
-                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(input.lesson_id)} value='حذف فصل کتاب' />
+                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(lesson.id)} value='حذف فصل کتاب' />
                     </form>
         </section>
     )

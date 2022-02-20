@@ -1,36 +1,45 @@
 import {  useRef,useState } from "react";
 import EditorALD from "../../tinymce/EditorAddLessonDev";
-// import EditorALD from "../tinymce/EditorAddLessonDev";
 import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 
 
 const AddLessonSec = () => {
-    const {valLessonSecs,setValLessonSecs,element , setElement}=useOutletContext();
+    const {index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec}=useOutletContext();
 
     const tinyFun = useRef(),// tiny فراخوانی متد از کاپوننت 
-        lessonSecForm = useRef(null),
-        lessonSecAlert = useRef(null),
+        form = useRef(null),
+        notify = useRef(null),
         lessonSecError = useRef(null),
         desError = useRef(null);
 
         const [input , setInput]=useState({
-            lesson_id:element.lesson_id,
             lesson_section:'',
             des:''
         })
         
     const handleAddLessonSection = (e) => {
         e.preventDefault();
-        axios.post('/saveLessonSection', { 'lesson_id': element.lesson_id, 'lesson_section': input.lesson_section, 'des': input.des }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.post('/saveLessonSection', { 'lesson_id': index.lesson_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                lessonSecForm.current.reset();
+
+                const id=response.data.lessonSec_id;
+
+                form.current.reset();
+
                 tinyFun.current.setContentTiny();//خالی کردن ادیتور
-                setElement(prev => ({ ...prev, lessonSec_id: response.data.lessonSec_id, lesson_section: input.lesson_section ,des:input.des }));
-                 setInput(() => ({ lesson_section: '', des: '' }));
+
+                setIndex(per=>({...per, lessonSec_id:id}));
+
                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                valLessonSecs.push({id:response.data.lessonSec_id, lesson_section: input.lesson_section ,des:input.des})
-                setValLessonSecs(valLessonSecs)
+                valLessonSecs.push({id, ...input});
+
+                setValLessonSecs(valLessonSecs);
+
+                setLessonSec({id, ...input});
+
+                setInput(() => ({ lesson_section: '', des: '' }));
+
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -41,7 +50,8 @@ const AddLessonSec = () => {
 
             })
             .catch(error => {
-                lessonSecAlert.current.innerHTML = '';
+                console.log(error);
+                notify.current.innerHTML = '';
 
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
@@ -53,21 +63,21 @@ const AddLessonSec = () => {
                         case 'des':
                             divError = desError.current;
                             break;
-                        default: divError = lessonSecAlert.current;
+                        default: divError = notify.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    lessonSecAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    lessonSecAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
-    const deleteAlertLessonSec = () => {
-        lessonSecAlert.current.innerHTML = '';
+    const deleteAlert = () => {
+        notify.current.innerHTML = '';
         lessonSecError.current.innerHTML = '';
         desError.current.innerHTML = '';
     }
@@ -87,9 +97,9 @@ const AddLessonSec = () => {
         <section className="SAED_content">
             
 
-            <form className='AET_form' ref={lessonSecForm} method="post" onSubmit={handleAddLessonSection} onFocus={deleteAlertLessonSec}>
+            <form className='AET_form' ref={form} method="post" onSubmit={handleAddLessonSection} onFocus={deleteAlert}>
 
-                <div className="formAlert" ref={lessonSecAlert}></div>
+                <div className="formAlert" ref={notify}></div>
 
                 <input type="text" dir="auto" className="form-control input_text" id="lesson_section" onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
 

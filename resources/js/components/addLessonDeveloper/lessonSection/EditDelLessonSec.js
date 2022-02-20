@@ -6,17 +6,17 @@ import Swal from "sweetalert2";
 const EditDelLessonSec = () => {
     
 const navigate = useNavigate();
-    const {valLessonSecs,setValLessonSecs,element , setElement}=useOutletContext();
+    const {index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec}=useOutletContext();
 
     const tinyFun = useRef(),// tiny فراخوانی متد از کاپوننت 
-        lessonSecForm = useRef(null),
-        lessonSecAlert = useRef(null),
+        form = useRef(null),
+        notify = useRef(null),
         lessonSecError = useRef(null),
         desError = useRef(null);
 
         const [input , setInput]=useState({
-            lesson_section:element.lesson_section,
-            des:element.des
+            lesson_section:lessonSec.lesson_section,
+            des:lessonSec.des
         })
 
         useEffect(() => {
@@ -28,14 +28,14 @@ const navigate = useNavigate();
      *  برای ویرایش و حذف انتخاب کرده باشد
      */
       const checkHasLessonSecId = () => {
-        if (element.lessonSec_id) { } else {
+        if (lessonSec.id) { } else {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
                 title: 'هیچ بخشی انتخاب و یا ایجاد نشده است',
                 showConfirmButton: false,
                 timer: 3000,
-            }).then((result) => {
+            }).then(() => {
                 valLessonSecs.length == 0 ?
                     //چنانچه هیچ فصلی از قبل ایجاد نشده باشد کاربر به این مسیر هدایت می‌شود
                     navigate(`/addLessonDeveloper/lessonSec/add`) :
@@ -47,24 +47,27 @@ const navigate = useNavigate();
         
     const handleEditLessonSection = (e) => {
         e.preventDefault();
-        axios.put(`/editLessonSection/${element.lessonSec_id}`, { 'lesson_id': element.lesson_id, 'lesson_section': input.lesson_section, 'des': input.des }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
+        axios.put(`/editLessonSection/${lessonSec.id}`, { 'lesson_id': index.lesson_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                // lessonSecForm.current.reset();
+                // form.current.reset();
                 // tinyFun.current.setContentTiny();//خالی کردن ادیتور
-                deleteAlertLessonSec();
-                // setElement(prev => ({ ...prev, lessonSec_id: response.data.lessonSec_id, lesson_section: input.lesson_section ,des:input.des }));
+                deleteAlert();
+                // setElement(prev => ({ ...prev, id: response.data.id, lesson_section: input.lesson_section ,des:input.des }));
                  // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                  let newLessonSecs = valLessonSecs.map((valLessonSec) => {
-                    if (valLessonSec.id == input.lesson_id) return Object.assign({}, valLessonSec, { lesson_section: input.lesson_section, 'des': input.des });
+                    if (valLessonSec.id == lessonSec.id) return Object.assign({}, valLessonSec, { ...input });
                     return valLessonSec;
                 });
                 setValLessonSecs(newLessonSecs);
-                lessonSecAlert.current.innerHTML = `<div class='success'>بخش با موفقیت ویرایش شد.</div>`
-                lessonSecAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+
+                setLessonSec(per => ({...per, ...input}));
+
+                notify.current.innerHTML = `<div class='success'>بخش با موفقیت ویرایش شد.</div>`
+                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
 
             })
             .catch(error => {
-                lessonSecAlert.current.innerHTML = '';
+                notify.current.innerHTML = '';
 
                 if (error.response.status == 422) {
                     const elementError = Object.keys(error.response.data.errors)[0];
@@ -76,21 +79,21 @@ const navigate = useNavigate();
                         case 'des':
                             divError = desError.current;
                             break;
-                        default: divError = lessonSecAlert.current;
+                        default: divError = notify.current;
                     }
                     divError.innerHTML = `<div class="error">${error.response.data.errors[elementError][0]}</div>`
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
                     const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    lessonSecAlert.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    lessonSecAlert.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
+                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
             })
     }
 
-    const deleteAlertLessonSec = () => {
-        lessonSecAlert.current.innerHTML = '';
+    const deleteAlert = () => {
+        notify.current.innerHTML = '';
         lessonSecError.current.innerHTML = '';
         desError.current.innerHTML = '';
     }
@@ -115,18 +118,22 @@ const navigate = useNavigate();
             confirmButtonColor: '#ffd600',
             preConfirm: () => {
                 return axios.delete(`/deleteLessonSection/${lessonSecId}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
-                    .then(response => {
-                        const index = valLessonSecs.findIndex(({ id }) => id === lessonSecId)
-                        valLessonSecs.splice(index, 1)
-                        setValLessonSecs(valLessonSecs)
-                        setElement(prev => ({ ...prev, lessonSec_id: '', lesson_section: '', des: '' }));
+                    .then(() => {
+
+                        const index = valLessonSecs.findIndex(({ id }) => id === lessonSecId);
+
+                        valLessonSecs.splice(index, 1);
+
+                        setValLessonSecs(valLessonSecs);
+
+                        setLessonSec( {id: '', lesson_section: '', des: ''} );
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
                             title: 'بخش با موفقیت حذف شد',
                             showConfirmButton: false,
                             timer: 4000
-                        }).then((result) => {
+                        }).then(() => {
                             valLessonSecs.length == 0 ? navigate(`/addLessonDeveloper/lessonSec/add`) :
                                 navigate(`/addLessonDeveloper/lessonSec/select`);
                         })
@@ -149,11 +156,11 @@ const navigate = useNavigate();
         <section className="SAED_content">
             
 
-            <form className='AET_form' ref={lessonSecForm} method="post" onSubmit={handleEditLessonSection} onFocus={deleteAlertLessonSec}>
+            <form className='AET_form' ref={form} method="post" onSubmit={handleEditLessonSection} onFocus={deleteAlert}>
 
-                <div className="formAlert" ref={lessonSecAlert}></div>
+                <div className="formAlert" ref={notify}></div>
 
-                <input type="text" dir="auto" value={input.lesson_section} className="form-control input_text" id="lesson_section" onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
+                <input type="text" dir="auto" value={input.lesson_section} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
 
                 <div className="formError" ref={lessonSecError}></div>
 
@@ -166,7 +173,7 @@ const navigate = useNavigate();
                 <div className="formError" ref={desError}></div>
 
                 <input type="submit" className='btn btn-success btn_form' value='ویرایش' />
-                <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLessonSec(element.lessonSec_id)} value='حذف بخش' />
+                <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLessonSec(lessonSec.id)} value='حذف بخش' />
 
             </form>
 

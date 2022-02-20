@@ -24,7 +24,7 @@ const AddLessonDeveloper = () => {
         lesson: '',
         lesson_id: '',
 
-        lesson_section: '',
+        // lesson_section: '',
         lessonSec_id:''
 
     });

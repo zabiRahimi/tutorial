@@ -7,11 +7,10 @@ const SelectLesson = () => {
     useChengeDocumentTitle('select lesson');
     const navigate = useNavigate();
 
-    const { valLessons, setElement } = useOutletContext();
+    const {setIndex, valLessons, setLesson } = useOutletContext();
 
     useEffect(() => {
         checkHasLesson()
-
     }, []);
 
     /**
@@ -36,16 +35,17 @@ const SelectLesson = () => {
       * انتخاب فصل کتاب و ذخیره اطلاعات فصل
       * index ذخیره اطلاعات در فایل
       * @param {*} id 
-      * @param {*} book 
-      * @param {*} bookLink 
+      * @param {*} lesson 
+      * @param {*} link 
       */
-    const handleSelectLesson = (id, lesson, lessonLink) => {
-        setElement(prev => ({ ...prev, lesson_id: id, lesson: lesson, lessonLink: lessonLink }));
+    const handleSelectLesson = (id, lesson, link) => {
+        setIndex(prev => ({ ...prev, lesson_id: id, lesson: lesson }));
+        setLesson({id, lesson, link });
     }
 
     const setLessons = () => {
         let val = valLessons.map((lessons, i) => {
-            return <li key={i} onClick={() => handleSelectLesson(lessons.id, lessons.lesson, lessons.lessonLink)}>{lessons.lesson}</li>
+            return <li key={i} onClick={() => handleSelectLesson(lessons.id, lessons.lesson, lessons.link)}>{lessons.lesson}</li>
         })
         return val;
     }

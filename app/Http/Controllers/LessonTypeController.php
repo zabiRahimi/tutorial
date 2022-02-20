@@ -14,7 +14,9 @@ class LessonTypeController extends Controller
     public function getAllLessonTypes( int $book_id)
     {
         $lessons=LessonType::where('book_type_id' , $book_id)->with('words')->get();
+
         $lessonCount=$lessons->count();
+        
         return response()->json(['lessons'=>$lessons,'lessonCount'=>$lessonCount],200);
     }
 
