@@ -60,14 +60,15 @@ const EditorALD = forwardRef((props, ref) => {
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table paste code help wordcount',
-            'element '
+            'element codesample'
 
           ],
           toolbar: ['undo redo | formatselect | ' +
             'bold italic backcolor forecolor  | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | language ' +
             'removeformat | help ' +
-            'enInFa code'],
+            'enInFa code codesample'],
+            codesample_content_css: "localhost:://tutorial/css/prism.css",
           content_style: '.enInPFa{width: max-content;max-width: 100%;height: 24px;padding: 0 10px;margin: 1px 3px 0;direction: ltr ;background-color:#FAF8F8;border-radius: 5px; display:inline-block;}'+".code{margin: 0;padding: 0;background-color: #FAF8F8 ;color: #4371A9 ;display: flex;direction: ltr;font-size: 16px;font-family: 'b yekan';}"
         }}
       />

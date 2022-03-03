@@ -1,6 +1,6 @@
 
 
-import { Link, useNavigate,useLocation,useParams } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import useCheckSpelling from "../hooks/useCheckSpelling.js";
 import useType from '../hooks/useType.js';
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
@@ -84,53 +84,73 @@ import { useEffect, useState } from "react";
 //         '/ˈkwɑː.lə.faɪ/',//en
 //         'کوالی فای',//Pr
 //     ],
-    
+
 // ];
 
 const ViewTypeSpellT = () => {
-    const[words,setWords]=useState('');
-   const { state } = useLocation();
+
+    const { state } = useLocation();
+
+    const [words, setWords] = useState('');
+
+    const [hasWord, setHasWord] = useState(false);
 
     // const title='504_1';
     // const {bodySpellType}=useBodySpellType(words , title );
     async function getWords() {
-        await axios.get(`/getWords/${state.lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
-          .then(response => {
-            // console.log(response.data.words);
-            setWords(response.data.words);
-          })
-          .catch(error => {
-            alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
-          })
-      }
-    useEffect(()=>{
+        await axios.get(`/getAllWordTypes/${state.lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+            .then(response => {
+                if (response.data.words.length != 0) {
+                    setWords(response.data.words);
+                    setHasWord('hasWord');
+                } else {
+                    setHasWord('notWord');
+                }
+            })
+            .catch(error => {
+                alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
+            })
+    }
+    useEffect(() => {
         getWords();
-        
-    },[])
-   
-    
+
+    }, [])
+
+
     return (
         <div>
 
             <div className="TSTheader fontEn">type and spell {state.lesson}</div>
-                <div className="menuPage">
-                    <Link className='fontEn' to="/">home</Link>
-                    <Link className='fontEn' to='/typeSpellTranslate'>goBack</Link>
-                </div>
+            <div className="menuPage">
+                <Link className='fontEn' to="/">home</Link>
+                <Link className='fontEn' to='/typeSpellTranslate'>goBack</Link>
+            </div>
             {/* {bodySpellType} */}
-           
-            <Type
-            words={words}
-            
-            />
-            <Spell
-            words={words}
-            bookLink={state.bookLink}
-            lessonLink={state.lessonLink}
-            lesson_id={state.lesson_id}
-            lesson={state.lesson}
+            {!hasWord ?
+                <div className="d-flex justify-content-center select_spinner">
+                    <div className="spinner-border " role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                :
+                hasWord == 'hasWord' ?
+                    <>
+                        <Type
+                            words={words}
 
-             />
+                        />
+                        <Spell
+                            words={words}
+                            bookLink={state.bookLink}
+                            link={state.link}
+                            lesson_id={state.lesson_id}
+                            lesson={state.lesson}
+                        />
+                    </>
+
+                    :
+                    <div className="alert alert-danger notBookAlert">تا کنون هیچ کلمه‌ای برای این بخش ایجاد نشده است.</div>
+            }
         </div>
     );
 }

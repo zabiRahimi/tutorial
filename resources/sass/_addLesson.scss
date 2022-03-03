@@ -138,8 +138,6 @@ $bgBox          :azure;
         display        : flex;
         justify-content: center;
 
-        .addLessonForm {}
-
     }
 }
 
@@ -564,6 +562,7 @@ $bgBox          :azure;
     margin-bottom   : 3px;
     padding         : 4px 2px;
     background-color: #fff;
+    direction: rtl;
 }
 
 .success {

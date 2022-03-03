@@ -15,9 +15,11 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('css/prism.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
@@ -26,6 +28,8 @@
         @yield('content')
 
     </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/prism.js') }}" data-manual></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- <script src="//s3-us-west-1.amazonaws.com/xinha/xinha-latest/XinhaEasy.js" type="text/javascript">
         xinha_options = {

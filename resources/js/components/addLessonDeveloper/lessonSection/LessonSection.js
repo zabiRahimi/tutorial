@@ -1,9 +1,15 @@
 import axios from "axios";
 import {  useEffect, useState } from "react";
-import { NavLink,useOutletContext,Outlet ,useNavigate } from "react-router-dom";
+import { NavLink,useOutletContext,Outlet ,useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 const LessonSection = () => {
+    /**
+     * نکته بسیار مهم
+     * استیت زمانی وجود خواهد داشت که کاربر هنگام مشاهده درس 
+     * بر روی دکمه ایجاد بخش جدید کلیک کند
+     */
+    const { state } = useLocation();
 
     const navigate = useNavigate();
 
@@ -60,18 +66,23 @@ const LessonSection = () => {
     }
 
     useEffect(() => {
+        state?setIndex(perv => ({...perv, ...state})):'';
+
         !index.lesson_id ? '' : getLessonSecs(index.lesson_id);
+
         checkHaslesson();
     }, [index.lesson_id, check,refresh]);
 
     const checkHaslesson = () => {
-        if (!index.book_id) {
-            alertSelectbook()
-        }else if(!index.lesson_id){
-            alertSelectLesson()
+       
+       if(!state && !index.lesson_id){
+            
+            index.book_id? alertSelectLesson() : alertSelectbook();
+            
         } else {
             navigate("add");
         }
+    
     }
 
     return (

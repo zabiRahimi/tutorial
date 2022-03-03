@@ -1,55 +1,87 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 
-// import "../css/TypeSpellTranslate.css";
-
-//create lesson group snippet -> addGroupLesson
 const ViewBooks = () => {
+
   useChengeDocumentTitle('type spell translate');
-  const url = 'typeSpellTranslate';
+
   const [valBooks, setValBooks] = useState();
+
+  const [hasBook, setHasBook] = useState(false);
+
   /**
    * دریافت کتابها از دیتابیس
    */
   async function getBooks() {
-    await axios.get('/getBookTypes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+
+    await axios.get('/getAllBookTypes', { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+
       .then(response => {
-        setValBooks(response.data.books);
+
+        if (response.data.books.length) {
+
+          setValBooks(response.data.books);
+          setHasBook('hasBook');
+
+        } else {
+          setHasBook('notBook');
+        }
+
       })
-      .catch(error => {
-        alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
-      })
+      .catch(() => {
+
+        alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.');
+
+      });
   }
 
   useEffect(() => {
+
     getBooks();
+
   }, []);
 
   /**
    * آماده سازی استایل کتابها برای درج در صفحه
    */
   const setBooks = () => {
+
     let val = valBooks.map((books, i) => {
+
       return <div className="divLessons" key={i}>
+
         <div className="title">
+
           <h4 className="titleH4 fontEn">
+
             {books.book}
+
           </h4>
+
         </div>
+
         <div className="body">
-          {books.lesson_types ? showLink(books.bookLink, books.lesson_types) : ''}
+
+          {/* {books.lesson_types ? showLink(books.bookLink, books.lesson_types) : ''} */}
+          {
+            books.lesson_types.length != 0 ?
+              showLink(books.id, books.book, books.link, books.lesson_types)
+              :
+              <div className="alert alert-danger notBookAlert">تا کنون هیچ فصلی برای این کتاب ایجاد نشده است.</div>
+          }
+
         </div>
+
       </div>
     })
     return val;
   }
 
-  const showLink = (bookLink, lessons) => {
+  const showLink = (book_id, book, bookLink, lessons) => {
     let val = lessons.map((lesson, k) => {
-      return <Link to={`/typeSpellTranslate/${bookLink}/${lesson.lessonLink}`}
-        state={{'bookLink': bookLink , 'lessonLink': lesson.lessonLink , 'lesson_id': lesson.id, 'lesson': lesson.lesson }} className="pageA fontEn" key={k}>{lesson.lesson}</Link>
+      return <Link to={`/typeSpellTranslate/${bookLink}/${lesson.link}`}
+        state={{ 'bookLink': bookLink, 'link': lesson.link, 'lesson_id': lesson.id, 'lesson': lesson.lesson }} className="pageA fontEn" key={k}>{lesson.lesson}</Link>
     })
     return val;
   }
@@ -63,7 +95,19 @@ const ViewBooks = () => {
         <Link to="/">راهنمای اضافه کردن درس</Link>
         <Link to="/addTypeSpellTranslate/bookType">ایجاد و ویرایش درس </Link>
       </div>
-      {!valBooks ? 'loging' : setBooks()}
+      {
+        !hasBook ?
+          <div className="d-flex justify-content-center select_spinner">
+            <div className="spinner-border " role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          : hasBook == 'hasBook' ?
+            setBooks()
+            :
+            <div className="alert alert-danger notBookAlert">تا کنون هیچ درسی ایجاد نشده است. برای ایجاد درس وارد صفحه ایجاد و ویرایش درس شوید.</div>
+      }
+
 
       {/* <div className="divLessons">
         <div className="title">

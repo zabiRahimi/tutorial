@@ -167,4 +167,16 @@
         background-color: #bbc5c7;
         color: #525252;
       }
+
+      // هنگام نمایش صفحه دروس توسعه دهنده و یا دروس تایپ و املا 
+      // چنانچه درسی و یا کتابی وجود نداشته باشد اخطاری به استایل زیر
+      // ارسال می شود.
+      .notBookAlert{
+        width: 100%;
+        height: 40px;
+        direction: rtl;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
   

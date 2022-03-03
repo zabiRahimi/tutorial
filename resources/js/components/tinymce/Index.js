@@ -3,6 +3,7 @@
  */
 
 import { Editor } from '@tinymce/tinymce-react';
+// import Prism from "prismjs";
 
 // TinyMCE so the global var exists
 // eslint-disable-next-line no-unused-vars
@@ -35,6 +36,7 @@ import 'tinymce/plugins/table';
 import 'tinymce/plugins/template';
 import 'tinymce/plugins/help';
 import 'tinymce/plugins/spellchecker';
+import 'tinymce/plugins/codesample';
 
 // Content styles, including inline UI like fake cursors
 /* eslint import/no-webpack-loader-syntax: off */
@@ -187,14 +189,17 @@ export default function Index(props) {
           'advlist autolink lists link image charmap print preview anchor',
           'searchreplace visualblocks code fullscreen',
           'insertdatetime media table paste code help wordcount',
-          'example'
+          'example' , 
+          'codesample code'
           
         ],
         toolbar: 'undo redo | formatselect | ' +
         'bold italic backcolor | alignleft aligncenter ' +
         'alignright alignjustify | bullist numlist outdent indent | language ' +
         'removeformat | help '+
-        'example|zabibtn customDateButton customStrikethrough',
+        'example|zabibtn customDateButton customStrikethrough' +
+        'codesample code'
+        ,
         content_langs: [
           { title: 'English', code: 'en' },
           { title: 'Persian', code: 'fa' }

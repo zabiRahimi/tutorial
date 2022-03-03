@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Spell = (props) => {
-    const { words , bookLink , lessonLink,lesson_id,lesson } = props;
-    console.log(`${bookLink} , ' ' , ${lessonLink}`);
+    const { words , bookLink , link,lesson_id,lesson } = props;
     const checkSpelling = (index) => {
         const getElementInput = document.getElementById(`spellInput${index}`);
         const getElementSpan = document.getElementById(`spellSpan${index}`);
@@ -13,7 +12,7 @@ const Spell = (props) => {
 
         getElementSpan.innerHTML = valInput
         if (word.length == valInput.length) {
-            getElementInput.value = '';
+            getElementInput.value = ''; 
             if (word === valInput) {
                 getElementSpan.style.color = 'green';
 
@@ -33,8 +32,8 @@ const Spell = (props) => {
                 </div>
                 <div>{word.pronounceFa}</div>
                 <div className='spellMean'>{word.mean}</div>
-                <div><Link to={`/typeSpellTranslateSentence/${word.wordLink}`}
-        state={{'bookLink':bookLink, 'word_id': word.id, 'word': word.word,'lessonLink': lessonLink, 'lesson_id':lesson_id, 'lesson':lesson  }} className="pageA fontEn" >sentence</Link></div>
+                <div><Link to={`/typeSpellTranslateSentence/${word.link}`}
+        state={{'bookLink':bookLink, 'word_id': word.id, 'word': word.word,'link': link, 'lesson_id':lesson_id, 'lesson':lesson  }} className="pageA fontEn" >sentence</Link></div>
             </div>
         });
         return rowWord;

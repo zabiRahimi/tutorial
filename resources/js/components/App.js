@@ -58,8 +58,12 @@ import EditDelSentenceType from "./addTypeSpellTranslate/sentenceType/EditDelSen
 
 
 
-// for text editor CKEditor
-import Tinymce from "./tinymce/Index"
+// for rich editor tinymce
+import Tinymce from "./tinymce/Index";
+
+// for rich editor tiptap
+import Tiptap from "./tiptap/Tiptap";
+import AddLessonEditor from "./tiptap/AddLessonEditor";
 
 
 import NotFound from './NotFound';
@@ -134,6 +138,10 @@ render(
 
 
       <Route path="tinymce" element={<Tinymce />} />
+
+      <Route path="tiptap" element={<Tiptap />} />
+
+      <Route path="addLessonEditor" element={<AddLessonEditor />} />
 
 
 
