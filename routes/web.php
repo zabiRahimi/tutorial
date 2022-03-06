@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
-
-
 Route::post('/saveBook', [App\Http\Controllers\BookController::class, 'saveBook']);
 Route::get('/getAllBooks', [App\Http\Controllers\BookController::class, 'getAllBooks']);
 Route::get('/getOneBook/{book_id}', [App\Http\Controllers\BookController::class, 'getOneBook']);
@@ -65,6 +60,3 @@ Route::delete('/deleteSentenceType/{sentence_id}', [App\Http\Controllers\Sentenc
 Route::get('/{any?}', function () {
     return view('home'); // or wherever your React app is bootstrapped.
 })->where('any', '.*');
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

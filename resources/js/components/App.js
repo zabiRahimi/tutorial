@@ -1,6 +1,4 @@
 import { render } from "react-dom";
-// import React from 'react';
-// import ReactDOM from 'react-dom';
 import {
   BrowserRouter,
   Routes,
@@ -56,22 +54,13 @@ import SelectSentenceType from "./addTypeSpellTranslate/sentenceType/SelectSente
 import AddSentenceType from "./addTypeSpellTranslate/sentenceType/AddSentenceType";
 import EditDelSentenceType from "./addTypeSpellTranslate/sentenceType/EditDelSentenceType";
 
-
-
 // for rich editor tinymce
 import Tinymce from "./tinymce/Index";
 
 // for rich editor tiptap
 import Tiptap from "./tiptap/Tiptap";
-import AddLessonEditor from "./tiptap/AddLessonEditor";
-
 
 import NotFound from './NotFound';
-
-
-
-
-
 
 const rootElement = document.getElementById("app");
 render(
@@ -127,23 +116,15 @@ render(
           <Route path="add" element={<AddSentenceType />} />
           <Route path="edit" element={<EditDelSentenceType />} />
         </Route>
-
       </Route>
-
 
       <Route path="typeSpellTranslate" element={<ViewTypeBooks />} />
       <Route path='/typeSpellTranslate/:book/:lesson' element={<ViewTypeSpellT />} />
       <Route path='/typeSpellTranslateSentence/:word' element={<ViewSentence />} />
 
-
-
       <Route path="tinymce" element={<Tinymce />} />
 
       <Route path="tiptap" element={<Tiptap />} />
-
-      <Route path="addLessonEditor" element={<AddLessonEditor />} />
-
-
 
       <Route path="*" element={<NotFound />} />
 
@@ -152,33 +133,3 @@ render(
   ,
   rootElement
 );
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/"  element={<Home />} >
-//         {/* <Route path="startLaravel" element={<StartLaravel />} /> */}
-
-//           <Route path="lessonsDeveloper"  element={<LessonsDeveloper />} >
-//             {/* {RouteLessonsDeveloper} */}
-//             <Route path="startLaravel" element={<StartLaravel />} />
-//             {/* <Route path="startLaravel" element={<StartLaravel />} /> */}
-
-//           </Route>
-//         </Route>
-
-//         {/* {RouteLessonsDeveloper} */}
-
-//         <Route path="*" element={<NotFound />} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-
-// export default App;
-
-// if (document.getElementById('app')) {
-//   ReactDOM.render(<App />, document.getElementById('app'));
-// }

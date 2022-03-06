@@ -11,7 +11,6 @@ const Home = () => {
         <Link className="indexA fontEn" to='/typeSpellTranslate'>type and spell and translate</Link>
         <Link className="indexA fontEn" to='/tinymce'>test editor tinymce</Link>
         <Link className="indexA fontEn" to='/tiptap'>test editor tiptap</Link>
-        <Link className="indexA fontEn" to='/addLessonEditor'>test editor tiptap add lesson</Link>
       </div>
       <Outlet />
 
