@@ -1,5 +1,5 @@
 import {  useRef,useState,useEffect } from "react";
-import EditorALD from "../../tinymce/EditorAddLessonDev";
+import EditorALD from "../../tiptap/AddLessonEditor";
 import { useOutletContext,useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -8,7 +8,7 @@ const EditDelLessonSec = () => {
 const navigate = useNavigate();
     const {index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec}=useOutletContext();
 
-    const tinyFun = useRef(),// tiny فراخوانی متد از کاپوننت 
+    const tiptapFun = useRef(),// tiny فراخوانی متد از کاپوننت 
         form = useRef(null),
         notify = useRef(null),
         lessonSecError = useRef(null),
@@ -166,7 +166,7 @@ const navigate = useNavigate();
 
                 <div className="labelTextarea">متن بخش</div>
                 <EditorALD
-                    ref={tinyFun}
+                    ref={tiptapFun}
                     setInput={setInput}
                     input={input}
                 />

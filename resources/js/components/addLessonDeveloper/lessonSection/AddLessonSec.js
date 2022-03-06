@@ -1,5 +1,6 @@
 import {  useRef,useState } from "react";
-import EditorALD from "../../tinymce/EditorAddLessonDev";
+// import EditorALD from "../../tinymce/EditorAddLessonDev";
+import EditorALD from "../../tiptap/AddLessonEditor";
 import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -7,8 +8,9 @@ import Swal from "sweetalert2";
 const AddLessonSec = () => {
     const {index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec}=useOutletContext();
 
-    const tinyFun = useRef(),// tiny فراخوانی متد از کاپوننت 
-        form = useRef(null),
+    const tipTapFun = useRef(),// tiny فراخوانی متد از کاپوننت 
+       
+    form = useRef(null),
         notify = useRef(null),
         lessonSecError = useRef(null),
         desError = useRef(null);
@@ -25,9 +27,9 @@ const AddLessonSec = () => {
 
                 const id=response.data.lessonSec_id;
 
-                form.current.reset();
+                form.current.reset(); 
 
-                tinyFun.current.setContentTiny();//خالی کردن ادیتور
+                tipTapFun.current.deleteContent();//خالی کردن ادیتور
 
                 setIndex(per=>({...per, lessonSec_id:id}));
 
@@ -107,7 +109,7 @@ const AddLessonSec = () => {
 
                 <div className="labelTextarea">متن بخش</div>
                 <EditorALD
-                    ref={tinyFun}
+                    ref={tipTapFun}
                     setInput={setInput}
                     input={input}
                 />

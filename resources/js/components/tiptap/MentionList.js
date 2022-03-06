@@ -1,7 +1,7 @@
 import React, {
     useState, useEffect, forwardRef, useImperativeHandle,
   } from 'react'
-  import '../../../sass/_mentionList.scss'
+  // import '../../../sass/_mentionList.scss'
   
   export default forwardRef((props, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0)

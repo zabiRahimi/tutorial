@@ -25,6 +25,7 @@ const EditorALD = forwardRef((props, ref) => {
   const setContentTiny = () => {
     setInput(prev => ({ ...prev, ['des']: '' }));
   }
+  
   tinymce.PluginManager.add('element', function (editor, url) {
     // با این متد بستر نوشتن متن انگلیسی در متن فارسی مهیا می‌شود
     editor.ui.registry.addButton('enInFa', {

@@ -1,3 +1,4 @@
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
@@ -9,12 +10,19 @@ import TextStyle from '@tiptap/extension-text-style'
 import { Color } from '@tiptap/extension-color';
 import Mention from '@tiptap/extension-mention';
 import suggestion from './suggestion';
-import '../../../sass/_tiptap.scss';
+// import '../../../sass/_tiptap.scss';
 import MenuBar from './MenuBar';
 
+const AddLessonEditor = forwardRef((props, ref) => {
 
+    useImperativeHandle(ref, () => ({ deleteContent }));
+    
+    const { input, setInput } = props;
 
-const AddLessonEditor = () => {
+    const deleteContent = () => {
+        editor.commands.clearContent()
+    }
+
     const AutoDir = Extension.create({
         name: 'AutoDir',
         addGlobalAttributes() {
@@ -113,19 +121,24 @@ const AddLessonEditor = () => {
 
         ],
         onUpdate({ editor }) {
-            // The content has changed.
             console.log(editor.getHTML());
+            console.log(`'''''`);
+            console.log(editor.getText());
+            console.log(editor.getJSON());
+            setInput(prev => ({ ...prev, ['des']: editor.getHTML() }));
         },
-
-        content: '<p>Hello zabi!</p>',
+        onBlur({ editor, event }) {
+            console.log(editor.getHTML());
+          },
+        content: `${input.des}`,
     })
-
+    
     return (
         <div className='containerEditor'>
             <MenuBar editor={editor} />
             <EditorContent editor={editor} />
         </div>
     )
-}
+});
 
 export default AddLessonEditor;
