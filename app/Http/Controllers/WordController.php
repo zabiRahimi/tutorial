@@ -46,14 +46,14 @@ class WordController extends Controller
         return Validator::make($data, [
             'lesson_id' => ['required', 'numeric', 'exists:lesson_types,id'],
             'link' => [
-                'required', 'min:2',
+                'required',
                 'regex:/^[A-Za-z0-9-]+$/',
                 Rule::unique('words')->where(function ($query) use ($lesson_id) {
                     return $query->where('lesson_type_id', $lesson_id);
                 })
             ],
             'word' => [
-                'required', 'string', 'min:2',
+                'required', 'string',
                 Rule::unique('words')->where(function ($query) use ($lesson_id) {
                     return $query->where('lesson_type_id', $lesson_id);
                 })
@@ -87,14 +87,14 @@ class WordController extends Controller
         return Validator::make($data, [
             'lesson_id' => ['required', 'numeric', 'exists:lesson_types,id'],
             'link' => [
-                'required', 'min:2',
+                'required',
                 'regex:/^[A-Za-z0-9-]+$/',
                 Rule::unique('words')->where(function ($query) use ($lesson_id) {
                     return $query->where('lesson_type_id', $lesson_id);
                 })->ignore($id)
             ],
             'word' => [
-                'required', 'string', 'min:2',
+                'required', 'string',
                 Rule::unique('words')->where(function ($query) use ($lesson_id) {
                     return $query->where('lesson_type_id', $lesson_id);
                 })->ignore($id)
