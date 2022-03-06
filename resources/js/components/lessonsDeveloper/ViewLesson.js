@@ -1,11 +1,11 @@
 
 import { useEffect, useState } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 import useToChunkLesson from "../hooks/useToChunkLesson";
+import Prism from "prismjs";
 
 const ViewLesson = () => {
-   let params = useParams();
 
    const { state } = useLocation();
 
@@ -62,33 +62,27 @@ const ViewLesson = () => {
             <div className="articleLesson" dangerouslySetInnerHTML={{ __html: val.des }}>
 
             </div>
+
          </div>
       });
+
+      // این دستور باعث می شود که کدها بسته به نوع زبانشان رنگ بندی شوند
+      setTimeout(() => Prism.highlightAll(), 0)
+
       return desL;
    }
 
-   // const setDes = [
-   //     valLessonSection.map((val, i) => {
-   //         <xmp key={i}><div className="chunkLesson" id={`chunk${i}`}  >
-   //       <div className="titleLesson fa " ># {val.lesson_section} </div>
-   //       <div className="articleLesson">
-   //          {val.des}
-   //       </div>
-   //    </div></xmp>
-   //     })]
-   // return desL;
-   // return {__html:`${desL}`}
-   // }
-
+   
    return (
       <div className="lessonSinglePage " id="lessonSinglePage">
          <div className="typeSpellTranslateTitle fontEn">
             <h3>{state.lesson}</h3>
          </div>
+         
          <div className="menuPage">
             <Link to='/' >home</Link>
             <Link to='/lessons' >go back</Link>
-            <Link to='/addLessonDeveloper/lessonSec' state={{book_id:state.book_id , book:state.book , lesson_id:state.lesson_id, lesson:state.lesson}} >ایجاد بخش جدید</Link>
+            <Link to='/addLessonDeveloper/lessonSec' state={{ book_id: state.book_id, book: state.book, lesson_id: state.lesson_id, lesson: state.lesson }} >ایجاد بخش جدید</Link>
          </div>
 
          {!hasLessonSec ?
@@ -116,18 +110,8 @@ const ViewLesson = () => {
                :
                <div className="alert alert-danger notBookAlert">تا کنون هیچ متنی برای این درس نوشته نشده است.</div>
          }
-         {/* <!-- سر فصل درس title lesson --> */}
 
-
-
-         {/* {!valLessonSection ? 'loging' :} */}
-         {/* <div className="bodyLesson" id="bodyLesson" dangerouslySetInnerHTML={!valLessonSection ? {__html:'loging'} : {__html:ReactDOMServer.renderToStaticMarkup(setDes)}}></div> */}
-         {/* {!valLessonSection ? 'loging' : setDes()} */}
-
-         {/* </div> */}
-
-
-      </div>//end document .lessonSinglePage
+      </div>
    );
 }
 
