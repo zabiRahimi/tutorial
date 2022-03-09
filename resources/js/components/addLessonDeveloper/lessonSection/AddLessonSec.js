@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// import EditorALD from "../../tinymce/EditorAddLessonDev";
 import EditorALD from "../../tiptap/AddLessonEditor";
 import { useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";

@@ -51,18 +51,20 @@ const navigate = useNavigate();
         e.preventDefault();
         axios.put(`/editLessonSection/${lessonSec.id}`, { 'lesson_id': index.lesson_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
-                // form.current.reset();
-                // tinyFun.current.setContentTiny();//خالی کردن ادیتور
+
                 deleteAlert();
-                // setElement(prev => ({ ...prev, id: response.data.id, lesson_section: input.lesson_section ,des:input.des }));
-                 // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
+
+                // توسط این دستور مقدارهای ویرایش شده جایگزین می‌شود
                  let newLessonSecs = valLessonSecs.map((valLessonSec) => {
                     if (valLessonSec.id == lessonSec.id) return Object.assign({}, valLessonSec, { ...input });
                     return valLessonSec;
                 });
+
                 setValLessonSecs(newLessonSecs);
 
                 setLessonSec(per => ({...per, ...input}));
+
+                if (input.updateOrdering) { setUpdateOrdirng(lessonSec.id, input.ordering); }
 
                 notify.current.innerHTML = `<div class='success'>بخش با موفقیت ویرایش شد.</div>`
                 notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
@@ -129,6 +131,7 @@ const navigate = useNavigate();
                         setValLessonSecs(valLessonSecs);
 
                         setLessonSec( {id: '', lesson_section: '', des: ''} );
+                        
                         Swal.fire({
                             position: 'center',
                             icon: 'success',

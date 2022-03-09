@@ -59,10 +59,15 @@ class LessonSectionController extends Controller
         $this->lessonSecEditValidator($request->all(), $lessonSec_id)->validate();
         $lessonSec = LessonSection::find($lessonSec_id);
 
+        $lessonSec->ordering=$request->ordering;
         $lessonSec->lesson_section = $request->lesson_section;
         $lessonSec->des = $request->des;
 
         $lessonSec->save();
+
+        if ($request->updateOrdering) {
+            $this->updateOrdering($request->lesson_id, $lessonSec_id, $request->ordering);
+        }
     }
 
     private function lessonSecEditValidator(array $data, $lessonSec_id)
@@ -90,6 +95,15 @@ class LessonSectionController extends Controller
         LessonSection::find($lessonSec_id)->delete();
     }
 
+    /**
+     * هرگاه کاربر اوردرینگ یا ترتیب بخش ها را تغییر داد لازم است که
+     * اوردرینگ همه بخشها آپدیت شود
+     *
+     * @param [type] $lesson_id
+     * @param [type] $id
+     * @param [type] $ordering
+     * @return void
+     */
     public function updateOrdering($lesson_id, $id, $ordering)
     {
         
