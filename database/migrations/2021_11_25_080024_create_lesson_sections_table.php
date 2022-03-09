@@ -16,6 +16,7 @@ class CreateLessonSectionsTable extends Migration
         Schema::create('lesson_sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lesson_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->tinyInteger('ordering')->comment('ترتیب هر بخش');
             $table->string('lesson_section')->index()->comment('هر بخش درس');
             $table->text('des')->comment('Description شرح درس');
 

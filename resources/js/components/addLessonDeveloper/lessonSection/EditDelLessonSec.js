@@ -15,6 +15,8 @@ const navigate = useNavigate();
         desError = useRef(null);
 
         const [input , setInput]=useState({
+            updateOrdering: false,
+            ordering:lessonSec.ordering,
             lesson_section:lessonSec.lesson_section,
             des:lessonSec.des
         })
@@ -152,6 +154,38 @@ const navigate = useNavigate();
 
     }
 
+    const handleSetOrdering = (ordering) => {
+        ordering++;
+        setInput(prev => ({ ...prev, updateOrdering: true, ordering }));
+    }
+
+    // هنگامی که اوردرینگ تغییر کرد لازم است که مقدار اوردینگها نیز آپدیت شود
+    //این متد این کار را انجام می‌دهد
+    //لازم به ذکر است که این متد فقط آرایه‌ی vlaLessonSecs را آپدیت می‌کند، نه مقادیر دیتا بیس را
+    const setUpdateOrdirng = (id, ordering) => {
+        valLessonSecs.map((lessonSecs, i) => {
+            if (lessonSecs.ordering < ordering || lessonSecs.id == id) { }
+            else {
+                let objIndex = valLessonSecs.findIndex((obj => obj.id == lessonSecs.id));
+                valLessonSecs[objIndex].ordering =lessonSecs.ordering + 1;
+            }
+        });
+    }
+
+    const setLessonSecs = () => {
+        let val = valLessonSecs.map((lessonSecs, i) => {
+            return <li key={i} onClick={() => handleSetOrdering(lessonSecs.ordering)}>{lessonSecs.lesson_section}</li>
+        })
+        return val;
+    }
+
+    const handleChangeOverflowUl = (e) => {
+        const parent = e.target.parentNode;
+        const child = parent.querySelector('ul');
+        const height = child.offsetHeight;
+        child.style.overflow = height < 230 ? 'visible' : 'auto';
+    }
+
     return (
         <section className="SAED_content">
             
@@ -159,6 +193,15 @@ const navigate = useNavigate();
             <form className='AET_form' ref={form} method="post" onSubmit={handleEditLessonSection} onFocus={deleteAlert}>
 
                 <div className="formAlert" ref={notify}></div>
+
+                <div className="dropdown select_book select_ordering">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={handleChangeOverflowUl}>
+                        بعد از بخش...
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        { setLessonSecs()}
+                    </ul>
+                </div>
 
                 <input type="text" dir="auto" value={input.lesson_section} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
 

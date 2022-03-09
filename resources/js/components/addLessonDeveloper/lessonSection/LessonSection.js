@@ -21,6 +21,7 @@ const LessonSection = () => {
 
     const [lessonSec, setLessonSec] = useState({
         id:'',
+        ordering:'',
         lesson_section:'',
         des:''
     })

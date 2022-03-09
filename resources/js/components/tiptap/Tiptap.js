@@ -186,7 +186,7 @@ const Tiptap =()=>{
         ],
         onUpdate({ editor }) {
             // The content has changed.
-            console.log(editor.getHTML());
+            // console.log(editor.getHTML());
           },
         // injectCSS: false,
         editorProps: {

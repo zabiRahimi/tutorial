@@ -10,6 +10,7 @@ class LessonSection extends Model
     use HasFactory;
     protected $fillable = [
         'lesson_id',
+        'ordering',
         'lesson_section',
         'des',
     ];

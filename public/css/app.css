@@ -11690,7 +11690,14 @@ a {
   padding: 3px 0;
 }
 
-.AE_Form, .AES_form {
+.select_ordering {
+  width: 500px;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.AE_Form,
+.AES_form {
   width: 400px;
   margin: 40px 0;
   padding: 0 62px 25px;
@@ -11699,7 +11706,8 @@ a {
   background: #30356f;
   border-radius: 6px;
 }
-.AE_Form .formAlert, .AES_form .formAlert {
+.AE_Form .formAlert,
+.AES_form .formAlert {
   min-height: 25px;
   padding: 3px;
   margin: 5px 0 3px;
@@ -11714,11 +11722,13 @@ a {
   color: #cacaca;
   text-align: right;
 }
-.AE_Form ::placeholder, .AES_form ::placeholder {
+.AE_Form ::placeholder,
+.AES_form ::placeholder {
   color: #cacaca;
   text-align: right;
 }
-.AE_Form .formError, .AES_form .formError {
+.AE_Form .formError,
+.AES_form .formError {
   min-height: 25px;
   padding: 3px 0;
   margin: 2px 0 5px;
@@ -11726,10 +11736,12 @@ a {
   border-radius: 0 0 2px 2px;
   font-size: 12px;
 }
-.AE_Form .btn_form, .AES_form .btn_form {
+.AE_Form .btn_form,
+.AES_form .btn_form {
   margin-bottom: 12px;
 }
-.AE_Form .btn_form_danger, .AES_form .btn_form_danger {
+.AE_Form .btn_form_danger,
+.AES_form .btn_form_danger {
   color: #e7e6e6;
 }
 

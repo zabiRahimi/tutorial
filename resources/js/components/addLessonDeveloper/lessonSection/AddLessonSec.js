@@ -1,4 +1,4 @@
-import {  useRef,useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import EditorALD from "../../tinymce/EditorAddLessonDev";
 import EditorALD from "../../tiptap/AddLessonEditor";
 import { useOutletContext } from "react-router-dom";
@@ -6,41 +6,51 @@ import Swal from "sweetalert2";
 
 
 const AddLessonSec = () => {
-    const {index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec}=useOutletContext();
+    const { index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec } = useOutletContext();
 
     const tipTapFun = useRef(),// tiny فراخوانی متد از کاپوننت 
-       
-    form = useRef(null),
+
+        form = useRef(null),
         notify = useRef(null),
         lessonSecError = useRef(null),
         desError = useRef(null);
 
-        const [input , setInput]=useState({
-            lesson_section:'',
-            des:''
-        })
-        
+    const [input, setInput] = useState({
+        updateOrdering: false,
+        ordering: 1,
+        lesson_section: '',
+        des: ''
+    })
+    useEffect(() => {
+        //ایجاد آخرین عدد اوردرینگ برای رکورد جدید
+        if (valLessonSecs.length != 0) { setInput(per => ({ ...per, ordering: valLessonSecs.length + 1 })) }
+    }, []);
+
     const handleAddLessonSection = (e) => {
         e.preventDefault();
         axios.post('/saveLessonSection', { 'lesson_id': index.lesson_id, ...input }, { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
 
-                const id=response.data.lessonSec_id;
+                const id = response.data.lessonSec_id;
 
-                form.current.reset(); 
+                form.current.reset();
 
                 tipTapFun.current.deleteContent();//خالی کردن ادیتور
 
-                setIndex(per=>({...per, lessonSec_id:id}));
+                setIndex(per => ({ ...per, lessonSec_id: id }));
+
+                if (input.updateOrdering) { setUpdateOrdirng(id, input.ordering); }
 
                 //کتاب ایجاد شده را به آرایه کتابها اضافه می‌کند
-                valLessonSecs.push({id, ...input});
+                valLessonSecs.push({ id, ...input });
 
                 setValLessonSecs(valLessonSecs);
 
-                setLessonSec({id, ...input});
+                setLessonSec({ id, ...input });
 
-                setInput(() => ({ lesson_section: '', des: '' }));
+                setInput(() => ({ updateOrdering: false }));
+                
+                setInput(per => ({ ...per, ordering: valLessonSecs.length + 1 }));
 
                 Swal.fire({
                     position: 'center',
@@ -90,18 +100,61 @@ const AddLessonSec = () => {
    * @param {*} e 
    * @param {*} nameElement 
    */
-     const handleSaveValInput = (e, input) => {
+    const handleSaveValInput = (e, input) => {
         let { value } = e.target;
         setInput(prev => ({ ...prev, [input]: value }));
     }
 
+    const handleSetOrdering = (ordering) => {
+        ordering++;
+        setInput(prev => ({ ...prev, updateOrdering: true, ordering }));
+    }
+
+    // هنگامی که اوردرینگ تغییر کرد لازم است که مقدار اوردینگها نیز آپدیت شود
+    //این متد این کار را انجام می‌دهد
+    //لازم به ذکر است که این متد فقط آرایه‌ی vlaLessonSecs را آپدیت می‌کند، نه مقادیر دیتا بیس را
+    const setUpdateOrdirng = (id, ordering) => {
+        valLessonSecs.map((lessonSecs, i) => {
+            if (lessonSecs.ordering < ordering || lessonSecs.id == id) { }
+            else {
+                let objIndex = valLessonSecs.findIndex((obj => obj.id == lessonSecs.id));
+                valLessonSecs[objIndex].ordering =lessonSecs.ordering + 1;
+            }
+        });
+    }
+
+    const setLessonSecs = () => {
+        let val = valLessonSecs.map((lessonSecs, i) => {
+            return <li key={i} onClick={() => handleSetOrdering(lessonSecs.ordering)}>{lessonSecs.lesson_section}</li>
+        })
+        return val;
+    }
+
+    const handleChangeOverflowUl = (e) => {
+        const parent = e.target.parentNode;
+        const child = parent.querySelector('ul');
+        const height = child.offsetHeight;
+        child.style.overflow = height < 230 ? 'visible' : 'auto';
+    }
+
     return (
         <section className="SAED_content">
-            
+
 
             <form className='AET_form' ref={form} method="post" onSubmit={handleAddLessonSection} onFocus={deleteAlert}>
 
                 <div className="formAlert" ref={notify}></div>
+
+
+                <div className="dropdown select_book select_ordering">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={handleChangeOverflowUl}>
+                        بعد از بخش...
+                    </button>
+                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        {valLessonSecs.length != 0 ? setLessonSecs() : <li >تا کنون هیچ بخشی ایجاد نشده است</li>}
+                    </ul>
+                </div>
+
 
                 <input type="text" dir="auto" className="form-control input_text" id="lesson_section" onChange={e => handleSaveValInput(e, 'lesson_section')} placeholder='تیتر بخش' autoComplete="off" />
 

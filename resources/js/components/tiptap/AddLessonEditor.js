@@ -121,15 +121,8 @@ const AddLessonEditor = forwardRef((props, ref) => {
 
         ],
         onUpdate({ editor }) {
-            console.log(editor.getHTML());
-            console.log(`'''''`);
-            console.log(editor.getText());
-            console.log(editor.getJSON());
             setInput(prev => ({ ...prev, ['des']: editor.getHTML() }));
         },
-        onBlur({ editor, event }) {
-            console.log(editor.getHTML());
-          },
         content: `${input.des}`,
     })
     

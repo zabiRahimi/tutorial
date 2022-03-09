@@ -41,13 +41,13 @@ const SelectLessonSec = () => {
       * @param {*} lessonSec 
       * @param {*} des
       */
-    const handleSelectLessonSec = (id, lesson_section, des) => {
-        setLessonSec({id, lesson_section, des});
+    const handleSelectLessonSec = (id, ordering, lesson_section, des) => {
+        setLessonSec({id, ordering, lesson_section, des});
     }
 
     const setLessonSecs = () => {
         let val = valLessonSecs.map((lessonSecs, i) => {
-            return <li key={i} onClick={() => handleSelectLessonSec(lessonSecs.id, lessonSecs.lesson_section, lessonSecs.des)}>{lessonSecs.lesson_section}</li>
+            return <li key={i} onClick={() => handleSelectLessonSec(lessonSecs.id, lessonSecs.ordering, lessonSecs.lesson_section, lessonSecs.des)}>{lessonSecs.lesson_section}</li>
         })
         return val;
     }
