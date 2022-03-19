@@ -5,7 +5,7 @@ const MenuBar = ({ editor }) => {
     if (!editor) {
         return null
     }
-    
+
     const [fontSize, setFontSize] = useState('14px');
 
     const fontSizes = () => {
@@ -26,7 +26,7 @@ const MenuBar = ({ editor }) => {
                 onInput={event => editor.chain().focus().setColor(event.target.value).run()}
                 value={editor.getAttributes('textStyle').color}
             />
-           
+
             <div className="dropdown btnEditor dropdownFontSize">
                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     {fontSize}
@@ -36,7 +36,35 @@ const MenuBar = ({ editor }) => {
                 </ul>
             </div>
 
-            <button type="button" 
+            <button type="button"
+                onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
+            >
+                <i className="material-icons">format_align_left</i>
+            </button>
+
+            <button type="button"
+                onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
+            >
+                <i className="material-icons">format_align_center</i>
+            </button>
+
+            <button type="button"
+                onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
+            >
+                <i className="material-icons">format_align_justify</i>
+            </button>
+
+            <button type="button"
+                onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
+            >
+                <i className="material-icons">format_align_right</i>
+            </button>
+
+            <button type="button"
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
             >
@@ -183,6 +211,96 @@ const MenuBar = ({ editor }) => {
             >
                 clear
             </button>
+
+            <button type="button"
+                onClick={() => editor.commands.focus("end")}
+                className={editor.isActive('bold') ? 'is-active btnEditor' : 'btnEditor'}
+            >
+                end line
+            </button>
+
+            <div className="dropdown btnEditor dropdownTable">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i className="material-icons">grid_on</i>
+                </button>
+                <div className="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                    <div className="dropdownTableDiv">
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>insert table</li>
+
+                                <li onClick={() => editor.chain().focus().deleteTable().run()}>delete table</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().toggleHeaderRow().run()}>toggleHeaderRow </li>
+                                <li onClick={() => editor.chain().focus().toggleHeaderColumn().run()}>toggleHeaderColumn </li>
+                                <li onClick={() => editor.chain().focus().toggleHeaderCell().run()}>toggleHeaderCell </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().addRowBefore().run()}> addRowBefore </li>
+                                <li onClick={() => editor.chain().focus().addRowAfter().run()}> addRowAfter </li>
+                                <li onClick={() => editor.chain().focus().deleteRow().run()}>deleteRow </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().addColumnBefore().run()}>addColumnBefore </li>
+                                <li onClick={() => editor.chain().focus().addColumnAfter().run()}>addColumnAfter </li>
+                                <li onClick={() => editor.chain().focus().deleteColumn().run()}> deleteColumn </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().mergeCells().run()}>mergeCells </li>
+                                <li onClick={() => editor.chain().focus().splitCell().run()}>splitCell </li>
+                                <li onClick={() => editor.chain().focus().mergeOrSplit().run()}> mergeOrSplit</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().goToNextCell().run()}>goToNextCell </li>
+                                <li onClick={() => editor.chain().focus().goToPreviousCell().run()}>goToPreviousCell</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <ul>
+                                <li onClick={() => editor.chain().focus().setCellAttribute('colspan', 2).run()}> colspan2 </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {/* <ul className="" >
+
+                    
+
+                    <div>
+                        
+                    </div>
+
+                    <div>
+                       
+                    </div>
+
+                    <div>
+                        
+                    </div>
+
+                </ul> */}
+            </div>
+
         </div>
     )
 }

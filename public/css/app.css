@@ -11008,6 +11008,64 @@ pre[class*=language-] {
 .ProseMirror .h6 {
   line-height: 1.1;
 }
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+.ProseMirror table td,
+.ProseMirror table th {
+  border: 2px solid #ced4da;
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 3px 5px;
+  position: relative;
+  vertical-align: top;
+}
+.ProseMirror table td > *,
+.ProseMirror table th > * {
+  margin-bottom: 0;
+}
+.ProseMirror table th {
+  background-color: #f1f3f5;
+  font-weight: bold;
+  text-align: left;
+}
+.ProseMirror table .selectedCell:after {
+  background: rgba(200, 200, 255, 0.4);
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+.ProseMirror table .column-resize-handle {
+  background-color: #adf;
+  bottom: -2px;
+  position: absolute;
+  right: -2px;
+  pointer-events: none;
+  top: 0;
+  width: 4px;
+}
+.ProseMirror table p {
+  margin: 0;
+}
+
+.tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
 
 code {
   background-color: rgba(97, 97, 97, 0.1);
@@ -11105,17 +11163,25 @@ hr {
   border-radius: 5px;
 }
 .containerEditor .menuEditor .btnEditor:hover,
-.containerEditor .menuEditor .dropdownFontSize button:hover {
+.containerEditor .menuEditor .dropdownFontSize button:hover,
+.containerEditor .menuEditor .dropdownTable button:hover {
   background-color: #726f604a;
 }
-.containerEditor .menuEditor .dropdownFontSize button {
+.containerEditor .menuEditor .dropdownFontSize button,
+.containerEditor .menuEditor .dropdownTable button {
   padding: 0 1px;
   background-color: #e4e4e4;
   color: #000;
   border: none;
   font-family: system-ui;
 }
-.containerEditor .menuEditor .dropdownFontSize button:focus {
+.containerEditor .menuEditor .dropdownTable button {
+  height: 25px;
+  display: flex;
+  align-items: center;
+}
+.containerEditor .menuEditor .dropdownFontSize button:focus,
+.containerEditor .menuEditor .dropdownTable button:focus {
   border: none;
   box-shadow: none;
 }
@@ -11145,6 +11211,58 @@ hr {
 }
 .containerEditor .ProseMirror-focused {
   outline: none;
+}
+.containerEditor .dropdownTableDiv {
+  display: flex;
+  padding: 0;
+}
+.containerEditor .dropdownTableDiv div {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: 2px;
+  padding: 0;
+}
+.containerEditor .dropdownTableDiv div ul {
+  list-style: none;
+  /* background: red; */
+  padding: 0;
+  margin: 0;
+}
+.containerEditor .dropdownTableDiv div ul li {
+  background-color: #e4e4e4;
+  margin: 1px 0;
+  border-radius: 3px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+.containerEditor .dropdownTableDiv div ul li:hover {
+  background-color: #3bb2e6;
+}
+
+table {
+  direction: ltr;
+  margin: 25px 0;
+}
+table td,
+table th {
+  border: 2px solid #ced4da;
+  padding: 3px 8px;
+}
+table td > *,
+table th > * {
+  margin-bottom: 0;
+}
+table th {
+  background-color: #f1f3f5;
+  font-weight: bold;
+  text-align: left;
+}
+table p {
+  margin: 0;
 }
 
 .items {

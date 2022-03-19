@@ -1,15 +1,20 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import lowlight from 'lowlight';
 import { Extension } from '@tiptap/core';
 import Underline from '@tiptap/extension-underline';
-import Text from '@tiptap/extension-text'
-import TextStyle from '@tiptap/extension-text-style'
+import Text from '@tiptap/extension-text';
+import TextStyle from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import Mention from '@tiptap/extension-mention';
 import suggestion from './suggestion';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TextAlign from '@tiptap/extension-text-align';
 // import '../../../sass/_tiptap.scss';
 import MenuBar from './MenuBar';
 
@@ -118,6 +123,18 @@ const AddLessonEditor = forwardRef((props, ref) => {
                 },
                 suggestion,
             }),
+            TextAlign.configure({
+                types: ['heading', 'paragraph', 'table'],
+              }),
+            Table.configure({
+                // HTMLAttributes: {
+                //     class: 'tiptap_table_ltr',
+                //   },
+                resizable: true,
+              }),
+              TableRow,
+              TableHeader,
+              TableCell,
 
         ],
         onUpdate({ editor }) {
