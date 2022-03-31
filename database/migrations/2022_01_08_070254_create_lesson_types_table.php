@@ -16,8 +16,8 @@ class CreateLessonTypesTable extends Migration
         Schema::create('lesson_types', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_type_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('lesson' ,20)->index();
-            $table->string('link' ,20)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
+            $table->string('lesson' ,100)->index();
+            $table->string('link' ,95)->comment('این کلمه برای استفاده در لینک است. نباید حاوی فضای خالی باشد.');
             $table->timestamps();
         });
     }

@@ -16,11 +16,11 @@ class CreateWordsTable extends Migration
         Schema::create('words', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lesson_type_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('link',70)->comment('استفاده در آدرس');
-            $table->string('word',70)->index();
-            $table->string('mean',110)->nullable()->comment('معنی');
-            $table->string('pronounceEn',70)->nullable()->comment('تلفظ به انگلیسی');
-            $table->string('pronounceFa',100)->nullable()->comment('تلفظ به فارسی');
+            $table->string('link')->comment('استفاده در آدرس');
+            $table->string('word')->index();
+            $table->string('mean')->nullable()->comment('معنی');
+            $table->string('pronounceEn')->nullable()->comment('تلفظ به انگلیسی');
+            $table->string('pronounceFa')->nullable()->comment('تلفظ به فارسی');
             $table->timestamps();
         });
     }
