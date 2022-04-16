@@ -6,7 +6,7 @@ const Spell = (props) => {
         const getElementInput = document.getElementById(`spellInput${index}`);
         const getElementSpan = document.getElementById(`spellSpan${index}`);
         const getElementWord = document.getElementById(`spellWord${index}`);
-        getElementSpan.style.color = '#858585';
+        getElementSpan.style.color = '#c5c5c5';
         let word = getElementWord.innerHTML;
         let valInput = getElementInput.value;
 
@@ -14,10 +14,10 @@ const Spell = (props) => {
         if (word.length == valInput.length) {
             getElementInput.value = ''; 
             if (word === valInput) {
-                getElementSpan.style.color = 'green';
+                getElementSpan.style.color = '#97e597';
 
             } else {
-                getElementSpan.style.color = 'red';
+                getElementSpan.style.color = '#f9a382';
             }
         }
     }

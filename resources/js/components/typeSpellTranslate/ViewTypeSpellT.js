@@ -1,10 +1,4 @@
-
-
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
-import useCheckSpelling from "../hooks/useCheckSpelling.js";
-import useType from '../hooks/useType.js';
-import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
-import useBodySpellType from "../hooks/useBodySpellType.js";
+import { Link, useLocation} from "react-router-dom";
 import Spell from "./spell.js";
 import Type from "./Type.js";
 import { useEffect, useState } from "react";
@@ -118,7 +112,7 @@ const ViewTypeSpellT = () => {
 
 
     return (
-        <div>
+        <div className="viewTypeSpellT">
 
             <div className="TSTheader fontEn">type and spell {state.lesson}</div>
             <div className="menuPage">

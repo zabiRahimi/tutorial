@@ -1,3 +1,6 @@
+.viewTypeSpellT{
+  // background-color: #05051d;
+}
 .inputChar{
   border: none;
   width: 5px;
@@ -34,7 +37,8 @@
     /* width: 100%; */
     margin: 5px 0;
     padding: 20px 25px;
-    background-color: #e9e9e9;
+    // background-color: #e9e9e9;
+    background-color: #787878;
     display: flex;
     flex-flow: column;
   }
@@ -153,7 +157,10 @@
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
-    background-color: rgb(231, 231, 231);
+    background-color: #787878;
+    }
+    .spellRow{
+      color: #ffffffab;
     }
     .showMeanRow{
       min-height: 36px;
@@ -192,8 +199,9 @@
      .spellInput span{
     height: 20px;
     padding-left: 4px;
-    font-size: 12px;
-    color: #858585;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #c5c5c5;
     }
      .spellRow div.spellMean{
       justify-content: flex-start;
