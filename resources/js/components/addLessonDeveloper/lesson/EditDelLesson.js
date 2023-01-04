@@ -22,8 +22,8 @@ const EditDelLesson=()=>{
     const [secCount , setSecCount]=useState(0);
 
     /**
-     * دریافت تعداد بخشهای فصل کتاب
-     * مورد استفاده هنگام حذف فصل برای هشدار به کاربر
+     * دریافت تعداد بخشهای درس کتاب
+     * مورد استفاده هنگام حذف درس برای هشدار به کاربر
      * @param {*} id 
      */
     async function getOneLesson(id){
@@ -45,7 +45,7 @@ const EditDelLesson=()=>{
     }, []);
 
      /**
-     * این متد چک می‌کند که کاربر یک فصلی را
+     * این متد چک می‌کند که کاربر یک درسی را
      *  برای ویرایش و حذف انتخاب کرده باشد
      */
       const checkHasLessonId = () => {
@@ -53,14 +53,14 @@ const EditDelLesson=()=>{
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'هیچ فصلی انتخاب و یا ایجاد نشده است',
+                title: 'هیچ درسی انتخاب و یا ایجاد نشده است',
                 showConfirmButton: false,
                 timer: 3000,
             }).then((result) => {
                 valLessons.length == 0 ?
-                    //چنانچه هیچ فصلی از قبل ایجاد نشده باشد کاربر به این مسیر هدایت می‌شود
+                    //چنانچه هیچ درسی از قبل ایجاد نشده باشد کاربر به این مسیر هدایت می‌شود
                     navigate(`/addLessonDeveloper/lesson/add`) :
-                    //چنانچه فصلی وجود داشته باشد کاربر به این مسیر هدایت می‌شود
+                    //چنانچه درسی وجود داشته باشد کاربر به این مسیر هدایت می‌شود
                     navigate(`/addLessonDeveloper/lesson/select`);
             });
         }
@@ -101,8 +101,17 @@ const EditDelLesson=()=>{
 
                 setValLessons(newLessons);
 
-                notify.current.innerHTML = `<div class='success'>فصل کتاب با موفقیت ویرایش شد.</div>`
-                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: ' درس با موفقیت ویرایش شد ',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+
+                // notify.current.innerHTML = `<div class='success'>درس کتاب با موفقیت ویرایش شد.</div>`
+                // notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
             })
             .catch(error => {
                 notify.current.innerHTML = '';
@@ -132,9 +141,9 @@ const EditDelLesson=()=>{
 
     function deleteLesson(lessonId) {
         Swal.fire({
-            title: 'آیا مایل به حذف این فصل هستید؟',
+            title: 'آیا مایل به حذف این درس هستید؟',
             color: '#aa4f0f',
-            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این فصل شامل<br /> ${secCount} بخش است.</div></div>`,
+            html: `<div class='swalDelete'><div class="bold">توجه</div><div class="text">این درس شامل<br /> ${secCount} بخش است.</div></div>`,
 
             showCancelButton: true,
             confirmButtonText: 'delete',
@@ -156,7 +165,7 @@ const EditDelLesson=()=>{
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'فصل با موفقیت حذف شد',
+                            title: 'درس با موفقیت حذف شد',
                             showConfirmButton: false,
                             timer: 4000
                         }).then((result) => {
@@ -183,14 +192,14 @@ const EditDelLesson=()=>{
             <form className='AE_Form' ref={form} method="post" onSubmit={handleEditLesson} onFocus={deleteAlert}>
                         <div className="formAlert" ref={notify}></div>
 
-                        <input type="text" dir="auto" value={input.lesson} className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام فصل' autoComplete="off" />
+                        <input type="text" dir="auto" value={input.lesson} className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام درس' autoComplete="off" />
                         <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" value={input.link} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک فصل' autoComplete="off" />
+                        <input type="text" dir="auto" value={input.link} className="form-control input_text"  onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک درس' autoComplete="off" />
                         <div className="formError" ref={linkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />
-                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(lesson.id)} value='حذف فصل کتاب' />
+                        <input type="button" className='btn btn-danger btn_form btn_form_danger' onClick={() => deleteLesson(lesson.id)} value='حذف درس کتاب' />
                     </form>
         </section>
     )

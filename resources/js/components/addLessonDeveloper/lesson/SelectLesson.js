@@ -14,15 +14,15 @@ const SelectLesson = () => {
     }, []);
 
     /**
-     * چنانچه فصلی ایجاد نشده باشد این متد هشدار داده  
-     * و کاربر به صفحه ایجاد فصل هدایت می‌کند
+     * چنانچه درسی ایجاد نشده باشد این متد هشدار داده  
+     * و کاربر به صفحه ایجاد درس هدایت می‌کند
      */
     const checkHasLesson = () => {
         valLessons.length == 0 ?
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'تا کنون فصلی ایجاد نشده است',
+                title: 'تا کنون درسی ایجاد نشده است',
                 showConfirmButton: false,
                 timer: 3000,
             }).then((result) => {
@@ -32,7 +32,7 @@ const SelectLesson = () => {
     }
 
     /**
-      * انتخاب فصل کتاب و ذخیره اطلاعات فصل
+      * انتخاب درس کتاب و ذخیره اطلاعات درس
       * index ذخیره اطلاعات در فایل
       * @param {*} id 
       * @param {*} lesson 

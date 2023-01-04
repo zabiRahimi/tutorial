@@ -48,12 +48,18 @@ const AddLessonDeveloper = () => {
 
                     <NavLink to='/addLessonDeveloper/lesson' onClick={() => setRefresh(refresh + 1)}
                         className={({ isActive }) =>isActive ? 'MA_active' : 'MA_passive'}>
-                        فصل کتاب
+                       درس کتاب
                     </NavLink>
 
                     <NavLink to='/addLessonDeveloper/lessonSec' onClick={() => setRefresh(refresh + 1)}
                         className={({ isActive }) => isActive ? 'MA_active' : 'MA_passive'}>
-                        بخش کتاب
+                       بخش درس
+                    </NavLink>
+
+                        {/* -----**** موقتا ایجاد شده باید پاک شود */}
+                    <NavLink to='/addLessonDeveloper/addLink' onClick={() => setRefresh(refresh + 1)}
+                        className={({ isActive }) => isActive ? 'MA_active' : 'MA_passive'}>
+                      add link
                     </NavLink>
                 </nav>
                 <section className="content_mainAdd">

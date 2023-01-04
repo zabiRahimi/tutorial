@@ -12153,6 +12153,303 @@ a {
   text-align: center;
 }
 
+.allBodyLink {
+  padding: 25px 4px;
+}
+
+.showLinks {
+  width: 100%;
+  display: grid;
+}
+
+.titleShowLinks {
+  background-color: #3e6bb9;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: 15px 15px 0 0;
+  color: #d7d39c;
+  font-size: 20px;
+}
+
+.bodyShowLinks {
+  max-height: 200px;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
+.headShowLikns,
+.rowLink {
+  width: 100%;
+  direction: rtl;
+  display: inline-grid;
+  grid-template-columns: 20% 31% 35% auto;
+  -moz-column-gap: 2px;
+       column-gap: 2px;
+}
+
+.headShowLikns {
+  background-color: #cac6c3;
+  color: #7b7878;
+  border-radius: 5px 5px 0 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.HSL_book,
+.HSL_lesson,
+.HSL_lessonSec,
+.HSL_del {
+  background-color: #d1d8df;
+  display: grid;
+  justify-content: center;
+  padding: 2px;
+  font-size: 20px;
+}
+
+.HSL_book {
+  border-radius: 0 5px 0 0;
+}
+
+.HSL_del {
+  border-radius: 5px 0 0 0;
+}
+
+.rowLink {
+  background-color: #b6b576;
+  color: #636363;
+  padding: 0 0 1px 0;
+}
+
+.RL_book,
+.RL_lesson,
+.RL_lessonSec,
+.RL_del {
+  background-color: white;
+  display: grid;
+  justify-content: center;
+  padding: 2px;
+}
+
+.RL_delBtn {
+  background-color: brown;
+  color: #cac6c3;
+  height: 20px;
+  width: 75px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+/* قسمت ایجاد لینک جدید */
+.addLink {
+  width: 100%;
+  margin-top: 65px;
+}
+
+.bodyAddLinks {
+  width: 100%;
+  background-color: #2c52a5;
+  padding: 35px 15px;
+}
+
+.headListBooks {
+  width: 100%;
+  background-color: #cac6c3;
+  padding: 2px;
+  font-size: 18px;
+  display: grid;
+  justify-content: center;
+  color: #1235bf;
+  border-radius: 3px 3px 0 0;
+}
+
+.bodyListBooks {
+  width: 100%;
+  background-color: white;
+  padding: 15px 5px;
+  direction: rtl;
+  display: grid;
+  -moz-column-gap: 1%;
+       column-gap: 1%;
+  grid-template-columns: repeat(4, 24.3%);
+  row-gap: 8px;
+}
+
+.book {
+  width: auto;
+  height: 35px;
+  min-width: 90px;
+  padding: 3px 6px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  direction: rtl;
+  grid-template-columns: 25px 90%;
+  background-color: #cac6c3;
+  border: 2px solid #adacac;
+  border-radius: 5px 3px 3px 5px;
+  cursor: pointer;
+}
+
+.book:hover {
+  background-color: #acb6ee;
+}
+
+.selectedBook {
+  background-color: #32c58f;
+  color: #01582d;
+}
+
+.stateBook {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid #adacac;
+  border-radius: 2px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.notShow {
+  display: none;
+}
+
+.nameBook {
+  padding: 0 4px;
+  width: 100%;
+  height: 25px;
+  overflow: hidden;
+  /* background-color: white; */
+  line-height: 24px;
+  text-align: center;
+}
+
+.bodyAddBooks {
+  width: 100%;
+  background-color: white;
+  padding: 20px 5px;
+  direction: rtl;
+  display: grid;
+  -moz-column-gap: 12px;
+       column-gap: 12px;
+  grid-template-columns: repeat(3, auto);
+  row-gap: 18px;
+  z-index: 1;
+}
+
+.notSelectBook {
+  text-align: center;
+  color: brown;
+  font-size: 18px;
+  background-color: wheat;
+}
+.notSelectBook span {
+  color: #1235bf;
+}
+
+.listLessons {
+  width: auto;
+  max-height: 240px;
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #c9cbcc;
+  direction: ltr;
+  border: 1px solid #878888;
+}
+
+.spinnerAddLesson {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: relative;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.itemNameBook {
+  height: 25px;
+  line-height: 25px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #80ae93;
+  color: #5d2762;
+  font-size: 18px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.itemLesson {
+  width: 100%;
+  height: 30px;
+  margin-bottom: 1px;
+  padding-right: 8px;
+  background-color: #e7e9eb;
+  direction: rtl;
+  display: grid;
+  grid-template-columns: 25px auto;
+  align-items: center;
+}
+
+.noItemLesson {
+  width: 100%;
+}
+.noItemLesson div {
+  text-align: center;
+  color: brown;
+  font-size: 14px;
+  background-color: wheat;
+}
+
+.itemLessonState {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid #adacac;
+  border-radius: 2px;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.itemLessonName {
+  text-align: center;
+  width: auto;
+  overflow: hidden;
+  height: 25px;
+  line-height: 25px;
+}
+
+.bodyEndAdd {
+  padding: 15px 5px;
+  background-color: #e7eff2;
+}
+
+.endAdd {
+  width: 100%;
+  margin-top: 10px;
+  display: grid;
+  justify-items: center;
+}
+
+.btnEndAdd {
+  width: 450px;
+  height: 40px;
+  font-size: 20px;
+  background-color: darkgreen;
+  color: white;
+  text-align: center;
+}
+
 .lessonsDeveloperTitle {
   padding: 12px 0 17px;
   margin: 0 0 10px 0;
@@ -12364,7 +12661,6 @@ xmp {
 }
 
 .TSTbodyType {
-  /* width: 100%; */
   margin: 5px 0;
   padding: 20px 25px;
   background-color: #787878;
@@ -12415,21 +12711,13 @@ xmp {
   margin: 8px 0;
   padding: 15px 45px;
   background-color: #f9faf8;
-  /* position: relative; */
   font-size: 24px;
-  /* z-index: 5; */
 }
 
 .type {
-  /* width: 7px; 
-  height: 22px; */
-  /* display: inline-block; */
-  /* display: inline-flex; */
-  /* flex-wrap: nowrap; */
   border-left: #f9faf8 2px solid;
   font-family: sans-serif;
   color: #334a6d;
-  /* line-height: 22px; */
 }
 
 /* ست کردن کلاس هنگام درست تایپ کردن حرف */
@@ -12443,25 +12731,18 @@ xmp {
 
 .lineBottom {
   border-bottom: #2689b8 3px solid;
-  /* left: -2px; */
 }
 
 .lineLeft {
   border-left-color: #266ca6;
-  /* border-left-width: 1.5px; */
 }
 
 .containerChar {
-  /* width: 100px;
-  height: 100px; */
-  /* position: relative; */
   display: flex;
 }
 
 .chars,
 .errorChar {
-  /* width: 100%; */
-  /* height: 100%; */
   top: 0;
   left: 0;
   display: flex;
@@ -12491,7 +12772,8 @@ xmp {
   flex-flow: column;
 }
 
-.spellRow, .showMeanRow {
+.spellRow,
+.showMeanRow {
   margin: 15px 0 5px;
   padding: 10px 20px;
   border-radius: 4px;
@@ -12513,7 +12795,8 @@ xmp {
   font-size: 16px;
 }
 
-.spellRow div, .showMeanRow div {
+.spellRow div,
+.showMeanRow div {
   width: 20%;
   display: flex;
   justify-content: center;
@@ -12563,7 +12846,8 @@ xmp {
   display: flex;
   flex-direction: column;
 }
-.sentences .sentenceMean, .sentences .sentenceFa {
+.sentences .sentenceMean,
+.sentences .sentenceFa {
   text-align: right;
   margin: 0 0 7px;
 }

@@ -106,11 +106,17 @@ const EditDelBook = () => {
                     if (valBook.id == book.id) return Object.assign({}, valBook, {...input });
                     return valBook;
                 });
+                
 
                 setValBooks(newBooks);
-
-                notify.current.innerHTML = `<div class='success'>کتاب با موفقیت ویرایش شد.</div>`
-                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: ' کتاب با موفقیت ویرایش شد ',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
             })
             .catch(error => {
 

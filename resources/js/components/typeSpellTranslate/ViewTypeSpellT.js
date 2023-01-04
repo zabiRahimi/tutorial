@@ -2,8 +2,6 @@ import { Link, useLocation} from "react-router-dom";
 import Spell from "./spell.js";
 import Type from "./Type.js";
 import { useEffect, useState } from "react";
-// import { useParams } from "react-router";
-// import '../../../css/TypeSpellTranslate.css';
 
 // const words = [
 //     [
@@ -112,7 +110,7 @@ const ViewTypeSpellT = () => {
 
 
     return (
-        <div className="viewTypeSpellT">
+        <div>
 
             <div className="TSTheader fontEn">type and spell {state.lesson}</div>
             <div className="menuPage">

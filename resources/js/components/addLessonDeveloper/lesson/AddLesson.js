@@ -45,7 +45,7 @@ const AddLesson=()=>{
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'فصل کتاب با موفقیت ثبت شد',
+                    title: ' درس با موفقیت ثبت شد',
                     showConfirmButton: false,
                     timer: 3000
                 })
@@ -92,10 +92,10 @@ const AddLesson=()=>{
                     <form className='AE_Form' ref={form} method="post" onSubmit={handleAddLesson} onFocus={deleteAlert}>
                         <div className="formAlert" ref={notify}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام فصل' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'lesson')} placeholder='نام درس' autoComplete="off" />
                         <div className="formError" ref={lessonError}></div>
 
-                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک فصل' autoComplete="off" />
+                        <input type="text" dir="auto" className="form-control input_text" onChange={e => handleSaveValInput(e, 'link')} placeholder='لینک درس' autoComplete="off" />
                         <div className="formError" ref={linkError} ></div>
 
                         <input type="submit" className='btn btn-success btn_form' value='ثبت' />

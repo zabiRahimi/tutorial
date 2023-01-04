@@ -21,7 +21,7 @@ const AddLessonSec = () => {
         des: ''
     })
     useEffect(() => {
-        //ایجاد آخرین عدد اوردرینگ برای رکورد جدید
+        //ایجاد آخرین عدد اوردرینگ (ترتیب نمایش) برای رکورد جدید
         if (valLessonSecs.length != 0) { setInput(per => ({ ...per, ordering: valLessonSecs.length + 1 })) }
     }, []);
 

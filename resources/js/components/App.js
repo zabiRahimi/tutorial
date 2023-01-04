@@ -25,6 +25,7 @@ import LessonSection from "./addLessonDeveloper/lessonSection/LessonSection";
 import SelectLessonSec from "./addLessonDeveloper/lessonSection/SelectLessonSec";
 import AddLessonSec from "./addLessonDeveloper/lessonSection/AddLessonSec";
 import EditDelLessonSec from "./addLessonDeveloper/lessonSection/EditDelLessonSec";
+import AddLink from "./addLessonDeveloper/lessonSection/AddLink";
 
 import ViewTypeBooks from './typeSpellTranslate/ViewTypeBooks';
 import ViewTypeSpellT from "./typeSpellTranslate/ViewTypeSpellT";
@@ -69,11 +70,18 @@ render(
       <Route path="/" element={<Home />} />
 
       <Route path="addLessonDeveloper" element={<AddLessonDeveloper />} >
+        
+         {/* موقتا ایجاد شده ---------- *****/}
+        <Route path="addLink" element={<AddLink />} />
+        
         <Route path="book" element={<Book />}>
           {/* <Route index element={<SelectBook />} /> */}
           <Route path="select" element={<SelectBook />} />
           <Route path="add" element={<AddBook />} />
           <Route path="edit" element={<EditDelBook />} />
+
+         
+          
 
         </Route>
         <Route path="lesson" element={<Lesson />}>
@@ -86,6 +94,7 @@ render(
           <Route path="select" element={<SelectLessonSec />} />
           <Route path="add" element={<AddLessonSec />} />
           <Route path="edit" element={<EditDelLessonSec />} />
+          <Route path="addLink" element={<AddLink />} />
         </Route>
       </Route>
 

@@ -62,7 +62,7 @@ const AddBook = () => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'ثبت کتاب با موفقیت انجام شد .',
+                    title: 'ثبت کتاب با موفقیت انجام شد ',
                     showConfirmButton: false,
                     timer: 3000
                 })

@@ -13,10 +13,13 @@ class LessonSectionController extends Controller
 
     public function getAllLessonSections($lesson_id)
     {
+
         $lessonSections = LessonSection::where('lesson_id', $lesson_id)->orderBy('ordering')->get();
 
         return response()->json(['lessonSections' => $lessonSections], 200);
+
     }
+    
 
     public function saveLessonSection(Request $request)
     {

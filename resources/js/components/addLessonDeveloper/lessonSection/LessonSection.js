@@ -24,7 +24,7 @@ const LessonSection = () => {
         ordering:'',
         lesson_section:'',
         des:''
-    })
+    });
     
     async function getLessonSecs(lesson_id) {
         await axios.get(`/getAllLessonSections/${lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
@@ -46,7 +46,7 @@ const LessonSection = () => {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: 'ابتدا لازم است کتاب و سپس فصل کتاب را انتخاب کنید',
+            title: 'ابتدا لازم است کتاب و سپس درس را انتخاب کنید',
             showConfirmButton: false,
             timer: 3500
         }).then((result) => {
@@ -58,7 +58,7 @@ const LessonSection = () => {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: 'لطفا فصل کتاب را انتخاب کنید',
+            title: 'لطفا درس را انتخاب کنید',
             showConfirmButton: false,
             timer: 3000
         }).then((result) => {
@@ -103,12 +103,14 @@ const LessonSection = () => {
                             isActive ? 'SAED_active' : 'SAED_passive'}>ایجاد بخش</NavLink>
                 <NavLink to='edit' className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}>ویرایش و حذف بخش</NavLink>
+                <NavLink to='addLink' className={({ isActive }) =>
+                            isActive ? 'SAED_active' : 'SAED_passive'}>ایجاد لینک</NavLink>
             </nav>
             <Outlet context={{index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec  }} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">
-                    <div className="spinner-border " role="status">
+                    <div className="spinner-border text-light " role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </div>
