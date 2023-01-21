@@ -11764,11 +11764,12 @@ a {
   position: relative;
   display: flex;
   justify-content: center;
+  flex-flow: column;
 }
 
 .select_book {
   width: 360px;
-  margin-top: 140px;
+  margin: 90px auto 0;
 }
 .select_book button {
   width: 100%;
@@ -12175,17 +12176,29 @@ a {
 
 .bodyShowLinks {
   max-height: 200px;
+  min-height: 150px;
   overflow: scroll;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
 }
 
+.listLinks {
+  background-color: #ffff;
+}
+
+.notBooks {
+  text-align: center;
+  background: #f5deb3;
+  color: #a52a2a;
+  margin: 2px;
+}
+
 .headShowLikns,
 .rowLink {
   width: 100%;
   direction: rtl;
-  display: inline-grid;
+  display: grid;
   grid-template-columns: 20% 31% 35% auto;
   -moz-column-gap: 2px;
        column-gap: 2px;
@@ -12253,7 +12266,7 @@ a {
 
 .bodyAddLinks {
   width: 100%;
-  background-color: #2c52a5;
+  background-color: #1f316f;
   padding: 35px 15px;
 }
 
@@ -12280,7 +12293,8 @@ a {
   row-gap: 8px;
 }
 
-.book {
+.book,
+.bookNotLesson {
   width: auto;
   height: 35px;
   min-width: 90px;
@@ -12300,6 +12314,11 @@ a {
   background-color: #acb6ee;
 }
 
+.bookNotLesson {
+  cursor: not-allowed;
+  background-color: #e0a5a5;
+}
+
 .selectedBook {
   background-color: #32c58f;
   color: #01582d;
@@ -12316,7 +12335,7 @@ a {
   align-content: center;
 }
 
-.notShow {
+.notShowLink {
   display: none;
 }
 
@@ -12386,9 +12405,13 @@ a {
   font-size: 18px;
   overflow: hidden;
   text-align: center;
+  direction: rtl;
 }
 
-.itemLesson {
+.itemLesson,
+.itemLessonNotLessonSec,
+.itemCurrentLesson,
+.itemOldLinkLesson {
   width: 100%;
   height: 30px;
   margin-bottom: 1px;
@@ -12398,6 +12421,26 @@ a {
   display: grid;
   grid-template-columns: 25px auto;
   align-items: center;
+  cursor: pointer;
+}
+
+.itemLesson:hover {
+  background-color: #dadbdd;
+}
+
+.itemLessonNotLessonSec {
+  cursor: not-allowed;
+  background-color: #e0a5a5;
+}
+
+.itemCurrentLesson {
+  cursor: not-allowed;
+  background-color: #b6e4f0;
+}
+
+.itemOldLinkLesson {
+  cursor: not-allowed;
+  background-color: #eaf0b6;
 }
 
 .noItemLesson {
@@ -12436,6 +12479,7 @@ a {
 
 .endAdd {
   width: 100%;
+  height: 42px;
   margin-top: 10px;
   display: grid;
   justify-items: center;
@@ -12448,6 +12492,22 @@ a {
   background-color: darkgreen;
   color: white;
   text-align: center;
+  z-index: 1;
+}
+
+.spinnerEnd {
+  width: 100%;
+  height: 42px;
+  padding-top: 5px;
+  background-color: white;
+  opacity: 0.8;
+  position: relative;
+  top: -42px;
+  z-index: 2;
+}
+
+.notShowSPE {
+  display: none;
 }
 
 .lessonsDeveloperTitle {

@@ -14,6 +14,12 @@ class LessonController extends Controller
     {
         $lessons=Lesson::where('book_id' , $book_id)->get();
 
+        //دریافت مشخصات کتاب در درس ها
+        foreach ($lessons as $lesson) {
+            $lesson->book;
+        }
+        // جوین کردن جدول بخش ها به جدول درس ها
+        $lessons->load('lesson_sections');
         return response()->json(['lessons'=>$lessons],200);
     }
 
@@ -26,7 +32,6 @@ class LessonController extends Controller
         return response()->json(['lessonSecCount'=>$lessonSecCount],200);
     }
 
-   
 
     public function saveLesson(Request $request)
     {
@@ -40,6 +45,7 @@ class LessonController extends Controller
             );
         return response()->json(['id'=>$lesson->id],200);
     }
+    
 
     public function lessonValidator(array $data)
     {

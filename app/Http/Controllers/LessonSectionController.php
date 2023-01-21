@@ -15,7 +15,9 @@ class LessonSectionController extends Controller
     {
 
         $lessonSections = LessonSection::where('lesson_id', $lesson_id)->orderBy('ordering')->get();
-
+        foreach($lessonSections as $lessonSection){
+            $lessonSection->lesson->book;
+        }
         return response()->json(['lessonSections' => $lessonSections], 200);
 
     }

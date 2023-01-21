@@ -34,3 +34,6 @@ class CreateLessonSectionsTable extends Migration
         Schema::dropIfExists('lesson_sections');
     }
 }
+
+
+

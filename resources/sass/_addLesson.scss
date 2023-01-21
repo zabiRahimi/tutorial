@@ -137,13 +137,14 @@ $bgBox :azure;
         position: relative;
         display: flex;
         justify-content: center;
+        flex-flow: column;
 
     }
 }
 
 .select_book {
     width: 360px;
-    margin-top: 140px;
+    margin: 90px auto 0;
 
 
     button {
@@ -621,17 +622,29 @@ $bgBox :azure;
 
 .bodyShowLinks {
     max-height: 200px;
+    min-height: 150px;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
 }
 
+.listLinks {
+    background-color: #ffff;
+}
+
+.notBooks {
+    text-align: center;
+    background: #f5deb3;
+    color: #a52a2a;
+    margin: 2px;
+}
+
 .headShowLikns,
 .rowLink {
     width: 100%;
     direction: rtl;
-    display: inline-grid;
+    display: grid;
     grid-template-columns: 20% 31% 35% auto;
     column-gap: 2px;
 
@@ -702,7 +715,7 @@ $bgBox :azure;
 
 .bodyAddLinks {
     width: 100%;
-    background-color: #2c52a5;
+    background-color: #1f316f;
     padding: 35px 15px;
 }
 
@@ -730,7 +743,8 @@ $bgBox :azure;
 
 }
 
-.book {
+.book,
+.bookNotLesson {
     width: auto;
     height: 35px;
     min-width: 90px;
@@ -750,7 +764,12 @@ $bgBox :azure;
     background-color: #acb6ee;
 }
 
-.selectedBook{
+.bookNotLesson {
+    cursor: not-allowed;
+    background-color: #e0a5a5;
+}
+
+.selectedBook {
     background-color: #32c58f;
     color: #01582d;
 }
@@ -766,7 +785,7 @@ $bgBox :azure;
     align-content: center;
 }
 
-.notShow{
+.notShowLink {
     display: none;
 }
 
@@ -797,8 +816,9 @@ $bgBox :azure;
     color: brown;
     font-size: 18px;
     background-color: wheat;
-    span{
-        color:#1235bf ;
+
+    span {
+        color: #1235bf;
     }
 }
 
@@ -812,7 +832,8 @@ $bgBox :azure;
     direction: ltr;
     border: 1px solid #878888;
 }
-.spinnerAddLesson{
+
+.spinnerAddLesson {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -833,10 +854,14 @@ $bgBox :azure;
     font-size: 18px;
     overflow: hidden;
     text-align: center;
+    direction: rtl;
 }
 
 
-.itemLesson {
+.itemLesson,
+.itemLessonNotLessonSec,
+.itemCurrentLesson,
+.itemOldLinkLesson {
     width: 100%;
     height: 30px;
     margin-bottom: 1px;
@@ -846,10 +871,32 @@ $bgBox :azure;
     display: grid;
     grid-template-columns: 25px auto;
     align-items: center;
+    cursor: pointer;
 }
-.noItemLesson{
+
+.itemLesson:hover {
+    background-color: #dadbdd;
+}
+
+.itemLessonNotLessonSec {
+    cursor: not-allowed;
+    background-color: #e0a5a5;
+}
+
+.itemCurrentLesson {
+    cursor: not-allowed;
+    background-color: #b6e4f0;
+}
+
+.itemOldLinkLesson {
+    cursor: not-allowed;
+    background-color: #eaf0b6;
+}
+
+.noItemLesson {
     width: 100%;
-    div{
+
+    div {
         text-align: center;
         color: brown;
         font-size: 14px;
@@ -883,6 +930,7 @@ $bgBox :azure;
 
 .endAdd {
     width: 100%;
+    height: 42px;
     margin-top: 10px;
     display: grid;
     justify-items: center;
@@ -895,6 +943,23 @@ $bgBox :azure;
     background-color: darkgreen;
     color: white;
     text-align: center;
+    z-index: 1;
+}
+
+.spinnerEnd {
+    width: 100%;
+    height: 42px;
+    padding-top: 5px;
+    background-color: white;
+    opacity: 0.8;
+    position: relative;
+    top: -42px;
+    z-index: 2;
+
+}
+
+.notShowSPE {
+    display: none;
 }
 
 // .showListLink {

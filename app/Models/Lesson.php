@@ -17,6 +17,10 @@ class Lesson extends Model
     {
         return $this->hasMany(LessonSection::class);
     }
+
+    public function links(){
+        return $this->hasManyThrough(Link::class,LessonSection::class);
+    }
     public function book()
     {
         return $this->belongsTo(Book::class);

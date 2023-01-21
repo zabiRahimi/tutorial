@@ -23,4 +23,8 @@ class Book extends Model
     public function lesson_sections(){
         return $this->hasManyThrough(LessonSection::class,Lesson::class);
     }
+
+    public function links(){
+        return $this->hasManyThrough(Link::class,LessonSection::class,Lesson::class);
+    }
 }

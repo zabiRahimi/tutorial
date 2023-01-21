@@ -1,6 +1,6 @@
 import axios from "axios";
-import {  useEffect, useState } from "react";
-import { NavLink,useOutletContext,Outlet ,useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useOutletContext, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
 
 const LessonSection = () => {
@@ -20,12 +20,12 @@ const LessonSection = () => {
     const [valLessonSecs, setValLessonSecs] = useState([]);
 
     const [lessonSec, setLessonSec] = useState({
-        id:'',
-        ordering:'',
-        lesson_section:'',
-        des:''
+        id: '',
+        ordering: '',
+        lesson_section: '',
+        des: ''
     });
-    
+
     async function getLessonSecs(lesson_id) {
         await axios.get(`/getAllLessonSections/${lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
             .then(response => {
@@ -49,7 +49,7 @@ const LessonSection = () => {
             title: 'ابتدا لازم است کتاب و سپس درس را انتخاب کنید',
             showConfirmButton: false,
             timer: 3500
-        }).then((result) => {
+        }).then(() => {
             navigate(`/addLessonDeveloper/book`)
         })
     }
@@ -61,52 +61,52 @@ const LessonSection = () => {
             title: 'لطفا درس را انتخاب کنید',
             showConfirmButton: false,
             timer: 3000
-        }).then((result) => {
+        }).then(() => {
             navigate(`/addLessonDeveloper/lesson`)
         })
     }
 
     useEffect(() => {
-        state?setIndex(perv => ({...perv, ...state})):'';
+        state ? setIndex(perv => ({ ...perv, ...state })) : '';
 
         !index.lesson_id ? '' : getLessonSecs(index.lesson_id);
 
         checkHaslesson();
-    }, [index.lesson_id, check,refresh]);
+    }, [index.lesson_id, check, refresh]);
 
     const checkHaslesson = () => {
-       
-       if(!state && !index.lesson_id){
-            
-            index.book_id? alertSelectLesson() : alertSelectbook();
-            
+
+        if (!state && !index.lesson_id) {
+
+            index.book_id ? alertSelectLesson() : alertSelectbook();
+
         } else {
             navigate("add");
         }
-    
+
     }
 
     return (
 
         <section className="sectionAED">
 
-{check != '' ?
+            {check != '' ?
                 <>
-            <section className="showNameBook">
+                    <section className="showNameBook">
                         <div className="line"></div>
                         <div className="nameBook">{index.book} {index.lesson}</div>
-                    </section> 
-            <nav className="navAED">
-                <NavLink to='select' className={({ isActive }) =>
+                    </section>
+                    <nav className="navAED">
+                        <NavLink to='select' className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}>انتخاب بخش</NavLink>
-                <NavLink to='add' className={({ isActive }) =>
+                        <NavLink to='add' className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}>ایجاد بخش</NavLink>
-                <NavLink to='edit' className={({ isActive }) =>
+                        <NavLink to='edit' className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}>ویرایش و حذف بخش</NavLink>
-                <NavLink to='addLink' className={({ isActive }) =>
+                        <NavLink to='addLink/addLink' className={({ isActive }) =>
                             isActive ? 'SAED_active' : 'SAED_passive'}>ایجاد لینک</NavLink>
-            </nav>
-            <Outlet context={{index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec  }} />
+                    </nav>
+                    <Outlet context={{ index, setIndex, valLessonSecs, setValLessonSecs, lessonSec, setLessonSec }} />
                 </>
                 :
                 <div className="d-flex justify-content-center select_spinner">

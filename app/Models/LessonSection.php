@@ -14,8 +14,16 @@ class LessonSection extends Model
         'lesson_section',
         'des',
     ];
+
+    public function links()
+    {
+        return $this->hasMany(Link::class);
+    }
+
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
     }
 }
+
+

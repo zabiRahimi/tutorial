@@ -32,11 +32,11 @@ Route::get('/getOneLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSe
 Route::put('/editLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'editLessonSection']);
 Route::delete('/deleteLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'deleteLessonSection']);
 
-//Route::post('/saveLinks', [App\Http\Controllers\InternalLinksController::class, 'saveLessonSection']);
-Route::get('/getHasLinks/{book_id}/{lesson_id}/{lessonSec_id}', [App\Http\Controllers\InternalLinksController::class, 'getHasLinks']);
-// Route::get('/getOneLessonSection/{lessonSec_id}', [App\Http\Controllers\InternalLinksController::class, 'getOneLessonSection']);
-// Route::put('/editLessonSection/{lessonSec_id}', [App\Http\Controllers\InternalLinksController::class, 'editLessonSection']);
-// Route::delete('/deleteLessonSection/{lessonSec_id}', [App\Http\Controllers\InternalLinksController::class, 'deleteLessonSection']);
+Route::post('/saveLink', [App\Http\Controllers\LinkController::class, 'saveLink']);
+Route::get('/getHasLinks/{has_link_id}', [App\Http\Controllers\LinkController::class, 'getHasLinks']);
+// Route::get('/getOneLessonSection/{lessonSec_id}', [App\Http\Controllers\LinkController::class, 'getOneLessonSection']);
+// Route::put('/editLessonSection/{lessonSec_id}', [App\Http\Controllers\LinkController::class, 'editLessonSection']);
+ Route::delete('/deleteLink/{lesson_section_id}/{has_link_id}', [App\Http\Controllers\LinkController::class, 'deleteLink']);
 
 // type spell translate
 Route::post('/saveBookType', [App\Http\Controllers\BookTypeController::class, 'saveBookType']);
