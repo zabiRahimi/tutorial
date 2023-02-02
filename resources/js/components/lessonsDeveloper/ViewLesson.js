@@ -4,6 +4,7 @@ import { useLocation, Link } from "react-router-dom";
 import useChengeDocumentTitle from '../hooks/useChengeDocumentTitle';
 import useToChunkLesson from "../hooks/useToChunkLesson";
 import Prism from "prismjs";
+import InternalLink from "./InternalLink";
 
 const ViewLesson = () => {
 
@@ -22,7 +23,9 @@ const ViewLesson = () => {
     * دریافت متن درس از دیتابیس
     */
    async function getLessonSection() {
+
       await axios.get(`/getAllLessonSections/${state.lesson_id}`, { headers: { 'Content-Type': 'application/json; charset=utf-8' } })
+
          .then(response => {
 
             if (response.data.lessonSections.length != 0) {
@@ -34,6 +37,7 @@ const ViewLesson = () => {
 
                setHaslessonSec('notHas');
             }
+
          })
          .catch(error => {
             alert('مشکلی پیش آمده! چک کنید که دیتابیس فعال باشه.')
@@ -41,27 +45,40 @@ const ViewLesson = () => {
    }
 
    useEffect(() => {
+
       getLessonSection();
+
    }, []);
 
    /**
     * لینک های درس را اضافه می‌کند
     */
-   const setLink = () => {
+   const setTitle = () => {
+
       let links = valLessonSection.map((val, i) => {
+
          return <a className="" key={i} onClick={() => toChunkLesson(`chunk${i}`)}>{val.lesson_section}</a>
 
       })
+
       return links
    }
 
    const setDes = () => {
-      let desL = valLessonSection.map((val, i) => {
-         return <div className="chunkLesson" id={`chunk${i}`} key={i} >
-            <div className="titleLesson fa " ># {val.lesson_section} </div>
-            <div className="articleLesson" dangerouslySetInnerHTML={{ __html: val.des }}>
 
-            </div>
+      let desL = valLessonSection.map((val, i) => {
+
+         return <div className="chunkLesson" id={`chunk${i}`} key={i} >
+
+            <div className="titleLesson fa " ># {val.lesson_section} </div>
+            <div className="articleLesson" dangerouslySetInnerHTML={{ __html: val.des }}></div>
+
+            {
+               val.links.length ?
+                  <InternalLink
+                     links={val.links}
+                  /> : ''
+            }
 
          </div>
       });
@@ -72,13 +89,14 @@ const ViewLesson = () => {
       return desL;
    }
 
-   
    return (
+
       <div className="lessonSinglePage " id="lessonSinglePage">
+
          <div className="typeSpellTranslateTitle fontEn">
             <h3>{state.lesson}</h3>
          </div>
-         
+
          <div className="menuPage">
             <Link to='/' >home</Link>
             <Link to='/lessons' >go back</Link>
@@ -99,7 +117,7 @@ const ViewLesson = () => {
                      {/* <!-- سرفصل ها از فایل مربوط به درس توسط برنامه خوانده شده و به این دایو اضافه می شود --> */}
 
                      <div className="listTitleLesson" id="listTitleLesson">
-                        {!valLessonSection ? 'loging' : setLink()}
+                        {!valLessonSection ? 'loging' : setTitle()}
                      </div>
                   </div>
                   <div className="bodyLesson" id="bodyLesson" >

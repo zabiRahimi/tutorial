@@ -11818,7 +11818,7 @@ a {
 .AE_Form,
 .AES_form {
   width: 400px;
-  margin: 40px 0;
+  margin: 40px auto 0;
   padding: 0 62px 25px;
   display: flex;
   flex-direction: column;
@@ -12639,7 +12639,8 @@ a {
 }
 
 /* جهت نوشتن و متمایز کردن متن انگلیسی داخل پارگراف فارسی */
-.enS, .enInPFa {
+.enS,
+.enInPFa {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -12682,6 +12683,36 @@ xmp {
   direction: ltr;
   font-size: 16px;
   font-family: "b yekan";
+}
+
+.containerLink {
+  margin: 5px 0 8px;
+}
+
+.linkTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #1580aa;
+  font-size: 18px;
+  background: azure;
+  padding: 0 6px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.linkTitle:hover {
+  background: #c7f3f3;
+}
+
+.linkDes {
+  background: #ecebeb;
+  padding: 10px 6px;
+}
+
+.notShowLinkDes,
+.notBtnShow {
+  display: none;
 }
 
 .inputChar {

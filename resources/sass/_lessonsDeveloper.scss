@@ -1,4 +1,4 @@
-.lessonsDeveloperTitle{
+.lessonsDeveloperTitle {
     padding: 12px 0 17px;
     margin: 0 0 10px 0;
     display: flex;
@@ -6,23 +6,27 @@
     justify-content: center;
     background-color: #5daacb;
     color: #fff;
-  }
-  .divTitleLesson{
+}
+
+.divTitleLesson {
     margin-top: 20px;
     padding: 10px;
     background-color: #f4f4f4;
     display: flex;
     flex-flow: column;
 }
-.titleLesson{
+
+.titleLesson {
     color: #016b29;
     font-size: 24px;
 }
-.listTitleLesson{
+
+.listTitleLesson {
     margin: 10px 15px;
     display: flex;
     flex-flow: column;
 }
+
 .listTitleLesson a {
     width: max-content;
     margin-bottom: 10px;
@@ -30,20 +34,22 @@
     cursor: pointer;
     direction: rtl;
 }
-.listTitleLesson a:hover{
+
+.listTitleLesson a:hover {
     color: #738fe0;
 }
+
 /* بدنه هر درس */
-.bodyLesson{
+.bodyLesson {
     margin-top: 15px;
     padding: 15px 0;
     display: flex;
     flex-flow: column;
 
 }
+
 /* فصل هر درس */
-.chunkLesson{
-  
+.chunkLesson {
     margin: 10px 0;
     padding: 15px 10px;
     background-color: #f4f4f4;
@@ -53,32 +59,35 @@
     line-height: 30px;
     direction: rtl;
 }
+
 /* محتوای هر فصل */
-.articleLesson{
+.articleLesson {
     margin: 15px 0 10px;
     padding: 0 15px;
     text-align: justify;
 }
 
 /* ایجاد کردن تیتر برای محتوای هر قسمت از فصل هر درس */
-.titrLesson{
+.titrLesson {
     display: flex;
     justify-content: right;
 }
 
-.h3TitrLesson{
+.h3TitrLesson {
     padding: 0 5px;
     background-color: #738fe0;
     border-radius: 4px;
     direction: rtl;
 }
+
 /* کد نویسی در محتوا */
-.fa{
+.fa {
     direction: rtl;
     position: relative;
     /* display: flex; */
 }
-.en{
+
+.en {
     width: max-content;
     max-width: 100%;
     line-height: 24px;
@@ -88,11 +97,10 @@
     background-color: snow;
     color: teal;
     font-family: Tahoma, Verdana, sans-serif;
-
 }
 
 /* جهت متمایز کردن کامنت ها  در دستورات */
-.comment{
+.comment {
     color: #535353;
     font-family: 'b koodak';
     opacity: 0.5;
@@ -100,58 +108,94 @@
 }
 
 /* جهت نوشتن نکته */
-.note{
+.note {
     width: max-content;
     max-width: 100%;
-    display:inline-block;
+    display: inline-block;
     flex-flow: wrap;
     background-color: #f5d9b9;
     color: #57747c;
     padding: 2px 10px;
     margin-top: 5px;
-    border-radius: 5px; 
+    border-radius: 5px;
     direction: rtl;
-    
+
 }
+
 /* جهت نوشتن و متمایز کردن متن انگلیسی داخل پارگراف فارسی */
-.enS,.enInPFa{
+.enS,
+.enInPFa {
     width: max-content;
     max-width: 100%;
     height: 24px;
-    
+
     padding: 0 10px;
     margin: 1px 3px 0;
-    direction: ltr ;
-    background-color: #FAF8F8 ;
-    border-radius: 5px; 
-    display:inline-block;
+    direction: ltr;
+    background-color: #FAF8F8;
+    border-radius: 5px;
+    display: inline-block;
     // color: teal;
 
 }
+
 /* جهت نوشتن آدرس فایلها و فولدرها در کدها */
-.file{
+.file {
     display: block;
     color: #738fe0;
     margin: 5px 0;
     font-size: 12px;
 }
-xmp{
+
+xmp {
     margin: 0;
     padding: 0;
     font-size: 16px;
     font-family: 'b yekan';
 }
 
-.code{
+.code {
     width: max-content;
     min-width: 100%;
     margin: 0;
     padding: 0 15px;
-    background-color: #FAF8F8 ;
-    color: #4371A9 ;
+    background-color: #FAF8F8;
+    color: #4371A9;
     display: flex;
     align-self: flex-end;
     direction: ltr;
     font-size: 16px;
     font-family: 'b yekan';
+}
+
+// لینک های درونی سایت
+.containerLink{
+    margin: 5px 0 8px;
+}
+
+.linkTitle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #1580aa;
+    font-size: 18px;
+    background: azure;
+    padding: 0 6px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.linkTitle:hover {
+    background: #c7f3f3;
+
+}
+
+.linkDes {
+    background: #ecebeb;
+    padding: 10px 6px;
+}
+
+.notShowLinkDes,
+.notBtnShow {
+    display: none;
 }

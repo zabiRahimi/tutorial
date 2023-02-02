@@ -28,7 +28,7 @@ Route::delete('/deleteLesson/{lesson_id}', [App\Http\Controllers\LessonControlle
 
 Route::post('/saveLessonSection', [App\Http\Controllers\LessonSectionController::class, 'saveLessonSection']);
 Route::get('/getAllLessonSections/{lesson_id}', [App\Http\Controllers\LessonSectionController::class, 'getAllLessonSections']);
-Route::get('/getOneLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'getOneLessonSection']);
+Route::get('/getOneLessonSection/{id}', [App\Http\Controllers\LessonSectionController::class, 'getOneLessonSection']);
 Route::put('/editLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'editLessonSection']);
 Route::delete('/deleteLessonSection/{lessonSec_id}', [App\Http\Controllers\LessonSectionController::class, 'deleteLessonSection']);
 

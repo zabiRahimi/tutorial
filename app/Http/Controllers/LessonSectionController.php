@@ -18,7 +18,18 @@ class LessonSectionController extends Controller
         foreach($lessonSections as $lessonSection){
             $lessonSection->lesson->book;
         }
+        $lessonSections->load('links');
         return response()->json(['lessonSections' => $lessonSections], 200);
+
+    }
+
+
+    public function getOneLessonSection(int $id)
+    {
+
+        $lessonSection = LessonSection::find($id);
+        $lessonSection->lesson->book;
+        return response()->json(['lessonSection' => $lessonSection], 200);
 
     }
     
