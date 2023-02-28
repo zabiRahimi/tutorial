@@ -52,12 +52,14 @@
 .chunkLesson {
     margin: 10px 0;
     padding: 15px 10px;
-    background-color: #f4f4f4;
+    background-color: #fff;
     display: flex;
     flex-flow: column;
     word-spacing: 1px;
     line-height: 30px;
     direction: rtl;
+    color: #464646;
+    font-size: 1rem;
 }
 
 /* محتوای هر فصل */
@@ -169,7 +171,7 @@ xmp {
 }
 
 // لینک های درونی سایت
-.containerLink{
+.containerLink {
     margin: 5px 0 8px;
 }
 

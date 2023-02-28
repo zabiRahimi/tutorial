@@ -66,8 +66,13 @@ const navigate = useNavigate();
 
                 if (input.updateOrdering) { setUpdateOrdirng(lessonSec.id, input.ordering); }
 
-                notify.current.innerHTML = `<div class='success'>بخش با موفقیت ویرایش شد.</div>`
-                notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'بخش با موفقیت ویرایش شد',
+                    showConfirmButton: false,
+                    timer: 4000
+                })
 
             })
             .catch(error => {
@@ -89,9 +94,13 @@ const navigate = useNavigate();
                     divError.scrollIntoViewIfNeeded({ behavior: "smooth" });
                 }
                 else {
-                    const errorMessage = 'خطایی رخ داده است، دیتابیس را چک کرده و دوباره تلاش کنید .'
-                    notify.current.innerHTML = `<div class="error">${errorMessage}</div>`
-                    notify.current.scrollIntoViewIfNeeded({ behavior: "smooth" });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'بخش ویرایش نشد !! دیتابیس را چک کنید، همچنین صفحه را ویرایش کنید و مجددا تلاش کنید',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
                 }
             })
     }

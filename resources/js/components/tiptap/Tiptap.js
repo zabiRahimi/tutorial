@@ -1,7 +1,8 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import lowlight from 'lowlight';
+import { lowlight } from 'lowlight/lib/core';
+
 import { Extension } from '@tiptap/core';
 import '../../../sass/_tiptap.scss';
 
